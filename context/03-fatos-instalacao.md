@@ -62,6 +62,24 @@ código de 6 caracteres para colar. Depois disso fica logado; `/login` para troc
 - `/memory` mostra o que ele anotou; CLAUDE.md = "caderninho de regras" da pasta.
 - Primeira resposta da sessão pode demorar (ele está lendo a pasta) — avisar o aluno.
 
+## Python e ferramentas de tarefa (verificado em 2026-08-12)
+
+- **Python NÃO é requisito** do Claude Code em nenhum caminho (CLI ou app). As docs listam
+  só o **ripgrep** como dependência adicional, e ele vem junto. A afirmação "sem Python"
+  do cap 02 está CORRETA — diferente do caso do git.
+- **Ler PDF é nativo** (ferramenta Read: PDFs curtos inteiros, longos em faixas de páginas).
+  Resumir o contrato de 40 págs da Prática 07 funciona sem instalar nada.
+- **Manipular PDF (juntar/dividir/girar) e converter texto em PDF NÃO são nativos** — exigem
+  ferramenta externa, instalada mid-task com permissão. As telas simuladas das Práticas 06 e
+  07 pedindo instalação estão nos lugares certos.
+- CSV/planilha: não exige Python — dá para ler o arquivo direto no contexto ou usar o
+  `Import-Csv` do PowerShell. Se o Claude optar por escrever um script Python, ele pede
+  permissão para rodar (e para instalar, se faltar).
+- **Não verificado / não documentado**: o "stub" do Windows em que digitar `python` abre a
+  Microsoft Store — não há registro de que atrapalhe o Claude Code. NÃO citar no material.
+- Como instala mid-task (winget? link?) não é documentado — o material diz "ele pede
+  permissão e instala", sem prometer tela específica.
+
 ## Decisão pedagógica derivada (ver 01-decisoes.md)
 
 - **Python NÃO entra como pré-requisito.** Quando uma prática precisar de Python/ferramenta,
