@@ -13,9 +13,27 @@ instalação e preços mudam. NUNCA inventar comandos/flags além dos listados a
 | Windows WinGet (alt.) | `winget install Anthropic.ClaudeCode` |
 
 - Windows roda **nativo** (PowerShell/CMD), sem WSL. Win 10 build 1809+ / macOS 13+.
-- **Git NÃO é obrigatório.** No Windows, Git for Windows é opcional (habilita Bash;
-  sem ele o Claude usa PowerShell — funciona igual para o nosso público).
 - **Node NÃO é necessário** no instalador nativo (só no método npm, que não ensinamos).
+
+## ⚠️ Git — a resposta MUDA conforme a porta de entrada (corrigido em 2026-08-12)
+
+Erro cometido na 1ª versão do material: generalizamos "git é opcional" (verdade para o CLI)
+para o app desktop — justamente a porta recomendada aos leigos. O Kelson pegou na prática.
+
+| Caminho | Git |
+|---|---|
+| **App desktop no Windows, sessão local** | **OBRIGATÓRIO** — docs: *"On Windows, Git must be installed for local sessions to work"* |
+| App desktop no macOS | Já vem na maioria dos Macs (Xcode CLT). Se faltar, o sistema oferece instalar |
+| **CLI (terminal) no Windows** | **Opcional** — sem ele o Claude usa PowerShell no lugar do Bash |
+| App desktop com sessão Cloud/SSH | Não precisa de git local (não usamos na oficina) |
+
+- Download p/ Windows: https://git-scm.com/downloads/win (instalador Next-Next-Finish;
+  o app NÃO instala sozinho, só reclama). Depois de instalar, **fechar e reabrir o app**.
+- Não verificado nas docs: como exatamente o app avisa (diálogo bloqueante? erro ao abrir
+  sessão?). O material fala em "reclamou que falta o Git" sem prometer a tela exata.
+- Tratamento didático adotado: git = "ajudante de bastidores" no cap 02 (passo 1 no Windows,
+  com o consolo de que ele vira a máquina do tempo do cap 11). O cap 11 assume que a maioria
+  já o tem e só precisa configurar.
 
 ## App desktop (porta de entrada recomendada para leigos)
 
@@ -46,7 +64,8 @@ código de 6 caracteres para colar. Depois disso fica logado; `/login` para troc
 
 ## Decisão pedagógica derivada (ver 01-decisoes.md)
 
-- **Git e Python NÃO entram como pré-requisito.** O único pré-requisito real é: conta paga
-  + instalador nativo (ou app desktop). Quando uma prática precisar de Python/ferramenta,
+- **Python NÃO entra como pré-requisito.** Quando uma prática precisar de Python/ferramenta,
   o roteiro é "peça ao Claude — ele instala ou contorna", e isso vira momento didático.
-- Git aparece só no cap 11 como "máquina do tempo" opcional, instalada pelo próprio Claude.
+- **Git entra como pré-requisito APENAS no caminho app+Windows** (ver quadro acima) — e é
+  apresentado como ajudante de bastidores, não como ferramenta a aprender. No cap 11 ele
+  reaparece como "máquina do tempo", já instalado para a maioria.

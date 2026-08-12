@@ -90,6 +90,12 @@ body[data-so="mac"] span.so-mac{display:inline}
   transition:transform 0.25s,box-shadow 0.25s;
 }
 .c2-download:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--glow-claude)}
+/* botão do ajudante (Git): secundário, para não competir com o do Claude */
+.c2-download.ajudante{
+  background:var(--surface3);color:var(--text);
+  border:1.5px solid rgba(255,255,255,0.18);
+}
+.c2-download.ajudante:hover{box-shadow:0 10px 30px rgba(0,0,0,0.45)}
 
 .cap-nav a.em-breve{opacity:0.45;pointer-events:none}
 </style>
@@ -248,18 +254,44 @@ body[data-so="mac"] span.so-mac{display:inline}
       </div>
 
       <div class="so-win">
+        <div class="warning">
+          <div class="warning-icon">🧩</div>
+          <div class="warning-content">
+            <strong>No Windows, o aplicativo precisa de um ajudante: o Git.</strong>
+            É o único programa extra desta oficina — e é exigência do app, não capricho nosso:
+            sem ele, o Claude Code não consegue trabalhar nas pastas do seu computador.
+            <strong>Você nunca vai usar o Git diretamente</strong>; ele fica nos bastidores,
+            como o motor de impressão que o Word usa sem te perguntar nada.
+            Por isso ele é o <strong>passo 1</strong> aqui embaixo.
+          </div>
+        </div>
+
         <ol class="c2-passos">
-          <li><strong>Baixe o instalador</strong> clicando no botão abaixo
-            (o download começa sozinho).</li>
-          <li>Abra o arquivo baixado e siga o instalador — pode aceitar as opções padrão,
-            clicando em <strong>Avançar</strong> até o fim.</li>
+          <li><strong>Instale o Git primeiro</strong> (botão cinza abaixo). No instalador,
+            pode clicar em <strong>Next</strong> até o fim e depois em <strong>Install</strong>:
+            as opções padrão servem perfeitamente. Ele fala inglês e mostra várias telas —
+            ignore os detalhes, é bastidor puro.</li>
+          <li><strong>Baixe o Claude</strong> (botão coral abaixo) e abra o arquivo baixado.
+            Siga o instalador aceitando as opções padrão.</li>
           <li>Ao abrir pela primeira vez, o aplicativo mostra abas no topo.
             Clique na aba <strong>Code</strong> — é onde a nossa oficina inteira acontece.</li>
         </ol>
         <p class="center">
+          <a class="c2-download ajudante" href="https://git-scm.com/downloads/win">
+            🧩 1º · Instalar o Git (obrigatório no Windows)</a>
           <a class="c2-download" href="https://claude.ai/api/desktop/win32/x64/setup/latest/redirect">
-            ⬇️ Baixar o aplicativo para Windows</a>
+            ⬇️ 2º · Baixar o aplicativo Claude</a>
         </p>
+
+        <div class="tip">
+          <div class="tip-icon">🎁</div>
+          <div class="tip-content">
+            <strong>Consolo:</strong> esse ajudante chato tem um presente escondido. É ele que,
+            lá no capítulo final, vira a sua <strong>máquina do tempo</strong> — o "ponto de
+            restauração" que desfaz qualquer estrago numa pasta. Você já vai chegar lá com
+            metade do caminho andado.
+          </div>
+        </div>
       </div>
 
       <div class="so-mac">
@@ -277,6 +309,18 @@ body[data-so="mac"] span.so-mac{display:inline}
           <a class="c2-download" href="https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect">
             ⬇️ Baixar o aplicativo para Mac</a>
         </p>
+
+        <div class="tip">
+          <div class="tip-icon">🧩</div>
+          <div class="tip-content">
+            <strong>Sorte sua: o Mac já vem preparado.</strong> O aplicativo precisa de um
+            ajudante de bastidores chamado <strong>Git</strong>, e a maioria dos Macs já o
+            tem instalado de fábrica. Se por acaso aparecer uma janelinha do sistema
+            oferecendo instalar "ferramentas de linha de comando", é exatamente isso —
+            clique em <strong>Instalar</strong> e espere terminar. (Colegas de Windows
+            precisam instalar na mão; você não.)
+          </div>
+        </div>
       </div>
 
       <div class="tip">
@@ -376,10 +420,21 @@ body[data-so="mac"] span.so-mac{display:inline}
       <div class="tip">
         <div class="tip-icon">🎉</div>
         <div class="tip-content">
-          <strong>Nada de Node, nada de git, nada de Python.</strong> Versões antigas de tutoriais
-          pedem instalações extras — o instalador oficial atual é autossuficiente. Se alguma
-          prática precisar de uma ferramenta a mais, o próprio Claude instala (pedindo permissão,
-          claro).
+          <strong>Nada de Node, nada de Python</strong> — o instalador oficial é autossuficiente,
+          apesar do que dizem tutoriais antigos. E o <strong>Git</strong>? Aqui na Porta B ele é
+          <strong>opcional</strong>: sem ele, o Claude Code simplesmente usa o PowerShell para
+          rodar os comandos (para tudo o que fazemos nesta oficina, dá no mesmo). Quem entra pela
+          Porta A no Windows precisa dele — é a diferença entre as duas portas.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">⏰</div>
+        <div class="tip-content">
+          <strong>Mesmo assim, vale instalar o Git um dia.</strong> Não pela Porta B, mas porque
+          é ele que vira a <strong>máquina do tempo</strong> do capítulo final (o "ponto de
+          restauração" que desfaz estragos numa pasta). Você pode deixar para depois — e pedir
+          ao próprio Claude que ele instala e configura para você.
         </div>
       </div>
     </section>
@@ -442,6 +497,32 @@ body[data-so="mac"] span.so-mac{display:inline}
         <div>
           <div class="step-title">Deu errado? Respira — está tudo previsto aqui</div>
           <div class="step-sub">Os quatro tropeços clássicos e a saída de cada um.</div>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🧩 O aplicativo reclamou que <strong>falta o Git</strong> (Windows)</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p>
+            É o erro nº 1 de quem entra pela Porta A no Windows — e a mensagem costuma vir em
+            inglês, falando em <em>"Git is required"</em>. Não é defeito do seu computador nem
+            erro seu: <strong>o app realmente exige esse ajudante</strong> para trabalhar nas
+            pastas locais.
+          </p>
+          <p>
+            Solução: instale pelo site oficial
+            (<a href="https://git-scm.com/downloads/win" style="color:var(--accent5)">git-scm.com/downloads/win</a>),
+            clicando em <strong>Next</strong> até o fim — as opções padrão servem.
+            <strong>Depois feche o aplicativo Claude por completo e abra de novo</strong>:
+            só assim ele percebe que o ajudante chegou.
+          </p>
+          <p>
+            Não quer instalar agora? Então entre pela <strong>Porta B (terminal)</strong>,
+            onde o Git é opcional. É o mesmo Claude Code, com outra maçaneta.
+          </p>
         </div>
       </div>
 
@@ -551,6 +632,7 @@ body[data-so="mac"] span.so-mac{display:inline}
 
       <ul class="checklist">
         <li>Conta criada no claude.ai com <strong>plano Pro ativo</strong></li>
+        <li>Windows + aplicativo? O <strong>Git instalado</strong> antes (no Mac já vem; no terminal é opcional)</li>
         <li>Claude Code instalado (pelo aplicativo <strong>ou</strong> pelo terminal)</li>
         <li>Login feito — apareceu o <strong>Login successful</strong> (ou o app entrou direto)</li>
         <li>O teste do "oi" respondeu em português</li>
@@ -587,7 +669,8 @@ body[data-so="mac"] span.so-mac{display:inline}
       </div>
 
       <ul class="checklist">
-        <li>O pré-requisito real é um só: <strong>conta com plano pago</strong>. Sem Node, sem git, sem Python.</li>
+        <li>O pré-requisito que custa dinheiro é um só: <strong>conta com plano pago</strong>. Sem Node, sem Python.</li>
+        <li><strong>Git:</strong> obrigatório no aplicativo do Windows (é o "ajudante de bastidores"), já vem no Mac, opcional no terminal.</li>
         <li>Duas portas, mesmo motor: <strong>aplicativo</strong> (visual, recomendado) e <strong>terminal</strong> (raiz).</li>
         <li>Terminal não morde: é uma <strong>caixa de conversa sem botões</strong>.</li>
         <li>Login acontece <strong>uma vez</strong>, pelo navegador, com a conta do claude.ai.</li>

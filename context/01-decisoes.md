@@ -37,3 +37,17 @@
   com "piloto antes do lote" (06) e "referência da cláusula" (07) como variações do freio.
 - CLAUDE.md (nome técnico) só aparece no cap 11; na Prática 08 é "tom-de-voz.txt".
 - Git aparece no cap 11 como "ponto de restauração", instalado pelo próprio Claude via prompt.
+
+## 2026-08-12 — CORREÇÃO: Git é obrigatório no app do Windows (SUPERSEDE a decisão acima)
+- Kelson reportou da prática: o app desktop no Windows pede o Git logo de cara. Confirmado
+  nas docs oficiais: *"On Windows, Git must be installed for local sessions to work"*.
+- Causa do erro: a pesquisa inicial verificou o CLI (onde git É opcional, com fallback para
+  PowerShell) e generalizamos para o app — que é justamente a porta recomendada aos leigos.
+  O material chegou a afirmar "sem Node, sem git, sem Python" em dois lugares.
+- Correções aplicadas: cap 02 ganhou o Git como **passo 1 da Porta A no Windows** (botão
+  secundário `.c2-download.ajudante`, enquadrado como "ajudante de bastidores" que você nunca
+  usa direto), nota tranquilizadora no Mac, tip da Porta B reescrita (opcional lá, obrigatório
+  na Porta A), item novo no checklist, toggler novo em "Deu errado?" ("falta o Git" + dica de
+  fechar/reabrir o app, com a Porta B como saída), teaser do cap 01 ajustado ("um programa
+  ajudante"), e cap 11 agora diz que a máquina do tempo JÁ está instalada para a maioria.
+- Lição para o futuro: verificar fatos **por caminho de instalação**, nunca em geral.
