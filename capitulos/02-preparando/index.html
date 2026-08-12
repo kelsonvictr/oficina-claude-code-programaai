@@ -121,6 +121,7 @@ body[data-so="mac"] span.so-mac{display:inline}
     <a class="sidebar-link" onclick="goTo('portas')"><span class="dot" style="background:var(--accent6)"></span>As duas portas</a>
     <a class="sidebar-link" onclick="goTo('desktop')"><span class="dot" style="background:var(--term)"></span>Porta A: aplicativo</a>
     <a class="sidebar-link" onclick="goTo('terminal')"><span class="dot" style="background:var(--claude)"></span>Porta B: terminal</a>
+    <a class="sidebar-link" onclick="goTo('vacina')"><span class="dot" style="background:var(--accent7)"></span>A vacina (Python)</a>
     <a class="sidebar-link" onclick="goTo('login')"><span class="dot" style="background:var(--accent4)"></span>O primeiro login</a>
     <a class="sidebar-link" onclick="goTo('socorro')"><span class="dot" style="background:var(--accent2)"></span>Deu errado?</a>
     <a class="sidebar-link" onclick="goTo('teste')"><span class="dot" style="background:var(--accent7)"></span>O teste do "oi"</a>
@@ -139,8 +140,8 @@ body[data-so="mac"] span.so-mac{display:inline}
   <h1>Preparando o<br>computador</h1>
   <p class="subtitle">
     Vinte minutos de paciência agora, meses de trabalho automatizado depois.
-    Passo a passo para <strong>Windows e Mac</strong> — sem pré-requisitos escondidos,
-    sem "instale antes o negócio X".
+    Passo a passo para <strong>Windows e Mac</strong> — dizendo com todas as letras
+    o que instalar, o que é obrigatório e o que você pode pular.
   </p>
   <div class="hero-stack">
     <span class="stack-chip voce">💻 windows e mac</span>
@@ -334,8 +335,8 @@ body[data-so="mac"] span.so-mac{display:inline}
       </div>
 
       <p class="mb-md">
-        Instalou? Ótimo — <strong>pule direto para o primeiro login</strong> (a Porta B é
-        alternativa, não etapa).
+        Instalou? Ótimo — <strong>pule a Porta B</strong> (ela é alternativa, não etapa) e
+        siga para a <strong>vacina</strong>, logo abaixo dela.
       </p>
     </section>
 
@@ -432,11 +433,8 @@ body[data-so="mac"] span.so-mac{display:inline}
         <div class="tip-icon">🐍</div>
         <div class="tip-content">
           <strong>"E o Python? Não preciso mesmo?"</strong> Para <em>instalar e usar</em> o Claude
-          Code, não — nem aqui, nem na Porta A. Agora, lá na frente, <strong>uma tarefa específica
-          pode precisar de uma ferramenta extra</strong> (converter documentos em PDF, por exemplo).
-          Quando isso acontecer, ele avisa, explica para que serve e <strong>pede permissão para
-          instalar</strong> — você não vai caçar programa nenhum na internet. É diferente do Git,
-          que precisa estar lá <em>antes</em> de tudo no aplicativo do Windows.
+          Code, não — nem aqui, nem na Porta A. Mas para as <strong>práticas</strong> ele faz muita
+          diferença: é o assunto da próxima seção, e vale os cinco minutinhos.
         </div>
       </div>
 
@@ -448,6 +446,144 @@ body[data-so="mac"] span.so-mac{display:inline}
           restauração" que desfaz estragos numa pasta). Você pode deixar para depois — e pedir
           ao próprio Claude que ele instala e configura para você.
         </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 4b · A VACINA (PYTHON) ═══════════ -->
+    <section class="step-section" id="vacina">
+      <div class="step-header">
+        <div class="step-number sn-mint">💉</div>
+        <div>
+          <div class="step-title">A vacina: instale o Python antes de precisar dele</div>
+          <div class="step-sub">Cinco minutos agora para não travar no meio de uma prática com todo mundo esperando.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Seja sincero consigo mesmo: você não vai querer parar no meio de uma tarefa para
+        instalar programa. Então vamos tomar a vacina agora.
+      </p>
+
+      <div class="analogy">
+        <div class="analogy-title">A caixa de ferramentas do estagiário</div>
+        <p>
+          Lembra do estagiário genial do capítulo 1? Quando você pede para ele somar uma
+          planilha de 300 linhas ou gerar 30 documentos, ele não faz isso "na cabeça":
+          ele <strong>escreve um programinha</strong> e roda ali na hora. E o idioma preferido
+          dele para esses programinhas se chama <strong>Python</strong>.
+        </p>
+        <p>
+          Se o Python não estiver na máquina, ele não quebra nada — mas <strong>para e pede
+          para instalar</strong>. E aí lá se vão dez minutos da sua prática (ou da aula inteira,
+          se todo mundo travar junto). Com a vacina tomada, ele simplesmente trabalha.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧾</div>
+        <div class="tip-content">
+          <strong>Para ser justo com a verdade:</strong> o Python <em>não</em> é exigido para
+          instalar nem para usar o Claude Code — diferente do Git no aplicativo do Windows.
+          Ele é uma <strong>recomendação forte</strong> para quem vai fazer as práticas de
+          planilha (05), documentos em lote (06) e PDF (07). Vai fazer só as práticas de texto?
+          Pode pular esta seção sem culpa.
+        </div>
+      </div>
+
+      <div class="so-win">
+        <ol class="c2-passos">
+          <li><strong>Baixe o Python</strong> no botão abaixo (site oficial, botão amarelo
+            grande escrito "Download Python").</li>
+          <li><strong>Abra o instalador e PARE antes de clicar em "Install Now".</strong>
+            Lá embaixo da janela tem uma caixinha escrita
+            <span class="mono-inline">Add python.exe to PATH</span> —
+            <strong>marque essa caixinha</strong>. Ela é pequena, fácil de não ver, e é a
+            causa nº 1 de "instalei mas não funciona".</li>
+          <li>Agora sim: clique em <strong>Install Now</strong> e espere. No fim, pode fechar
+            (se aparecer um botão "Disable path length limit", pode clicar nele também).</li>
+          <li><strong>Feche e reabra o Claude Code</strong>, para ele perceber a novidade.</li>
+        </ol>
+        <p class="center">
+          <a class="c2-download ajudante" href="https://www.python.org/downloads/">
+            🐍 Baixar o Python (site oficial)</a>
+        </p>
+
+        <div class="warning">
+          <div class="warning-icon">☑️</div>
+          <div class="warning-content">
+            <strong>Repetindo, porque é O erro:</strong> a caixinha
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.85em;font-variant-ligatures:none;font-feature-settings:'liga' 0,'clig' 0,'calt' 0">Add python.exe to PATH</span>
+            fica no rodapé da primeira tela do instalador, desmarcada. Sem ela, o Python é
+            instalado mas fica "invisível" para os outros programas — inclusive para o Claude
+            Code. Se você já instalou sem marcar, é só rodar o instalador de novo e escolher
+            <strong>Modify</strong>.
+          </div>
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">🏢</div>
+          <div class="tip-content">
+            <strong>Computador do trabalho que não deixa instalar nada?</strong> Tente pela
+            <strong>Microsoft Store</strong>: abra a Store, procure por <em>Python</em> e
+            instale a versão mais recente. Costuma funcionar sem senha de administrador e já
+            resolve a parte do PATH sozinha.
+          </div>
+        </div>
+      </div>
+
+      <div class="so-mac">
+        <div class="tip">
+          <div class="tip-icon">🍎</div>
+          <div class="tip-content">
+            <strong>De novo o Mac facilitando a sua vida.</strong> O Python costuma já vir junto
+            com as mesmas "ferramentas de linha de comando" que trazem o Git — então é bem
+            provável que você já tenha. Não precisa baixar nada por enquanto: faça o teste
+            abaixo e só se preocupe se der negativo.
+          </div>
+        </div>
+        <p class="center">
+          <a class="c2-download ajudante" href="https://www.python.org/downloads/">
+            🐍 Só se o teste der negativo: baixar o Python</a>
+        </p>
+      </div>
+
+      <p class="mb-md">
+        <strong>O teste da vacina.</strong> Depois de fazer o login (próxima seção), pergunte
+        isto ao Claude Code — é a forma mais fácil de descobrir, sem digitar comando nenhum:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt · conferindo a vacina</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>o python está instalado e funcionando nesta máquina? responda em
+uma frase e, se não estiver, me diga o que eu preciso fazer.</pre>
+        <div class="pc-por-que"><strong>Por que perguntar a ele:</strong> quem vai usar o Python
+          é o Claude Code — então a opinião que importa é a dele. Se ele disser que encontrou,
+          está resolvido.</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">E se travar mesmo assim?</div>
+        <p>
+          Pode acontecer: falta outra ferramenta, a instalação falha, o computador da empresa
+          bloqueia. Guarde esta saída de emergência — ela funciona para
+          <strong>qualquer</strong> ferramenta que faltar, não só para o Python:
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🛟</span>
+          <span class="pc-titulo">Prompt de emergência · quando faltar ferramenta</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>não consigo instalar isso agora neste computador. tem outro jeito
+de fazer a mesma tarefa com o que já existe aqui? se não tiver,
+me diga o que dá para fazer sem essa ferramenta.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> quase sempre existe um plano B
+          (ele usa outro programa que já está na máquina, ou entrega o resultado em outro
+          formato). E quando não existe, você descobre em dez segundos em vez de dez minutos.</div>
       </div>
     </section>
 
@@ -534,6 +670,30 @@ body[data-so="mac"] span.so-mac{display:inline}
           <p>
             Não quer instalar agora? Então entre pela <strong>Porta B (terminal)</strong>,
             onde o Git é opcional. É o mesmo Claude Code, com outra maçaneta.
+          </p>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🐍 Instalei o Python, mas ele diz que <strong>não encontrou</strong></span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p>
+            Em 9 de cada 10 casos é <strong>aquela caixinha</strong>: no instalador do Windows,
+            <span class="mono-inline">Add python.exe to PATH</span> vem desmarcada e passa
+            despercebida. Sem ela, o Python existe no computador mas ninguém consegue chamá-lo.
+          </p>
+          <p>
+            Conserto: rode o instalador do Python de novo, escolha <strong>Modify</strong>
+            (ou desinstale e instale outra vez), garanta que a caixinha esteja marcada, e
+            <strong>feche e reabra o Claude Code</strong> no fim.
+          </p>
+          <p>
+            Na dúvida, jogue o problema para ele: <em>"acabei de instalar o Python mas você
+            não está achando; o que pode ter acontecido?"</em>. Ele investiga e costuma
+            apontar o caminho.
           </p>
         </div>
       </div>
@@ -646,6 +806,7 @@ body[data-so="mac"] span.so-mac{display:inline}
         <li>Conta criada no claude.ai com <strong>plano Pro ativo</strong></li>
         <li>Windows + aplicativo? O <strong>Git instalado</strong> antes (no Mac já vem; no terminal é opcional)</li>
         <li>Claude Code instalado (pelo aplicativo <strong>ou</strong> pelo terminal)</li>
+        <li>Vai fazer as práticas de planilha, lote ou PDF? <strong>Python instalado</strong> (a vacina)</li>
         <li>Login feito — apareceu o <strong>Login successful</strong> (ou o app entrou direto)</li>
         <li>O teste do "oi" respondeu em português</li>
       </ul>
@@ -681,8 +842,10 @@ body[data-so="mac"] span.so-mac{display:inline}
       </div>
 
       <ul class="checklist">
-        <li>O pré-requisito que custa dinheiro é um só: <strong>conta com plano pago</strong>. Sem Node, sem Python.</li>
+        <li>O pré-requisito que custa dinheiro é um só: <strong>conta com plano pago</strong>.</li>
         <li><strong>Git:</strong> obrigatório no aplicativo do Windows (é o "ajudante de bastidores"), já vem no Mac, opcional no terminal.</li>
+        <li><strong>Python:</strong> a vacina — não é exigido pelo Claude Code, mas evita travar no meio das práticas de planilha, lote e PDF. No Windows, <strong>marque a caixinha do PATH</strong>.</li>
+        <li>Faltou alguma ferramenta? Ele <strong>pede permissão e instala</strong> — e você ainda tem o prompt de emergência ("tem outro jeito?").</li>
         <li>Duas portas, mesmo motor: <strong>aplicativo</strong> (visual, recomendado) e <strong>terminal</strong> (raiz).</li>
         <li>Terminal não morde: é uma <strong>caixa de conversa sem botões</strong>.</li>
         <li>Login acontece <strong>uma vez</strong>, pelo navegador, com a conta do claude.ai.</li>

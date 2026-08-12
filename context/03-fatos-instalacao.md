@@ -65,8 +65,13 @@ código de 6 caracteres para colar. Depois disso fica logado; `/login` para troc
 ## Python e ferramentas de tarefa (verificado em 2026-08-12)
 
 - **Python NÃO é requisito** do Claude Code em nenhum caminho (CLI ou app). As docs listam
-  só o **ripgrep** como dependência adicional, e ele vem junto. A afirmação "sem Python"
-  do cap 02 está CORRETA — diferente do caso do git.
+  só o **ripgrep** como dependência adicional, e ele vem junto.
+- **MAS o material o RECOMENDA fortemente** (seção "A vacina", cap 02) — decisão operacional,
+  não factual: a IA tende a resolver tarefas de dados escrevendo Python, e uma instalação no
+  meio da prática trava a aula. Ver `01-decisoes.md`. Nunca chamar de "obrigatório".
+- Windows: instalador de python.org exige marcar **`Add python.exe to PATH`** (desmarcada por
+  padrão — causa nº 1 de "instalei e não funciona"). Sem admin: Microsoft Store.
+  macOS: costuma vir junto das ferramentas de linha de comando (as mesmas do git).
 - **Ler PDF é nativo** (ferramenta Read: PDFs curtos inteiros, longos em faixas de páginas).
   Resumir o contrato de 40 págs da Prática 07 funciona sem instalar nada.
 - **Manipular PDF (juntar/dividir/girar) e converter texto em PDF NÃO são nativos** — exigem

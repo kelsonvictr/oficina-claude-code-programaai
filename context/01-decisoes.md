@@ -51,3 +51,22 @@
   fechar/reabrir o app, com a Porta B como saída), teaser do cap 01 ajustado ("um programa
   ajudante"), e cap 11 agora diz que a máquina do tempo JÁ está instalada para a maioria.
 - Lição para o futuro: verificar fatos **por caminho de instalação**, nunca em geral.
+
+## 2026-08-12 — Python vira passo RECOMENDADO no cap 02 ("a vacina")
+- Decisão do Kelson, por risco operacional de sala: a IA tende a resolver tarefas de dados
+  escrevendo Python; se faltar na máquina do aluno, ela para e pede instalação **no meio da
+  prática**, com a turma esperando. Melhor tomar a vacina antes.
+- Argumento que fechou: a "ferramenta de PDF" que as Práticas 06/07 mandam instalar é, na
+  prática, Python + biblioteca. O material já empurrava uma instalação de Python — só que
+  escondida atrás da palavra "ferramenta" e no pior momento.
+- Enquadramento adotado (honesto, sem virar pré-requisito falso): seção **"A vacina"** no
+  cap 02, entre a Porta B e o login, marcada como **recomendação forte** para quem vai fazer
+  as práticas 05/06/07 e explicitamente pulável para quem só fará as de texto (08/09/10).
+- Cuidado nº 1 no Windows: a caixinha `Add python.exe to PATH` do instalador, desmarcada por
+  padrão — avisada 3x (passo, warning e toggler de "instalei mas não acha"). Alternativa sem
+  senha de administrador: Microsoft Store. No Mac, costuma vir com as ferramentas do git.
+- Adicionado também o **prompt de emergência** genérico ("não consigo instalar isso agora,
+  tem outro jeito?") — vale para qualquer ferramenta faltante, não só Python.
+- Ajustes de coerência: hero do cap 02 não promete mais "sem pré-requisitos escondidos";
+  teaser do cap 01 fala em "um ou dois programas ajudantes"; `.precisa` das práticas 05, 06
+  e 07 linkam para `../02-preparando/#vacina`.
