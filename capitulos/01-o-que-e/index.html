@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 01 · O que é o Claude Code? — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do capítulo 01 (prefixo .c1-) ===== */
+
+/* Comparação lado a lado: chat no navegador × Claude Code */
+.c1-vs{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;
+}
+@media (max-width:640px){.c1-vs{grid-template-columns:1fr}}
+.c1-vs-card{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.c1-vs-card.navegador{border-top:3px solid var(--accent4)}
+.c1-vs-card.codigo{border-top:3px solid var(--claude)}
+.c1-vs-card .vs-ic{font-size:2rem;display:block;margin-bottom:8px}
+.c1-vs-card h4{font-size:1.02rem;font-weight:900;margin-bottom:10px}
+.c1-vs-card ul{list-style:none;margin:0;padding:0}
+.c1-vs-card li{
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:0.88rem;color:var(--text-dim);padding:5px 0;
+}
+.c1-vs-card.navegador li::before{content:'💬';flex-shrink:0}
+.c1-vs-card.codigo li::before{content:'⚡';flex-shrink:0}
+.c1-vs-card li strong{color:var(--text)}
+
+/* O ciclo — pills de etapa acima da conversa animada */
+.c1-ciclo-steps{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  margin-bottom:18px;
+}
+.c1-cs{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 14px;border-radius:50px;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.08);
+  font-size:0.72rem;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;color:var(--text-dim);
+  transition:all 0.35s;
+}
+.c1-cs .n{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.08);font-size:0.66rem;color:var(--text-dim);
+  transition:all 0.35s;
+}
+.c1-cs.active{
+  border-color:var(--claude);color:var(--claude-soft);
+  box-shadow:0 0 22px var(--glow-claude);
+  transform:translateY(-2px);
+}
+.c1-cs.active .n{background:var(--claude);color:#1a0e08}
+.c1-cs.voce.active{border-color:var(--term);color:var(--term);box-shadow:0 0 22px var(--glow-term)}
+.c1-cs.voce.active .n{background:var(--term);color:#04150b}
+
+/* Galeria "o que dá pra fazer" — chips clicáveis para o hub */
+.c1-galeria .keyword-chip{cursor:default}
+
+/* Cartão do preço */
+.c1-preco{
+  display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+  background:var(--surface2);border-radius:16px;padding:20px 24px;
+  border:1px solid rgba(247,183,49,0.25);margin:16px 0;
+}
+.c1-preco .valor{
+  font-size:2rem;font-weight:900;color:var(--accent5);
+  line-height:1.1;flex-shrink:0;
+}
+.c1-preco .valor small{display:block;font-size:0.72rem;color:var(--text-dim);font-weight:700;letter-spacing:1px}
+.c1-preco p{flex:1;min-width:220px;font-size:0.92rem;color:var(--text-dim);margin:0}
+.c1-preco p strong{color:var(--text)}
+
+/* Próximo capítulo ainda não publicado */
+.cap-nav a.em-breve{opacity:0.45;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🤝 Cap 01 · O que é?</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste capítulo</div>
+    <a class="sidebar-link" onclick="goTo('aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('estagiario')"><span class="dot" style="background:var(--accent6)"></span>O estagiário genial</a>
+    <a class="sidebar-link" onclick="goTo('diferenca')"><span class="dot" style="background:var(--accent4)"></span>"Mas eu já uso IA…"</a>
+    <a class="sidebar-link" onclick="goTo('ciclo')"><span class="dot" style="background:var(--claude)"></span>O ciclo completo</a>
+    <a class="sidebar-link" onclick="goTo('permissao')"><span class="dot" style="background:var(--term)"></span>Você no controle</a>
+    <a class="sidebar-link" onclick="goTo('galeria')"><span class="dot" style="background:var(--accent3)"></span>O que dá pra fazer</a>
+    <a class="sidebar-link" onclick="goTo('mitos')"><span class="dot" style="background:var(--mito)"></span>Três mitos</a>
+    <a class="sidebar-link" onclick="goTo('custo')"><span class="dot" style="background:var(--accent5)"></span>Quanto custa</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent7)"></span>Quiz final</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent2)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🤝</span>
+    <span data-motion="float">💻</span>
+    <span data-motion="float">💬</span>
+  </div>
+  <div class="hero-badge">Capítulo 01 · Conceito</div>
+  <h1>O que é o<br>Claude Code?</h1>
+  <p class="subtitle">
+    Antes de instalar qualquer coisa, vamos entender <strong>o que</strong> você está
+    prestes a colocar dentro do computador — e por que isso muda o seu dia a dia.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 zero jargão</span>
+    <span class="stack-chip term">🎬 fluxo animado</span>
+    <span class="stack-chip pratica">🎮 1 simulador</span>
+    <span class="stack-chip conceito">🧠 3 mitos derrubados</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ 1 · AQUECIMENTO ═══════════ -->
+    <section class="step-section" id="aquecimento">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🔥</div>
+        <div>
+          <div class="step-title">Aquecimento: um palpite honesto</div>
+          <div class="step-sub">Sem resposta errada aqui. Bom, tem sim — mas ela é a mais interessante.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🤔</span>
+          Sua chefe pede: "renomeia essas 500 fotos de produto até amanhã, com o nome
+          do produto no arquivo". O que seria preciso, hoje, para o computador fazer
+          isso sozinho enquanto você toma um café?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Saber programar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Chamar alguém de TI</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Escrever o pedido em português</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Não dá: computador não entende gente</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Exatamente!"
+          data-wrong="😬 Era verdade até pouco tempo atrás…"
+          data-explain="Durante décadas, automatizar tarefas exigia programar (ou conhecer alguém que soubesse). O Claude Code muda isso: o pedido em português É a automação. Este capítulo explica como.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 2 · O ESTAGIÁRIO GENIAL ═══════════ -->
+    <section class="step-section" id="estagiario">
+      <div class="step-header">
+        <div class="step-number sn-purple">🧠</div>
+        <div>
+          <div class="step-title">O estagiário genial</div>
+          <div class="step-sub">A melhor forma de entender uma coisa nova é compará-la com uma coisa velha.</div>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Imagine um estagiário assim…</div>
+        <p>
+          Ele lê <strong>absurdamente rápido</strong>, digita mais rápido ainda, nunca cansa,
+          nunca reclama e já leu praticamente tudo o que existe sobre planilhas, documentos e
+          computadores. Você diz <em>"organiza essa pasta"</em> ou <em>"soma esses gastos por
+          categoria"</em> — e ele faz.
+        </p>
+        <p>
+          Detalhe importante: ele senta <strong>na sua mesa</strong> e usa <strong>o seu
+          computador</strong>. Não é alguém do outro lado da internet te mandando instruções:
+          é alguém trabalhando nos seus arquivos, na sua frente.
+        </p>
+        <p>
+          E ele tem uma regra de educação inegociável: <strong>antes de mexer em qualquer coisa,
+          ele pergunta "posso?"</strong>. Sempre.
+        </p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          <strong>Claude Code é um assistente de inteligência artificial que trabalha dentro do
+          seu computador, nos seus arquivos, conversando com você em português.</strong>
+        </p>
+        <p>
+          Ele aparece na tela como uma janela de conversa — parecida com WhatsApp, só que sem
+          botões coloridos. Você escreve o que quer; ele responde, propõe e executa.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>"Code"? Mas eu não programo!</strong> O nome vem do fato de que, nos bastidores,
+          ele escreve código para resolver as tarefas — <strong>ele</strong> escreve, não você.
+          É como o motor do carro: trabalha aí embaixo, e você só segura o volante.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 3 · "MAS EU JÁ USO IA" ═══════════ -->
+    <section class="step-section" id="diferenca">
+      <div class="step-header">
+        <div class="step-number sn-blue">⚖️</div>
+        <div>
+          <div class="step-title">"Mas eu já converso com IA no navegador…"</div>
+          <div class="step-sub">Ótimo! Então você já sabe metade. A outra metade é a que muda tudo.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Se você já usou o ChatGPT, o Gemini ou o próprio Claude no navegador, conhece a dinâmica:
+        cola um texto, recebe uma resposta, copia de volta. Funciona — mas <strong>o trabalho
+        braçal continua sendo seu</strong>. A diferença do Claude Code está em <em>onde</em> ele
+        trabalha:
+      </p>
+
+      <div class="c1-vs">
+        <div class="c1-vs-card navegador">
+          <span class="vs-ic">🌐</span>
+          <h4>IA no navegador</h4>
+          <ul>
+            <li><strong>Você leva</strong> o conteúdo até ela (copia e cola)</li>
+            <li>Ela devolve texto — e <strong>você</strong> aplica nos arquivos</li>
+            <li>Não enxerga suas pastas nem seus documentos</li>
+            <li>500 fotos? Você renomearia uma por uma</li>
+          </ul>
+        </div>
+        <div class="c1-vs-card codigo">
+          <span class="vs-ic">💻</span>
+          <h4>Claude Code</h4>
+          <ul>
+            <li><strong>Ele vai</strong> até o conteúdo (abre seus arquivos)</li>
+            <li>O resultado aparece <strong>pronto nas suas pastas</strong></li>
+            <li>Lê planilhas, PDFs e documentos direto da fonte</li>
+            <li>500 fotos? Ele renomeia as 500 — depois do seu "pode"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Consultor × profissional em casa</div>
+        <p>
+          A IA do navegador é o <strong>consultor por telefone</strong>: te diz como trocar o
+          chuveiro, mas quem sobe na escada é você. O Claude Code é o
+          <strong>profissional que vai até sua casa</strong>: chega, olha o problema, explica o
+          que pretende fazer, você autoriza — e ele troca o chuveiro.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 4 · O CICLO ═══════════ -->
+    <section class="step-section" id="ciclo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🔄</div>
+        <div>
+          <div class="step-title">O ciclo completo, em câmera lenta</div>
+          <div class="step-sub">Toda tarefa com o Claude Code passa por estas 6 etapas. Toda. Sempre.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Olhe a animação abaixo com calma (ela repete sozinha). As etapas acendem em cima
+        enquanto a conversa acontece embaixo — repare que <strong>duas das seis etapas são
+        suas</strong>, e são justamente as que dão o controle:
+      </p>
+
+      <div data-seq="2400" data-seq-cumulative>
+        <div class="c1-ciclo-steps">
+          <span class="c1-cs voce" data-seq-step="0"><span class="n">1</span>você pede</span>
+          <span class="c1-cs" data-seq-step="1"><span class="n">2</span>ele lê</span>
+          <span class="c1-cs" data-seq-step="2"><span class="n">3</span>ele propõe</span>
+          <span class="c1-cs voce" data-seq-step="3"><span class="n">4</span>você aprova</span>
+          <span class="c1-cs" data-seq-step="4"><span class="n">5</span>ele faz</span>
+          <span class="c1-cs voce" data-seq-step="5"><span class="n">6</span>você confere</span>
+        </div>
+
+        <div class="chat-claude">
+          <div class="chat-head">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="chat-title">Fotos dos produtos — claude</span>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg voce" data-seq-frame="0">
+              <span class="quem">você</span>
+              renomeia essas fotos de produto? quero o nome do produto no arquivo,
+              tipo <span class="mono-mini">camisa-azul-01.jpg</span>
+            </div>
+            <div class="chat-msg claude" data-seq-frame="1">
+              <span class="quem">claude</span>
+              Deixa eu olhar a pasta… 🔍 Encontrei <strong>500 fotos</strong> com nomes tipo
+              <span class="mono-mini">IMG_8274.jpg</span>. Vou identificar o produto de cada
+              uma pela planilha de estoque que está aqui do lado.
+            </div>
+            <div class="chat-msg claude" data-seq-frame="2">
+              <span class="quem">claude</span>
+              Meu plano: renomear as 500 fotos para
+              <span class="mono-mini">produto-cor-numero.jpg</span> e te mostrar uma lista
+              do que mudou. Nenhuma foto será apagada ou alterada — só o nome muda.
+            </div>
+            <div class="chat-perm" data-seq-frame="3">
+              <div class="perm-title">🛡️ Pedindo permissão</div>
+              Posso renomear 500 arquivos nesta pasta?
+              <div class="perm-botoes">
+                <button class="perm-btn aprovar" data-seq-step="3,4,5">Sim, pode</button>
+                <button class="perm-btn nao">Não</button>
+              </div>
+            </div>
+            <div class="chat-msg claude" data-seq-frame="4">
+              <span class="quem">claude</span>
+              Feito! ✅ 500 fotos renomeadas em 40 segundos. A lista completa do
+              "antes e depois" está no arquivo <span class="mono-mini">renomeacao.txt</span>.
+            </div>
+            <div class="chat-msg voce" data-seq-frame="5">
+              <span class="quem">você</span>
+              abri a pasta e conferi umas 10… tá perfeito 👏
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">A etapa que ninguém pula</div>
+        <p>
+          A etapa 6 — <strong>você confere</strong> — parece opcional. Não é. IA erra, e erra
+          com confiança. Conferir uma amostra do resultado leva um minuto e é o que separa
+          "usei IA" de "usei IA <strong>bem</strong>". Esse mantra vai voltar em toda prática
+          da oficina.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 5 · VOCÊ NO CONTROLE (SIMULADOR) ═══════════ -->
+    <section class="step-section" id="permissao">
+      <div class="step-header">
+        <div class="step-number sn-term">🛡️</div>
+        <div>
+          <div class="step-title">Você no controle: aprovar, recusar ou perguntar</div>
+          <div class="step-sub">Treine a decisão mais importante da oficina — sem nenhum risco, é de mentirinha.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        A caixinha amarela de permissão vai aparecer o tempo todo no seu uso real. E aqui vai
+        uma libertação: <strong>não existe resposta que quebre alguma coisa</strong>. Recusar
+        não ofende, perguntar não atrapalha. Teste os três pedidos abaixo e veja o raciocínio:
+      </p>
+
+      <div class="sim">
+        <div class="sim-head">
+          <span class="sim-ic">🎮</span>
+          <h4>Simulador: o que você responderia?</h4>
+          <span class="sim-tag">treino sem risco</span>
+        </div>
+        <div class="sim-body">
+          <div class="sim-chips" id="perm-chips">
+            <button class="sim-chip on" data-cen="pastas">📁 Criar pastas e mover</button>
+            <button class="sim-chip" data-cen="apagar">🗑️ Apagar duplicados</button>
+            <button class="sim-chip" data-cen="instalar">🧩 Instalar uma ferramenta</button>
+          </div>
+
+          <div class="chat-perm" style="margin-bottom:4px">
+            <div class="perm-title">🛡️ Pedindo permissão</div>
+            <span id="perm-pedido">Posso criar 3 pastas (Fotos, Documentos, Planilhas) e mover 47 arquivos para elas?</span>
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-dec="aprovar">✅ Aprovar</button>
+              <button class="perm-btn nao" data-dec="recusar">❌ Recusar</button>
+              <button class="perm-btn nao" data-dec="perguntar">🤔 Perguntar antes</button>
+            </div>
+          </div>
+
+          <div class="sim-out" id="perm-out" aria-live="polite">
+            <span class="ln muted on">Escolha um pedido ali em cima e decida: aprovar, recusar ou perguntar…</span>
+          </div>
+        </div>
+        <div class="sim-hint">
+          <strong>Regra de bolso:</strong> mexer sem apagar (criar, mover, renomear) costuma ser
+          tranquilo · apagar merece uma lista antes · instalar merece um "para que serve?".
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 6 · GALERIA ═══════════ -->
+    <section class="step-section" id="galeria">
+      <div class="step-header">
+        <div class="step-number sn-green">🗺️</div>
+        <div>
+          <div class="step-title">Tá, mas o que dá para fazer de verdade?</div>
+          <div class="step-sub">Spoiler do resto da oficina: cada cartão destes vira uma prática completa.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid c1-galeria">
+        <div class="keyword-chip">
+          <span class="emoji">🗂️</span>
+          <span class="kw-name">Organizar a bagunça</span>
+          <span class="kw-desc">Pastas caóticas viram estrutura arrumada, com renomeação em lote.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📊</span>
+          <span class="kw-name">Interrogar planilhas</span>
+          <span class="kw-desc">"Quanto gastei por categoria?" — resposta com totais e gráfico.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📄</span>
+          <span class="kw-name">Documentos em lote</span>
+          <span class="kw-desc">Lista de nomes + modelo = cem declarações personalizadas.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📚</span>
+          <span class="kw-name">Domar PDFs</span>
+          <span class="kw-desc">Resumir contratos, extrair valores e datas, juntar e dividir.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📣</span>
+          <span class="kw-name">Multiplicar textos</span>
+          <span class="kw-desc">Um release vira posts, e-mail e calendário — no seu tom de voz.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧑‍🏫</span>
+          <span class="kw-name">Montar provas</span>
+          <span class="kw-desc">Da apostila ao quiz com gabarito comentado e versões A/B.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌐</span>
+          <span class="kw-name">Criar uma página</span>
+          <span class="kw-desc">Seu currículo ou cardápio vivendo na internet, ajustado por conversa.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-content">
+          <strong>Não decore a lista.</strong> O padrão importa mais que os exemplos: se a tarefa
+          envolve <strong>arquivos + repetição + regras claras</strong>, provavelmente o Claude
+          Code faz. A pergunta deixa de ser "será que dá?" e vira "como eu peço?".
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 7 · TRÊS MITOS ═══════════ -->
+    <section class="step-section" id="mitos">
+      <div class="step-header">
+        <div class="step-number sn-red">🎭</div>
+        <div>
+          <div class="step-title">Três mitos para derrubar antes de começar</div>
+          <div class="step-sub">Todo mundo chega com pelo menos um destes na cabeça. É normal.</div>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Preciso saber programar para usar isso."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Quem escreve código é <strong>ele</strong>. Você escreve português — e quanto mais
+            claro o seu português, melhor o resultado. Saber programar ajuda? Ajuda, como saber
+            mecânica ajuda quem dirige. É necessário? Não.
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Vou digitar algo errado e ele vai apagar meus arquivos."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Ele <strong>pede permissão antes de mexer</strong> em qualquer coisa — você viu no
+            ciclo. Na oficina, você ainda pratica numa pasta de treino com arquivos fictícios,
+            onde errar não custa nada.
+          </p>
+          <p>
+            O risco é zero? Não — por isso existem os hábitos do capítulo final (incluindo o
+            "ponto de restauração", que desfaz qualquer estrago). <strong>Respeito sim, medo não.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Se a IA fez, tá certo — posso confiar de olhos fechados."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            IA erra. Às vezes <strong>inventa</strong> com a maior cara de certeza — número de
+            cláusula, total de planilha, data. O antídoto é barato: <strong>confira uma amostra
+            na fonte</strong> antes de usar o resultado em algo importante. Etapa 6 do ciclo,
+            lembra? Ela existe por causa deste mito.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 8 · QUANTO CUSTA ═══════════ -->
+    <section class="step-section" id="custo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">💰</div>
+        <div>
+          <div class="step-title">Vamos falar de dinheiro (sem letra miúda)</div>
+          <div class="step-sub">Melhor saber agora do que descobrir com o cartão na mão.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O Claude Code <strong>não funciona com a conta gratuita</strong> do Claude. Ele exige
+        uma assinatura paga — o plano de entrada é o <strong>Claude Pro</strong>:
+      </p>
+
+      <div class="c1-preco">
+        <div class="valor">~US$ 20<small>por mês · plano Pro</small></div>
+        <p>
+          A assinatura inclui um <strong>limite de uso que se renova</strong> ao longo do dia —
+          para as tarefas desta oficina, é folgado. Existem planos maiores (Max, Team) para quem
+          usa intensamente. Valores mudam: confira sempre em
+          <a href="https://claude.com/pricing" target="_blank" rel="noopener" style="color:var(--accent5)">claude.com/pricing</a>.
+        </p>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Dica de quem já viu turma travar nisso:</strong> só assine quando for começar a
+          usar de verdade. Se estiver numa oficina presencial, dá para acompanhar as práticas em
+          dupla com quem já tem conta — e assinar depois, em casa, com calma.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Por que não é de graça?</strong> Cada resposta do Claude roda em computadores
+          potentes (e caros) da Anthropic. A assinatura paga essa conta. Compare com o valor de
+          uma tarde renomeando 500 fotos na mão — a matemática costuma fechar rápido.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 9 · QUIZ FINAL ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-mint">🏁</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Duas perguntas. Se acertar as duas, você já pensa como usuário experiente.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🛡️</span>
+          O Claude Code decidiu que precisa mover 200 arquivos para resolver seu pedido.
+          O que acontece ANTES de qualquer arquivo sair do lugar?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ele move e avisa depois</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Ele pede sua permissão</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ele manda um e-mail de aviso</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Nada, IA não avisa ninguém</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="O ciclo tem uma etapa 4 inegociável: VOCÊ aprova. A caixinha amarela aparece, explica o que ele quer fazer, e nada acontece sem o seu 'pode'.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🔎</span>
+          Ele terminou e entregou: "o total de despesas da planilha é R$ 48.712". O que
+          você faz antes de colocar esse número num relatório oficial?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Uso direto: IA não erra conta</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Peço para ele confirmar que está certo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Confiro uma amostra na própria planilha</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Refaço tudo na mão, por via das dúvidas</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Etapa 6 dominada!"
+          data-wrong="😬 Cuidado com esse…"
+          data-explain="Perguntar 'tem certeza?' para a própria IA não é conferência — ela pode reafirmar o erro. Refazer tudo na mão joga fora o ganho. O equilíbrio: conferir uma AMOSTRA na fonte.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 10 · RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou deste capítulo</div>
+          <div class="step-sub">Se você levar só isto para casa, já valeu.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Claude Code</strong> é um assistente de IA que trabalha dentro do seu computador, nos seus arquivos, em português.</li>
+        <li>Diferente da IA do navegador, <strong>ele vai até o trabalho</strong> — o resultado aparece pronto nas suas pastas.</li>
+        <li>Toda tarefa segue o ciclo: você pede, ele lê, ele propõe, <strong>você aprova</strong>, ele faz, <strong>você confere</strong>.</li>
+        <li>Permissão não é burocracia, é volante: <strong>aprovar, recusar e perguntar</strong> são sempre opções suas.</li>
+        <li>IA erra com confiança — <strong>conferir uma amostra na fonte</strong> é o hábito que protege você.</li>
+        <li>Custa a partir de <strong>~US$ 20/mês</strong> (plano Pro); conta gratuita não roda.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">No próximo capítulo…</div>
+        <p>
+          Chega de teoria: vamos <strong>colocar o Claude Code dentro do seu computador</strong>.
+          Windows ou Mac, passo a passo, com imagem de cada tela — e um plano B para cada coisa
+          que costuma dar errado. Nenhum pré-requisito escondido, nenhum "instale antes o
+          negócio X".
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar à oficina</a>
+        <a class="nav-proximo em-breve" href="../02-preparando/">Cap 02: Preparando o computador · em breve 🔒</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Capítulo 01 · O que é o Claude Code?</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<!-- sem defer, de propósito: os motores de animação precisam existir
+     antes do primeiro scroll -->
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+<script>
+/* ===== Simulador: aprovar, recusar ou perguntar ===== */
+(function(){
+  const CENARIOS = {
+    pastas: {
+      pedido: 'Posso criar 3 pastas (Fotos, Documentos, Planilhas) e mover 47 arquivos para elas?',
+      aprovar: [
+        ['ok',    '✅ Escolha tranquila.'],
+        ['muted', 'Criar e mover não destroem nada: se não gostar do resultado,'],
+        ['muted', 'é só pedir "desfaz: volta os arquivos para onde estavam".'],
+        ['ok',    'Regra de bolso: mexer sem apagar = risco baixo.']
+      ],
+      recusar: [
+        ['warn',  '❌ Recusado — e está tudo bem.'],
+        ['muted', 'Nada aconteceu. Nenhum arquivo saiu do lugar.'],
+        ['muted', 'Recusar nunca quebra nada: ele só espera o próximo pedido.'],
+        ['ok',    'Você pode recusar e reformular: "antes disso, me mostra o plano".']
+      ],
+      perguntar: [
+        ['ok',    '🤔 Ótimo hábito!'],
+        ['muted', 'Exemplo: "quais arquivos vão para qual pasta? me mostra a lista"'],
+        ['muted', 'Ele lista tudo, você lê com calma e SÓ ENTÃO aprova.'],
+        ['ok',    'Perguntar antes é de graça — e ele nunca se ofende.']
+      ]
+    },
+    apagar: {
+      pedido: 'Encontrei 12 arquivos que parecem duplicados. Posso apagar as cópias?',
+      aprovar: [
+        ['warn',  '⚠️ Opa — aqui vale um segundo de pausa.'],
+        ['muted', '"Parecem duplicados" não é "são duplicados". Apagar é mais sério'],
+        ['muted', 'que mover: você quer ver a lista antes de dizer sim.'],
+        ['bad',   'Melhor caminho: recusar e pedir a lista primeiro.']
+      ],
+      recusar: [
+        ['ok',    '✅ Prudente! Foi exatamente a escolha certa.'],
+        ['muted', 'Apagar merece mais cuidado que criar ou mover.'],
+        ['muted', 'Agora peça: "me mostra os 12, lado a lado com os originais".'],
+        ['ok',    'Com a lista na mão, aí sim: aprovar vira decisão informada.']
+      ],
+      perguntar: [
+        ['ok',    '🤔 Perfeito — é o padrão-ouro para pedidos de apagar.'],
+        ['muted', '"Me mostra a lista dos 12 e diz por que acha que são cópias"'],
+        ['muted', 'Ele explica (mesmo nome? mesmo conteúdo? mesma data?)…'],
+        ['ok',    '…e a decisão final continua sendo sua, agora bem informada.']
+      ]
+    },
+    instalar: {
+      pedido: 'Para ler este PDF, preciso instalar uma ferramenta gratuita. Posso?',
+      aprovar: [
+        ['ok',    '✅ Razoável — instalar ferramenta é rotina para ele.'],
+        ['muted', 'É comum: para mexer com PDF, planilha ou imagem, ele instala'],
+        ['muted', 'pequenas ferramentas de trabalho (gratuitas e conhecidas).'],
+        ['warn',  'Só vale a pena entender ANTES o que é. Não entendeu? Pergunte.']
+      ],
+      recusar: [
+        ['warn',  '❌ Recusado — sem problema.'],
+        ['muted', 'A tarefa do PDF fica travada até existir uma ferramenta, mas'],
+        ['muted', 'ele mesmo avisa isso e sugere alternativas.'],
+        ['ok',    'Recusar por não ter entendido é sinal de maturidade, não de medo.']
+      ],
+      perguntar: [
+        ['ok',    '🤔 A pergunta certa: "para que serve e de onde vem?"'],
+        ['muted', 'Ele responde em português: nome da ferramenta, o que faz,'],
+        ['muted', 'por que precisa dela para o SEU pedido.'],
+        ['ok',    'Entendeu e fez sentido? Aprova. Ficou estranho? Recusa.']
+      ]
+    }
+  };
+
+  const chips  = document.querySelectorAll('#perm-chips .sim-chip');
+  const pedido = document.getElementById('perm-pedido');
+  const out    = document.getElementById('perm-out');
+  const botoes = document.querySelectorAll('#permissao .perm-btn[data-dec]');
+  let atual = 'pastas';
+
+  chips.forEach(ch => ch.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('on'));
+    ch.classList.add('on');
+    atual = ch.dataset.cen;
+    pedido.textContent = CENARIOS[atual].pedido;
+    botoes.forEach(b => b.classList.remove('escolhido'));
+    out.innerHTML = '<span class="ln muted on">Agora decida: aprovar, recusar ou perguntar…</span>';
+  }));
+
+  botoes.forEach(btn => btn.addEventListener('click', () => {
+    botoes.forEach(b => b.classList.remove('escolhido'));
+    btn.classList.add('escolhido');
+    const linhas = CENARIOS[atual][btn.dataset.dec];
+    out.innerHTML = '';
+    linhas.forEach(([cls, txt], i) => {
+      const s = document.createElement('span');
+      s.className = 'ln ' + cls;
+      s.textContent = txt;
+      out.appendChild(s);
+      out.appendChild(document.createElement('br'));
+      setTimeout(() => s.classList.add('on'), 120 + i * 260);
+    });
+  }));
+})();
+</script>
+
+</body>
+</html>

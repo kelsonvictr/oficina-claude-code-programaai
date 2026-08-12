@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oficina Claude Code — para quem nunca programou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/styles.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/animations.css">
+<style>
+/* ===== CSS local do hub (prefixo .oc-) ===== */
+
+/* Linha manuscrita sob o título */
+.oc-manuscrito{
+  font-family:'Caveat',cursive;
+  font-size:1.6rem;color:var(--claude-soft);
+  margin:-6px 0 18px;
+  animation:fadeSlideDown 0.8s ease 0.28s both;
+}
+
+/* Showcase: a conversa que resume a oficina inteira */
+.oc-showcase{
+  max-width:640px;margin:10px auto 0;
+  text-align:left;
+  animation:fadeSlideDown 0.8s ease 0.6s both;
+}
+.oc-showcase .chat-claude{margin:0}
+.oc-showcase-legenda{
+  text-align:center;font-family:'Caveat',cursive;
+  font-size:1.25rem;color:var(--text-dim);margin-top:12px;
+}
+
+/* Faixa de ato (agrupamento dos cards) */
+.oc-ato{margin:56px 0 8px;text-align:center;position:relative}
+.oc-ato::before{
+  content:'';position:absolute;top:50%;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(217,119,87,0.3),transparent);
+}
+.oc-ato span{
+  position:relative;display:inline-block;
+  background:var(--bg);padding:4px 22px;border-radius:50px;
+  border:1px solid rgba(217,119,87,0.3);
+  font-size:0.72rem;font-weight:900;letter-spacing:3px;
+  text-transform:uppercase;color:var(--claude-soft);
+}
+.oc-ato-sub{
+  text-align:center;color:var(--text-dim);font-size:0.9rem;
+  margin:10px auto 0;max-width:560px;
+}
+
+/* Selo "comece aqui" no primeiro card */
+.oc-comece{
+  position:absolute;top:14px;right:14px;
+  font-size:0.62rem;font-weight:800;letter-spacing:1px;
+  background:rgba(74,222,128,0.14);color:var(--term);
+  padding:3px 9px;border-radius:20px;
+  border:1px solid rgba(74,222,128,0.35);
+}
+
+/* Cartão de boas-vindas */
+.oc-bemvindo p + p{margin-top:10px}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">💬</span>
+    <span data-motion="float">🗂️</span>
+    <span data-motion="float">✨</span>
+  </div>
+  <div class="hero-badge">Oficina prática · mão na massa</div>
+  <h1>Seu computador agora<br>fala a sua língua</h1>
+  <div class="oc-manuscrito">— e você não precisa saber programar. Prometo. ✍️</div>
+  <p class="subtitle">
+    Uma oficina de <strong>Claude Code</strong> para quem nunca programou:
+    organize arquivos, analise planilhas, gere documentos em lote e resuma
+    PDFs gigantes — tudo <strong>conversando em português</strong>.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 você escreve português</span>
+    <span class="stack-chip term">🛡️ ele pede permissão antes</span>
+    <span class="stack-chip pratica">🧰 7 práticas de áreas diferentes</span>
+    <span class="stack-chip conceito">🚫 zero código para digitar</span>
+  </div>
+
+  <!-- A conversa-resumo: o ciclo inteiro em 20 segundos -->
+  <div class="oc-showcase">
+    <div class="chat-claude" data-seq="2100" data-seq-cumulative>
+      <div class="chat-head">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="chat-title">Downloads — claude</span>
+      </div>
+      <div class="chat-body">
+        <div class="chat-msg voce" data-seq-frame="0">
+          <span class="quem">você</span>
+          organiza a minha pasta Downloads? tá um caos
+        </div>
+        <div class="chat-msg claude" data-seq-frame="1">
+          <span class="quem">claude</span>
+          Encontrei <strong>47 arquivos</strong> misturados. Meu plano: criar as pastas
+          <span class="mono-mini">Fotos</span>, <span class="mono-mini">Documentos</span> e
+          <span class="mono-mini">Planilhas</span> e mover cada arquivo para o lugar certo.
+        </div>
+        <div class="chat-perm" data-seq-frame="2">
+          <div class="perm-title">🛡️ Pedindo permissão</div>
+          Posso criar 3 pastas e mover 47 arquivos?
+          <div class="perm-botoes">
+            <button class="perm-btn aprovar" data-seq-step="3,4,5">Sim, pode</button>
+            <button class="perm-btn nao">Não</button>
+          </div>
+        </div>
+        <div class="chat-msg claude" data-seq-frame="4">
+          <span class="quem">claude</span>
+          Feito! ✅<br>
+          <span class="mono-mini">Fotos/ (23) &nbsp;·&nbsp; Documentos/ (12) &nbsp;·&nbsp; Planilhas/ (12)</span>
+        </div>
+        <div class="chat-msg voce" data-seq-frame="5">
+          <span class="quem">você</span>
+          espera... foi só isso? 🤯
+        </div>
+      </div>
+    </div>
+    <div class="oc-showcase-legenda">é literalmente isso que você vai aprender a fazer aqui</div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════════════ BOAS-VINDAS ═══════════════════ -->
+    <div class="card oc-bemvindo">
+      <h3>👋 Essa oficina é para você?</h3>
+      <p>
+        Se você trabalha com <strong>arquivos, planilhas, documentos, PDFs ou textos</strong>
+        — e alguma parte do seu dia é repetitiva, manual e chata — sim, é para você.
+        Não importa se você é de administração, direito, marketing, educação, saúde ou secretaria.
+      </p>
+      <p>
+        O <strong>Claude Code</strong> é um assistente de inteligência artificial que mora no
+        <strong>seu computador</strong> e mexe nos <strong>seus arquivos</strong> — sempre pedindo
+        permissão antes. Você conversa com ele em português; ele faz o trabalho braçal.
+      </p>
+      <p>
+        Aqui ninguém vai te pedir para decorar comandos nem escrever código.
+        O único pré-requisito de verdade é <strong>curiosidade</strong> (e uma conta do Claude —
+        o capítulo 1 explica isso com transparência, custos incluídos).
+      </p>
+    </div>
+
+    <!-- ═══════════════════ ATO 1 ═══════════════════ -->
+    <div class="oc-ato"><span>Ato 1 · Entender e preparar</span></div>
+    <p class="oc-ato-sub">Todo mundo passa por aqui: o que é, como instalar e a primeira conversa.</p>
+
+    <div class="hub-grid">
+      <a class="hub-card c01" href="capitulos/01-o-que-e/">
+        <span class="oc-comece">🟢 comece aqui</span>
+        <span class="num">CAP · 01</span>
+        <span class="ic">🤝</span>
+        <span class="title">O que é o Claude Code?</span>
+        <span class="desc">Um assistente que mora no seu computador e trabalha nos seus arquivos.
+          Entenda o ciclo pedir-aprovar-conferir, derrube os mitos e saiba quanto custa.</span>
+        <span class="pills"><span class="pill">conceito</span><span class="pill">fluxo animado</span><span class="pill">mitos</span></span>
+      </a>
+
+      <a class="hub-card c02 em-breve" href="capitulos/02-preparando/">
+        <span class="num">CAP · 02</span>
+        <span class="ic">🧰</span>
+        <span class="title">Preparando o computador</span>
+        <span class="desc">Instalação passo a passo no Windows e no Mac, criação da conta e o
+          primeiro login — sem pânico, sem pré-requisitos escondidos.</span>
+        <span class="pills"><span class="pill">windows</span><span class="pill">mac</span><span class="pill">conta</span></span>
+      </a>
+
+      <a class="hub-card c03 em-breve" href="capitulos/03-primeira-conversa/">
+        <span class="num">CAP · 03</span>
+        <span class="ic">💬</span>
+        <span class="title">A primeira conversa</span>
+        <span class="desc">A pasta de trabalho, o Kit da Oficina, o ciclo de permissão na prática
+          e a anatomia de um bom pedido.</span>
+        <span class="pills"><span class="pill">kit da oficina</span><span class="pill">permissões</span><span class="pill">bom pedido</span></span>
+      </a>
+    </div>
+
+    <!-- ═══════════════════ ATO 2 ═══════════════════ -->
+    <div class="oc-ato"><span>Ato 2 · Práticas — escolha as suas</span></div>
+    <p class="oc-ato-sub">Situações reais, de áreas diferentes. Cada prática é independente:
+      vá direto na que parece com o seu dia a dia.</p>
+
+    <div class="hub-grid">
+      <a class="hub-card c04 em-breve" href="capitulos/04-pasta-bagunca/">
+        <span class="num">PRÁTICA · 04</span>
+        <span class="ic">🗂️</span>
+        <span class="title">Domando a pasta bagunçada</span>
+        <span class="desc">47 arquivos com nomes horríveis viram uma pasta arrumada — e você
+          aprende o truque de pedir um plano antes de deixar mexer.</span>
+        <span class="pills"><span class="pill">qualquer área</span><span class="pill">★☆☆</span><span class="pill">~25 min</span></span>
+      </a>
+
+      <a class="hub-card c05 em-breve" href="capitulos/05-planilha-gastos/">
+        <span class="num">PRÁTICA · 05</span>
+        <span class="ic">📊</span>
+        <span class="title">A planilha que se analisa sozinha</span>
+        <span class="desc">Um ano de gastos numa planilha: pergunte em português e receba totais,
+          gráfico e os lançamentos suspeitos.</span>
+        <span class="pills"><span class="pill">financeiro</span><span class="pill">adm</span><span class="pill">★★☆</span></span>
+      </a>
+
+      <a class="hub-card c06 em-breve" href="capitulos/06-documentos-lote/">
+        <span class="num">PRÁTICA · 06</span>
+        <span class="ic">📄</span>
+        <span class="title">Cem declarações em cinco minutos</span>
+        <span class="desc">Uma lista de nomes + um modelo = um documento personalizado para cada
+          pessoa, gerado em lote com nome de arquivo padronizado.</span>
+        <span class="pills"><span class="pill">secretaria</span><span class="pill">RH</span><span class="pill">★★☆</span></span>
+      </a>
+
+      <a class="hub-card c07 em-breve" href="capitulos/07-contrato-pdf/">
+        <span class="num">PRÁTICA · 07</span>
+        <span class="ic">📚</span>
+        <span class="title">O contrato de 40 páginas</span>
+        <span class="desc">Resuma por cláusulas, extraia datas e valores para uma tabela, junte e
+          divida PDFs — e aprenda a conferir tudo na fonte.</span>
+        <span class="pills"><span class="pill">jurídico</span><span class="pill">contábil</span><span class="pill">★★☆</span></span>
+      </a>
+
+      <a class="hub-card c08 em-breve" href="capitulos/08-texto-vira-dez/">
+        <span class="num">PRÁTICA · 08</span>
+        <span class="ic">📣</span>
+        <span class="title">Um texto vira dez</span>
+        <span class="desc">Um release vira post para cada rede, e-mail e calendário de publicação —
+          mantendo o tom de voz da sua marca.</span>
+        <span class="pills"><span class="pill">marketing</span><span class="pill">comunicação</span><span class="pill">★☆☆</span></span>
+      </a>
+
+      <a class="hub-card c09 em-breve" href="capitulos/09-prova-professor/">
+        <span class="num">PRÁTICA · 09</span>
+        <span class="ic">🧑‍🏫</span>
+        <span class="title">A prova que se monta sozinha</span>
+        <span class="desc">Da apostila ao quiz com gabarito comentado, versões A e B embaralhadas
+          e lista de presença formatada.</span>
+        <span class="pills"><span class="pill">educação</span><span class="pill">★★☆</span></span>
+      </a>
+
+      <a class="hub-card c10 em-breve" href="capitulos/10-mini-site/">
+        <span class="num">PRÁTICA · 10</span>
+        <span class="ic">🌐</span>
+        <span class="title">Seu cantinho na internet</span>
+        <span class="desc">Do zero a uma página pessoal de verdade, aberta no navegador e ajustada
+          por conversa. O momento uau da oficina.</span>
+        <span class="pills"><span class="pill">todos</span><span class="pill">★★★</span><span class="pill">momento uau</span></span>
+      </a>
+    </div>
+
+    <!-- ═══════════════════ ATO 3 ═══════════════════ -->
+    <div class="oc-ato"><span>Ato 3 · Seguir sozinho</span></div>
+    <p class="oc-ato-sub">A oficina acaba; o hábito começa.</p>
+
+    <div class="hub-grid">
+      <a class="hub-card c11 em-breve" href="capitulos/11-e-agora/">
+        <span class="num">CAP · 11</span>
+        <span class="ic">🧭</span>
+        <span class="title">E agora? Hábitos, segurança e a máquina do tempo</span>
+        <span class="desc">Bons hábitos de quem usa IA todo dia, os limites honestos da ferramenta
+          e o truque do "ponto de restauração" para nunca mais ter medo de errar.</span>
+        <span class="pills"><span class="pill">segurança</span><span class="pill">hábitos</span><span class="pill">próximos passos</span></span>
+      </a>
+    </div>
+
+    <!-- ═══════════════════ DIFERENCIAIS ═══════════════════ -->
+    <div class="oc-ato"><span>Por que essa oficina é diferente</span></div>
+    <div class="keyword-grid mt-md">
+      <div class="keyword-chip">
+        <span class="emoji">✨</span>
+        <span class="kw-name">Prompts prontos</span>
+        <span class="kw-desc">Todo pedido importante vem escrito, com botão de copiar — você adapta depois.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🧰</span>
+        <span class="kw-name">Kit da Oficina</span>
+        <span class="kw-desc">Arquivos de treino fictícios para praticar sem medo de estragar algo seu.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🖥️</span>
+        <span class="kw-name">Sem sustos</span>
+        <span class="kw-desc">Cada prática mostra ANTES o que vai aparecer na sua tela.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🎬</span>
+        <span class="kw-name">Fluxos animados</span>
+        <span class="kw-desc">Os conceitos viram animações que rodam sozinhas na tela.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🏷️</span>
+        <span class="kw-name">Práticas por área</span>
+        <span class="kw-desc">Financeiro, RH, jurídico, marketing, educação... escolha a sua dor.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🛡️</span>
+        <span class="kw-name">Segurança primeiro</span>
+        <span class="kw-desc">Permissões, limites da IA e conferência de resultados desde o capítulo 1.</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — para quem nunca programou</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<!-- sem defer, de propósito: os motores de animação precisam existir
+     antes do primeiro scroll (a página é curta e o arquivo é pequeno) -->
+<script src="shared/scripts.js"></script>
+<script type="module" src="shared/motion-fx.js"></script>
+
+</body>
+</html>

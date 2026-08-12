@@ -1,0 +1,1020 @@
+/* =========================================================
+   Oficina Claude Code — para quem nunca programou
+   shared/components.css — cards, conceito, analogia, tip/warning,
+   bloco de código, toggler, quiz, fluxo, terminal, hub, sobre
+   + componentes próprios deste material (ver fim do arquivo):
+     Chat Claude · Prompt pronto · O que você vai precisar ·
+     O que vai aparecer na tela · Meta de prática · Armadilha
+   ========================================================= */
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+.card{
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:20px;padding:32px;margin-bottom:24px;
+  position:relative;overflow:hidden;
+  transition:border-color 0.3s;
+}
+.card:hover{border-color:rgba(217,119,87,0.15)}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.card:hover::before{opacity:1}
+.card h3{font-size:1.3rem;font-weight:800;margin-bottom:14px}
+.card p{margin-bottom:12px;color:var(--text-dim)}
+.card p strong{color:var(--text)}
+.card code{
+  background:var(--code-bg);padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.85rem;
+  color:var(--accent5);
+}
+
+/* =========================================================
+   CONCEPT (key idea, with caveat handwritten title)
+   ========================================================= */
+.concept{
+  background:var(--surface2);
+  border-radius:16px;padding:24px;margin:16px 0;
+  border-left:4px solid var(--accent5);
+}
+.concept-title{
+  font-family:'Caveat',cursive;
+  font-size:1.6rem;color:var(--accent5);
+  margin-bottom:8px;line-height:1;
+}
+.concept p{color:var(--text-dim);font-size:0.95rem;margin-bottom:8px}
+.concept p:last-child{margin-bottom:0}
+
+/* =========================================================
+   ANALOGY (real-world bridge)
+   ========================================================= */
+.analogy{
+  background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(69,183,209,0.06));
+  border:1px solid rgba(167,139,250,0.18);
+  border-radius:16px;padding:28px 24px 24px;margin:16px 0;
+  position:relative;
+}
+.analogy::before{
+  content:'💡';font-size:1.6rem;
+  position:absolute;top:-14px;left:20px;
+  background:var(--bg);padding:0 8px;
+}
+.analogy-title{
+  font-family:'Caveat',cursive;
+  font-size:1.5rem;color:var(--accent6);
+  margin-bottom:8px;line-height:1;
+}
+.analogy p{color:var(--text-dim);font-size:0.96rem;margin-bottom:8px}
+.analogy p:last-child{margin-bottom:0}
+.analogy strong{color:var(--text)}
+
+/* =========================================================
+   TIP / WARNING / BUG
+   ========================================================= */
+.tip,.warning,.bug-box{
+  border-radius:14px;padding:20px 24px;margin:16px 0;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.tip   { background:rgba(78,205,196,0.06); border:1px solid rgba(78,205,196,0.18) }
+.warning{ background:rgba(247,183,49,0.06); border:1px solid rgba(247,183,49,0.18) }
+.bug-box{ background:rgba(255,71,87,0.06);  border:1px solid rgba(255,71,87,0.22)  }
+.tip-icon,.warning-icon,.bug-icon{
+  font-size:1.4rem;flex-shrink:0;margin-top:2px;
+}
+.tip-content,.warning-content,.bug-content{
+  color:var(--text-dim);font-size:0.92rem;
+}
+.tip-content strong   { color:var(--accent3) }
+.warning-content strong{color:var(--accent5) }
+.bug-content strong   { color:var(--accent2) }
+
+/* =========================================================
+   CODE BLOCK (mac-window style)
+   Aqui o code-block é COADJUVANTE: quando aparece, o texto ao
+   redor sempre lembra o leitor de que código é bastidor.
+   ========================================================= */
+.code-block{
+  background:var(--code-bg);
+  border-radius:14px;margin:16px 0;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.05);
+  position:relative;
+}
+.code-header{
+  background:rgba(255,255,255,0.03);
+  padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  gap:10px;
+}
+.code-header .dots{display:flex;gap:6px}
+.code-header .dot{width:10px;height:10px;border-radius:50%}
+.code-header .dot:nth-child(1){background:#ff5f57}
+.code-header .dot:nth-child(2){background:#febc2e}
+.code-header .dot:nth-child(3){background:#28c840}
+.code-header .filename{
+  color:var(--text-dim);font-size:0.78rem;
+  font-family:'JetBrains Mono',monospace;
+  flex:1;
+}
+.code-header .lang-badge{
+  font-size:0.65rem;padding:2px 8px;border-radius:4px;
+  font-weight:700;font-family:'JetBrains Mono',monospace;
+}
+.lang-badge.prompt   { background:rgba(217,119,87,0.16); color:var(--claude-soft) }
+.lang-badge.json     { background:rgba(247,183,49,0.15); color:var(--accent5) }
+.lang-badge.terminal { background:rgba(255,255,255,0.06); color:var(--text-dim) }
+.lang-badge.html { background:rgba(227,79,38,0.18); color:#ff7a52 }
+.lang-badge.css  { background:rgba(41,101,241,0.18); color:#6f9bff }
+.lang-badge.texto{ background:rgba(168,158,150,0.16); color:var(--text-dim) }
+.lang-badge.bash { background:rgba(255,255,255,0.06); color:var(--text-dim) }
+.lang-badge.powershell{ background:rgba(69,183,209,0.16); color:var(--accent4) }
+
+pre{
+  padding:20px;margin:0;overflow-x:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.85rem;line-height:1.85;
+  color:#c9d1d9;tab-size:4;
+}
+.code-block.with-lines pre{padding-left:56px}
+.code-block .line-numbers{
+  position:absolute;left:0;top:44px;
+  padding:20px 12px 20px 16px;
+  color:rgba(255,255,255,0.18);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.85rem;line-height:1.85;
+  text-align:right;user-select:none;
+  border-right:1px solid rgba(255,255,255,0.04);
+}
+
+/* Syntax tokens (usados raramente — código é bastidor) */
+.kw   {color:#c4a7e7}
+.fn   {color:#82aaff}
+.bi   {color:#82aaff}
+.st   {color:#c3e88d}
+.cm   {color:#7785a8;font-style:italic}
+.num  {color:#f78c6c}
+.bool {color:#f78c6c}
+.op   {color:#89ddff}
+.tp   {color:#ffcb6b}
+.var  {color:#f4f0ec}
+.tag  {color:#f78c6c}
+.atr  {color:#ffcb6b}
+.sel  {color:#c4a7e7}
+.prop {color:#82aaff}
+.val  {color:#c3e88d}
+.unit {color:#f78c6c}
+.punc {color:#89ddff}
+
+/* =========================================================
+   TOGGLER (o "olhinho 👀" — aqui usado p/ respostas de desafio)
+   ========================================================= */
+.toggler{
+  background:var(--surface);
+  border-radius:14px;overflow:hidden;margin:16px 0;
+  border:1px solid rgba(255,255,255,0.05);
+}
+.toggler-header{
+  padding:16px 24px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 0.3s;
+  font-weight:700;font-size:0.95rem;user-select:none;
+  background:linear-gradient(90deg,rgba(217,119,87,0.06),rgba(167,139,250,0.04));
+}
+.toggler-header:hover{background:rgba(217,119,87,0.10)}
+.toggler-arrow{
+  transition:transform 0.3s;font-size:1rem;color:var(--text-dim);
+}
+.toggler-header.open .toggler-arrow{transform:rotate(180deg)}
+.toggler-body{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.6s ease;
+  padding:0 24px;
+}
+.toggler-body.open{max-height:8000px;padding:16px 24px 24px}
+
+/* =========================================================
+   EXERCISE BLOCKS (guiado / solo / casa)
+   ========================================================= */
+.exercise{
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,0.06);
+  border-left:5px solid var(--accent4);
+  border-radius:18px;
+  padding:28px;margin:24px 0;
+  position:relative;
+}
+.exercise.guided{border-left-color:var(--accent4)}
+.exercise.solo  {border-left-color:var(--accent6)}
+.exercise.home  {border-left-color:var(--accent5)}
+.exercise-header{
+  display:flex;align-items:center;gap:14px;margin-bottom:14px;
+}
+.exercise-icon{
+  font-size:2rem;line-height:1;flex-shrink:0;
+}
+.exercise-title{
+  font-size:1.15rem;font-weight:900;line-height:1.2;
+}
+.exercise-sub{
+  font-size:0.78rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:1.5px;font-weight:700;
+  margin-top:4px;
+}
+.exercise.guided .exercise-sub{color:var(--accent4)}
+.exercise.solo   .exercise-sub{color:var(--accent6)}
+.exercise.home   .exercise-sub{color:var(--accent5)}
+
+/* TRY-FIRST banner (tenta antes de espiar) */
+.try-first{
+  display:flex;gap:14px;align-items:flex-start;
+  background:linear-gradient(135deg,rgba(255,107,107,0.10),rgba(255,71,87,0.06));
+  border:1px solid rgba(255,107,107,0.25);
+  border-radius:14px;padding:18px 22px;margin:16px 0;
+}
+.try-first-icon{font-size:1.4rem;flex-shrink:0;animation:pulse 1.6s ease-in-out infinite}
+.try-first-content{color:var(--text-dim);font-size:0.92rem}
+.try-first-content strong{color:var(--accent2)}
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+.quiz{
+  background:linear-gradient(135deg,rgba(247,183,49,0.06),rgba(255,107,107,0.04));
+  border:1px solid rgba(247,183,49,0.20);
+  border-radius:16px;padding:24px;margin:18px 0;
+}
+.quiz-q{
+  font-size:1.05rem;font-weight:800;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.quiz-q .q-emoji{font-size:1.4rem}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.quiz-options{grid-template-columns:1fr}}
+.quiz-opt{
+  text-align:left;
+  background:var(--surface2);
+  border:1.5px solid rgba(255,255,255,0.06);
+  color:var(--text);font-family:'Nunito',sans-serif;
+  padding:12px 16px;border-radius:12px;
+  cursor:pointer;font-weight:700;font-size:0.92rem;
+  transition:all 0.2s;
+}
+.quiz-opt:hover{
+  border-color:var(--accent5);
+  background:rgba(247,183,49,0.06);
+  transform:translateY(-2px);
+}
+.quiz-opt.correct{
+  background:rgba(6,214,160,0.12);
+  border-color:var(--accent7);color:var(--accent7);
+  animation:correctPop 0.4s ease;
+}
+.quiz-opt.wrong{
+  background:rgba(255,107,107,0.10);
+  border-color:var(--accent2);color:var(--accent2);
+  animation:wrongShake 0.4s ease;
+}
+.quiz-feedback{
+  margin-top:12px;font-size:0.92rem;color:var(--text-dim);
+  min-height:0;transition:min-height 0.3s;
+}
+.quiz-feedback.show{min-height:30px}
+.quiz-feedback strong.correct{color:var(--accent7)}
+.quiz-feedback strong.wrong{color:var(--accent2)}
+
+/* =========================================================
+   FLOW DIAGRAM (vertical autoplay)
+   ========================================================= */
+.flow-container{
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;margin:30px 0;
+}
+.flow-box{
+  background:var(--surface2);
+  border:2px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px 24px;text-align:center;
+  font-weight:700;font-size:0.95rem;
+  position:relative;min-width:240px;
+  transition:all 0.3s;cursor:default;
+}
+.flow-box.active{
+  transform:scale(1.05);
+  box-shadow:0 0 30px var(--glow-accent);
+}
+.flow-box .label{
+  font-size:0.65rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:1.5px;
+  margin-bottom:4px;font-weight:800;
+}
+.flow-box.fb-voce   {border-color:var(--claude);  background:rgba(217,119,87,0.08)}
+.flow-box.fb-input  {border-color:var(--accent4); background:rgba(69,183,209,0.06)}
+.flow-box.fb-process{border-color:var(--accent5); background:rgba(247,183,49,0.06)}
+.flow-box.fb-output {border-color:var(--accent7); background:rgba(6,214,160,0.06)}
+.flow-box.fb-alerta {border-color:var(--accent2); background:rgba(255,107,107,0.08)}
+.flow-box.fb-true   {border-color:var(--accent7); background:rgba(6,214,160,0.08)}
+.flow-box.fb-false  {border-color:var(--accent2); background:rgba(255,107,107,0.06)}
+
+.flow-arrow{
+  width:2px;height:36px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.flow-arrow::before{
+  content:'';position:absolute;width:2px;height:100%;
+  background:linear-gradient(to bottom,var(--text-dim),transparent);
+}
+.flow-arrow::after{
+  content:'▼';position:absolute;bottom:-6px;
+  color:var(--text-dim);font-size:0.7rem;
+}
+.flow-arrow .flow-label{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  font-size:0.95rem;color:var(--accent5);font-weight:700;
+  white-space:nowrap;font-family:'Caveat',cursive;
+}
+
+/* Branching flow */
+.flow-branch{
+  display:flex;justify-content:center;gap:60px;margin:0;
+  position:relative;
+}
+.flow-branch::before{
+  content:'';position:absolute;top:0;left:25%;right:25%;
+  height:2px;background:rgba(255,255,255,0.10);
+}
+.flow-branch-side{
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;
+}
+.flow-branch-label{
+  font-family:'Caveat',cursive;font-size:1.4rem;font-weight:700;
+  margin-bottom:8px;
+}
+.flow-branch-label.true{color:var(--accent7)}
+.flow-branch-label.false{color:var(--accent2)}
+
+/* =========================================================
+   TERMINAL (output simulator)
+   ========================================================= */
+.terminal{
+  background:#000;
+  border-radius:14px;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
+  margin:16px 0;
+  font-family:'JetBrains Mono',monospace;
+  box-shadow:0 0 0 1px rgba(217,119,87,0.05),0 8px 30px rgba(0,0,0,0.4);
+}
+.terminal-header{
+  background:#1d1924;padding:8px 14px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.terminal-header .dot{width:10px;height:10px;border-radius:50%}
+.terminal-header .dot.r{background:#ff5f57}
+.terminal-header .dot.y{background:#febc2e}
+.terminal-header .dot.g{background:#28c840}
+.terminal-header .title{
+  margin-left:auto;color:var(--text-dim);font-size:0.72rem;
+  letter-spacing:1px;
+}
+.terminal-body{
+  padding:18px 20px;color:#c9d1d9;
+  font-size:0.86rem;line-height:1.85;
+  min-height:60px;
+}
+.terminal-body .prompt{color:var(--accent7);font-weight:700}
+.terminal-body .out{color:var(--text)}
+.terminal-body .input-mark{color:var(--accent5)}
+.terminal-body .cursor{
+  display:inline-block;width:8px;height:1em;background:var(--text);
+  vertical-align:text-bottom;animation:blink 1s steps(2) infinite;
+  margin-left:2px;
+}
+.terminal-body .typed{
+  display:inline-block;overflow:hidden;white-space:nowrap;
+  border-right:0;
+}
+
+/* =========================================================
+   KEYWORDS CHIPS GRID (hub & resumo)
+   ========================================================= */
+.keyword-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;margin:18px 0;
+}
+.keyword-chip{
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:18px 14px;text-align:center;
+  transition:transform 0.3s,border-color 0.3s;
+}
+.keyword-chip:hover{transform:translateY(-4px);border-color:var(--accent5)}
+.keyword-chip .emoji{font-size:1.8rem;margin-bottom:6px}
+.keyword-chip .kw-name{font-weight:800;color:var(--text);margin-bottom:2px}
+.keyword-chip .kw-desc{font-size:0.78rem;color:var(--text-dim);line-height:1.4}
+
+/* =========================================================
+   HUB CHAPTER CARDS
+   ========================================================= */
+.hub-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;margin:30px 0;
+}
+.hub-card{
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:18px;padding:24px;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+  position:relative;overflow:hidden;
+}
+.hub-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--accent5);
+}
+/* Faixa colorida por capítulo (base 01–03 = coral crescendo;
+   práticas 04–10 = uma cor por área; 11 = fechamento) */
+.hub-card.c01::before{background:linear-gradient(90deg,var(--claude),var(--claude-soft))}
+.hub-card.c02::before{background:linear-gradient(90deg,var(--claude),var(--accent4))}
+.hub-card.c03::before{background:linear-gradient(90deg,var(--claude),var(--term))}
+.hub-card.c04::before{background:linear-gradient(90deg,var(--accent4),var(--accent3))}
+.hub-card.c05::before{background:linear-gradient(90deg,var(--accent7),var(--accent3))}
+.hub-card.c06::before{background:linear-gradient(90deg,var(--accent6),var(--accent4))}
+.hub-card.c07::before{background:linear-gradient(90deg,var(--accent2),var(--accent5))}
+.hub-card.c08::before{background:linear-gradient(90deg,var(--accent5),var(--claude-soft))}
+.hub-card.c09::before{background:linear-gradient(90deg,var(--accent3),var(--accent7))}
+.hub-card.c10::before{background:linear-gradient(90deg,var(--claude),var(--term))}
+.hub-card.c11::before{background:linear-gradient(90deg,var(--term),var(--accent7))}
+.hub-card.csem::before{background:linear-gradient(90deg,var(--accent6),var(--accent5))}
+
+/* Capítulo ainda não publicado */
+.hub-card.em-breve{opacity:0.45;pointer-events:none;filter:grayscale(0.3)}
+.hub-card.em-breve::after{
+  content:'🔒 em breve';position:absolute;top:14px;right:14px;
+  font-size:0.62rem;font-weight:800;letter-spacing:1px;
+  background:rgba(255,255,255,0.07);color:var(--text-dim);
+  padding:3px 9px;border-radius:20px;
+}
+.hub-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(217,119,87,0.30);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4);
+}
+.hub-card .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.78rem;color:var(--text-dim);font-weight:800;
+  letter-spacing:2px;
+}
+.hub-card .ic{
+  font-size:2.4rem;line-height:1;margin:8px 0;
+}
+.hub-card .title{
+  font-size:1.15rem;font-weight:900;color:var(--text);margin-bottom:6px;
+}
+.hub-card .desc{
+  font-size:0.85rem;color:var(--text-dim);
+  line-height:1.5;flex:1;margin-bottom:14px;
+}
+.hub-card .pills{display:flex;flex-wrap:wrap;gap:6px}
+.hub-card .pill{
+  font-size:0.66rem;font-weight:800;letter-spacing:1px;
+  padding:3px 8px;border-radius:6px;
+  background:rgba(217,119,87,0.10);color:var(--claude-soft);
+}
+
+/* =========================================================
+   LIGHTBOX (imagem ampliada) + bullets da página /sobre/
+   ========================================================= */
+.lightbox{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.92);
+  z-index:300;
+  display:flex;align-items:center;justify-content:center;
+  padding:30px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.3s;
+}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox img{
+  max-width:100%;max-height:100%;
+  border-radius:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  cursor:zoom-out;
+}
+.lightbox-close{
+  position:absolute;top:20px;right:24px;
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
+  color:white;width:42px;height:42px;border-radius:50%;
+  font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.lightbox-close:hover{background:rgba(255,255,255,0.18)}
+
+.about-bullets{
+  margin:18px 0 8px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;
+}
+.about-bullets li{
+  list-style:none;
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:14px 18px;
+  font-size:0.95rem;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.about-bullets li:hover{border-color:var(--accent5);transform:translateY(-3px)}
+.about-bullets li::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent5),var(--accent2));
+  flex-shrink:0;margin-top:8px;
+  box-shadow:0 0 12px rgba(247,183,49,0.4);
+}
+.about-bullets li strong{color:var(--text)}
+
+/* =========================================================
+   MITO × REALIDADE — derruba os medos clássicos
+   ("preciso saber programar", "ele vai apagar tudo"...)
+   ========================================================= */
+.mito-real{
+  margin:26px 0;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,71,87,0.25);
+  background:var(--surface);
+}
+.mr-mito{
+  position:relative;padding:22px 24px 20px;
+  background:linear-gradient(135deg,rgba(255,71,87,0.12),rgba(255,71,87,0.03));
+  border-bottom:1px dashed rgba(255,71,87,0.3);
+}
+.mr-mito p{
+  font-size:1.08rem;font-weight:700;color:var(--text);
+  font-style:italic;padding-right:96px;
+}
+.mr-carimbo{
+  position:absolute;top:16px;right:18px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.78rem;font-weight:800;letter-spacing:3px;
+  color:var(--mito);border:3px solid var(--mito);
+  padding:3px 10px;border-radius:6px;
+  transform:rotate(-11deg) scale(1.6);opacity:0;
+  transition:transform 0.45s cubic-bezier(0.34,1.56,0.64,1),opacity 0.35s;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.mito-real.visible .mr-carimbo{transform:rotate(-11deg) scale(1);opacity:0.9}
+.mr-real{padding:20px 24px}
+.mr-tag{
+  display:inline-block;font-size:0.68rem;font-weight:900;letter-spacing:2px;
+  color:var(--term);background:rgba(74,222,128,0.12);
+  padding:3px 10px;border-radius:20px;margin-bottom:8px;
+}
+.mr-real p{color:var(--text);font-size:0.96rem}
+.mr-real p + p{margin-top:10px}
+.mr-real strong{color:var(--term)}
+
+/* =========================================================
+   SIMULADOR — casca padrão das "máquinas" da oficina
+   (aprovar/recusar permissão, montar um bom pedido...).
+   O miolo de cada simulador é CSS/JS inline do capítulo.
+   ========================================================= */
+.sim{
+  margin:30px 0;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(217,119,87,0.22);
+  background:var(--surface);
+  box-shadow:0 10px 40px rgba(0,0,0,0.28);
+}
+.sim-head{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:14px 20px;
+  background:linear-gradient(135deg,rgba(217,119,87,0.14),rgba(217,119,87,0.03));
+  border-bottom:1px solid rgba(217,119,87,0.18);
+}
+.sim-head .sim-ic{font-size:1.4rem}
+.sim-head h4{font-size:1rem;font-weight:900;color:var(--text);flex:1;min-width:160px}
+.sim-head .sim-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--claude-soft);background:rgba(217,119,87,0.12);
+  padding:3px 10px;border-radius:20px;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.sim-body{padding:20px}
+.sim-hint{
+  font-size:0.85rem;color:var(--text-dim);
+  padding:0 20px 16px;margin-top:-6px;
+}
+.sim-hint strong{color:var(--claude-soft)}
+
+/* Chips de escolha (o aluno escolhe o INPUT — nunca só "play") */
+.sim-chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px}
+.sim-chip{
+  font-family:inherit;font-size:0.84rem;font-weight:800;
+  padding:8px 16px;border-radius:50px;cursor:pointer;
+  background:var(--surface2);color:var(--text-dim);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:all 0.22s;
+}
+.sim-chip:hover{color:var(--text);border-color:rgba(217,119,87,0.4)}
+.sim-chip.on{
+  background:var(--claude);color:#1a0e08;border-color:var(--claude);
+  box-shadow:0 4px 18px var(--glow-claude);
+}
+.sim-chip.danger.on{background:var(--accent2);border-color:var(--accent2)}
+
+/* Botões de ação do simulador */
+.sim-btn{
+  font-family:inherit;font-size:0.85rem;font-weight:800;
+  padding:9px 20px;border-radius:10px;cursor:pointer;
+  background:rgba(217,119,87,0.12);color:var(--claude-soft);
+  border:1px solid rgba(217,119,87,0.35);
+  transition:all 0.22s;
+}
+.sim-btn:hover{background:var(--claude);color:#1a0e08}
+.sim-btn:disabled{opacity:0.4;cursor:not-allowed}
+.sim-btn.ghost{background:transparent;color:var(--text-dim);border-color:rgba(255,255,255,0.12)}
+.sim-btn.ghost:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.sim-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* Painel de resultado / "console" do simulador */
+.sim-out{
+  margin-top:16px;padding:14px 16px;border-radius:12px;
+  background:var(--code-bg);border:1px solid rgba(255,255,255,0.06);
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;line-height:1.75;
+  min-height:60px;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.sim-out .ok  {color:var(--term)}
+.sim-out .bad {color:var(--accent2)}
+.sim-out .warn{color:var(--accent5)}
+.sim-out .muted{color:var(--text-dim)}
+.sim-out .ln{opacity:0;transform:translateX(-8px);
+  transition:opacity 0.3s,transform 0.3s}
+.sim-out .ln.on{opacity:1;transform:translateX(0)}
+
+/* =========================================================
+   LINHA DO TEMPO
+   ========================================================= */
+.timeline{position:relative;margin:30px 0;padding-left:34px}
+.timeline::before{
+  content:'';position:absolute;left:10px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(to bottom,transparent,rgba(217,119,87,0.5),transparent);
+}
+.tl-item{
+  position:relative;margin-bottom:24px;
+  padding:16px 20px;border-radius:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  opacity:0;transform:translateX(20px);
+  transition:opacity 0.55s ease,transform 0.55s ease;
+}
+.tl-item.on{opacity:1;transform:translateX(0)}
+.tl-item::before{
+  content:'';position:absolute;left:-29px;top:22px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--claude);border:3px solid var(--bg);
+  box-shadow:0 0 0 3px rgba(217,119,87,0.25);
+}
+.tl-item.grave::before{background:var(--accent2);box-shadow:0 0 0 3px rgba(255,107,107,0.25)}
+.tl-ano{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;font-weight:800;letter-spacing:2px;color:var(--claude-soft);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.tl-item.grave .tl-ano{color:var(--accent2)}
+.tl-titulo{font-size:1.05rem;font-weight:900;margin:4px 0 6px}
+.tl-item p{font-size:0.9rem;color:var(--text-dim)}
+.tl-custo{
+  display:inline-block;margin-top:10px;
+  font-size:0.76rem;font-weight:800;
+  background:rgba(255,107,107,0.12);color:var(--accent2);
+  padding:4px 12px;border-radius:20px;
+}
+
+/* =========================================================
+   CHECKLIST DE RESUMO (fim de capítulo)
+   ========================================================= */
+.checklist{margin:20px 0;padding:0;list-style:none}
+.checklist li{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:11px 16px;margin-bottom:9px;border-radius:12px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  font-size:0.93rem;
+}
+.checklist li::before{content:'✅';flex-shrink:0}
+.checklist li strong{color:var(--claude-soft)}
+
+/* =========================================================
+   NAVEGAÇÃO DE FIM DE CAPÍTULO
+   ========================================================= */
+.cap-nav{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  margin:40px 0 20px;
+}
+.cap-nav a{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 26px;border-radius:50px;
+  font-weight:800;font-size:0.92rem;text-decoration:none;
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.cap-nav a:hover{transform:translateY(-3px)}
+.cap-nav .nav-voltar{
+  background:var(--surface2);color:var(--text-dim);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.cap-nav .nav-voltar:hover{color:var(--text)}
+.cap-nav .nav-proximo{
+  background:linear-gradient(135deg,var(--claude-deep),var(--claude));
+  color:#1a0e08;
+}
+.cap-nav .nav-proximo:hover{box-shadow:0 10px 30px var(--glow-claude)}
+
+@media (max-width:640px){
+  .mr-mito p{padding-right:0;padding-top:34px}
+  .mr-carimbo{top:12px;left:24px;right:auto}
+}
+
+/* =========================================================
+   SR-ONLY — texto só para leitor de tela (regiões de status)
+   ========================================================= */
+.sr-only{
+  position:absolute;width:1px;height:1px;
+  padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+
+/* =========================================================
+   ===== COMPONENTES PRÓPRIOS DESTA OFICINA ================
+   ========================================================= */
+
+/* =========================================================
+   CHAT CLAUDE — a peça central do material.
+   Janela de terminal com a CONVERSA: balão "você" em coral,
+   resposta em verde-terminal, caixa de permissão âmbar.
+   Usada estática ou animada (mensagens como [data-seq-frame]).
+   Markup:
+   <div class="chat-claude">
+     <div class="chat-head"><span class="dot r"></span><span class="dot y"></span>
+       <span class="dot g"></span><span class="chat-title">sua pasta — claude</span></div>
+     <div class="chat-body">
+       <div class="chat-msg voce"><span class="quem">você</span>organize esta pasta…</div>
+       <div class="chat-perm">…<div class="perm-botoes">…</div></div>
+       <div class="chat-msg claude"><span class="quem">claude</span>Pronto! …</div>
+     </div>
+   </div>
+   ========================================================= */
+.chat-claude{
+  margin:26px 0;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(217,119,87,0.28);
+  background:var(--code-bg);
+  box-shadow:0 0 0 1px rgba(217,119,87,0.06),0 10px 40px rgba(0,0,0,0.35);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.chat-head{
+  background:var(--surface2);padding:9px 14px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.chat-head .dot{width:10px;height:10px;border-radius:50%}
+.chat-head .dot.r{background:#ff5f57}
+.chat-head .dot.y{background:#febc2e}
+.chat-head .dot.g{background:#28c840}
+.chat-head .chat-title{
+  margin-left:auto;color:var(--text-dim);font-size:0.72rem;
+  font-family:'JetBrains Mono',monospace;letter-spacing:1px;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.chat-body{
+  padding:18px;display:flex;flex-direction:column;gap:12px;
+  min-height:80px;
+}
+.chat-msg{
+  max-width:88%;padding:10px 16px;border-radius:14px;
+  font-size:0.9rem;line-height:1.65;font-family:'Nunito',sans-serif;
+}
+.chat-msg .quem{
+  display:block;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;
+  font-weight:800;margin-bottom:4px;
+  font-family:'JetBrains Mono',monospace;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.chat-msg.voce{
+  align-self:flex-end;
+  background:rgba(217,119,87,0.13);
+  border:1px solid rgba(217,119,87,0.35);
+  border-bottom-right-radius:4px;color:var(--text);
+}
+.chat-msg.voce .quem{color:var(--claude-soft)}
+.chat-msg.claude{
+  align-self:flex-start;
+  background:rgba(74,222,128,0.07);
+  border:1px solid rgba(74,222,128,0.22);
+  border-bottom-left-radius:4px;color:var(--text);
+}
+.chat-msg.claude .quem{color:var(--term)}
+.chat-msg.claude .mono-mini{
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--term);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+/* "pensando…" (três pontinhos) */
+.chat-msg .pensando{display:inline-flex;gap:4px;align-items:center}
+.chat-msg .pensando i{
+  width:6px;height:6px;border-radius:50%;background:var(--text-dim);
+  animation:pulse 1.2s ease-in-out infinite;font-style:normal;
+}
+.chat-msg .pensando i:nth-child(2){animation-delay:0.2s}
+.chat-msg .pensando i:nth-child(3){animation-delay:0.4s}
+
+/* Caixa de permissão — o coração da segurança */
+.chat-perm{
+  align-self:stretch;
+  border:1.5px dashed rgba(247,183,49,0.55);
+  background:rgba(247,183,49,0.07);
+  border-radius:14px;padding:14px 18px;
+  font-size:0.88rem;font-family:'Nunito',sans-serif;color:var(--text);
+}
+.chat-perm .perm-title{
+  display:flex;align-items:center;gap:8px;
+  color:var(--permissao);font-weight:900;font-size:0.8rem;
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;
+}
+.chat-perm .perm-botoes{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.chat-perm .perm-btn{
+  font-family:inherit;font-size:0.8rem;font-weight:800;
+  padding:6px 18px;border-radius:8px;cursor:pointer;
+  border:1px solid rgba(255,255,255,0.15);
+  background:var(--surface2);color:var(--text-dim);
+  transition:all 0.2s;
+}
+.chat-perm .perm-btn.aprovar{
+  background:rgba(74,222,128,0.15);color:var(--term);
+  border-color:rgba(74,222,128,0.4);
+}
+.chat-perm .perm-btn.aprovar:hover{background:var(--term);color:#04150b}
+.chat-perm .perm-btn.nao:hover{color:var(--text)}
+.chat-perm .perm-btn.escolhido,
+.chat-perm .perm-btn.active{ /* .active = destacado por data-seq-step */
+  background:var(--term);color:#04150b;border-color:var(--term);
+  box-shadow:0 0 18px var(--glow-term);
+}
+
+/* Mensagens animadas via data-seq: quadros entram um a um */
+.chat-body [data-seq-frame]{
+  opacity:0;transform:translateY(10px);
+  transition:opacity 0.45s ease,transform 0.45s ease;
+}
+.chat-body [data-seq-frame].on{opacity:1;transform:translateY(0)}
+@media (scripting: none){
+  .chat-body [data-seq-frame]{opacity:1;transform:none}
+}
+
+/* =========================================================
+   PROMPT PRONTO — prompt copiável, protagonista das práticas.
+   Markup:
+   <div class="prompt-card">
+     <div class="pc-head"><span class="pc-ic">✨</span>
+       <span class="pc-titulo">Prompt pronto</span>
+       <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+     <pre>texto do prompt…</pre>
+     <div class="pc-por-que"><strong>Por que funciona:</strong> …</div>
+   </div>
+   ========================================================= */
+.prompt-card{
+  margin:18px 0;border-radius:14px;overflow:hidden;
+  border:1px solid rgba(217,119,87,0.32);
+  background:var(--code-bg);
+  box-shadow:0 6px 24px rgba(0,0,0,0.25);
+}
+.pc-head{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;
+  background:linear-gradient(90deg,rgba(217,119,87,0.14),rgba(217,119,87,0.04));
+  border-bottom:1px solid rgba(217,119,87,0.22);
+}
+.pc-head .pc-ic{font-size:1.05rem}
+.pc-head .pc-titulo{
+  flex:1;font-size:0.7rem;font-weight:900;letter-spacing:2px;
+  text-transform:uppercase;color:var(--claude-soft);
+}
+.pc-copiar{
+  font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:800;
+  padding:5px 14px;border-radius:8px;cursor:pointer;
+  background:rgba(217,119,87,0.15);color:var(--claude-soft);
+  border:1px solid rgba(217,119,87,0.4);
+  transition:all 0.2s;
+}
+.pc-copiar:hover{background:var(--claude);color:#1a0e08}
+.pc-copiar.copiado{background:var(--term);border-color:var(--term);color:#04150b}
+.prompt-card pre{
+  white-space:pre-wrap;word-break:break-word;
+  color:#f0e7e0;font-size:0.88rem;line-height:1.8;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.prompt-card pre .pc-lacuna{
+  color:var(--accent5);font-style:italic;
+  background:rgba(247,183,49,0.10);border-radius:4px;padding:0 4px;
+}
+.pc-por-que{
+  padding:10px 16px 14px;font-size:0.83rem;color:var(--text-dim);
+  border-top:1px dashed rgba(255,255,255,0.08);
+  font-family:'Nunito',sans-serif;
+}
+.pc-por-que strong{color:var(--claude-soft)}
+
+/* =========================================================
+   O QUE VOCÊ VAI PRECISAR — checklist de abertura das práticas
+   ========================================================= */
+.precisa{
+  margin:26px 0;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(74,222,128,0.28);
+  background:linear-gradient(160deg,rgba(74,222,128,0.06),rgba(74,222,128,0.01));
+}
+.precisa-head{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 20px;font-weight:900;color:var(--term);
+  border-bottom:1px dashed rgba(74,222,128,0.3);
+  font-size:0.95rem;
+}
+.precisa ul{list-style:none;padding:14px 20px;margin:0}
+.precisa li{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:7px 0;font-size:0.93rem;color:var(--text);
+}
+.precisa li::before{content:'✅';flex-shrink:0}
+.precisa li.opcional{color:var(--text-dim)}
+.precisa li.opcional::before{content:'⬜'}
+.precisa li strong{color:var(--term)}
+.precisa .kit-download{
+  display:inline-flex;align-items:center;gap:8px;
+  margin:4px 20px 18px;padding:10px 22px;border-radius:50px;
+  background:linear-gradient(135deg,var(--term-dim),var(--term));
+  color:#04150b;font-weight:900;font-size:0.88rem;text-decoration:none;
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.precisa .kit-download:hover{transform:translateY(-2px);box-shadow:0 8px 26px var(--glow-term)}
+
+/* =========================================================
+   O QUE VAI APARECER NA SUA TELA — resposta esperada, simulada.
+   Tira o susto: o participante compara com o que viu de verdade.
+   Markup: <div class="tela"><div class="tela-head">…</div>
+     <div class="tela-body">
+       <span class="tela-linha tela-voce">&gt; organize esta pasta</span>
+       <span class="tela-linha tela-claude">Vou fazer o seguinte: …</span>
+       <span class="tela-linha tela-perm">Posso criar a pasta "Fotos"? [s/n]</span>
+     </div></div>
+   ========================================================= */
+.tela{
+  margin:18px 0;border-radius:14px;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.08);
+  background:#000;
+  font-family:'JetBrains Mono',monospace;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.tela-head{
+  background:var(--surface2);padding:8px 14px;
+  display:flex;align-items:center;gap:8px;
+  font-size:0.7rem;color:var(--text-dim);letter-spacing:1px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  font-family:'Nunito',sans-serif;font-weight:800;text-transform:uppercase;
+}
+.tela-head .tela-ic{font-size:0.95rem}
+.tela-body{padding:16px 18px;font-size:0.82rem;line-height:1.9;color:#c9d1d9}
+.tela-linha{display:block;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0}
+.tela-voce  {color:var(--claude-soft);font-weight:700}
+.tela-claude{color:var(--resposta)}
+.tela-perm  {color:var(--permissao)}
+.tela-dim   {color:var(--text-dim)}
+
+/* =========================================================
+   META DA PRÁTICA — faixa de chips no hero (área/dificuldade/tempo)
+   ========================================================= */
+.pratica-meta{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+  margin:0 0 14px;
+}
+.pratica-meta span{
+  font-size:0.72rem;font-weight:800;letter-spacing:1px;
+  padding:4px 14px;border-radius:20px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.1);
+  color:var(--text-dim);
+}
+.pratica-meta .pm-area {border-color:rgba(217,119,87,0.4);color:var(--claude-soft)}
+.pratica-meta .pm-dif  {border-color:rgba(247,183,49,0.4);color:var(--accent5)}
+.pratica-meta .pm-tempo{border-color:rgba(74,222,128,0.4);color:var(--term)}
+
+/* =========================================================
+   ARMADILHA — o "cuidado com…" específico de cada prática
+   ========================================================= */
+.armadilha{
+  border-radius:14px;padding:20px 24px;margin:16px 0;
+  display:flex;gap:12px;align-items:flex-start;
+  background:rgba(255,71,87,0.06);
+  border:1px solid rgba(255,71,87,0.25);
+  border-left:4px solid var(--mito);
+}
+.armadilha-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.armadilha-content{color:var(--text-dim);font-size:0.92rem}
+.armadilha-content strong{color:var(--accent2)}

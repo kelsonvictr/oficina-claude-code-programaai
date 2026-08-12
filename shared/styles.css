@@ -1,0 +1,378 @@
+/* =========================================================
+   Oficina Claude Code — para quem nunca programou
+   shared/styles.css  ·  Tokens, reset, tipografia, layout
+
+   Identidade: "TERMINAL AMIGÁVEL". O medo nº 1 do público é a
+   tela preta; então a tela preta vira acolhedora: janelas de
+   terminal que conversam em português, coral Claude por cima
+   do dark técnico, verde-terminal nas respostas do computador.
+   Base derivada de engenharia-software / novo-material-fullstack.
+   ========================================================= */
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* =========================================================
+   ⚠️ LIGADURAS DESATIVADAS (regra obrigatória do workspace)
+   JetBrains Mono reescreve -> != >= <= como símbolos Unicode.
+   Aqui o aluno COPIA prompts e comandos — ligadura ativa é
+   catástrofe. Vem ANTES de qualquer outra declaração de pre/code.
+   Widgets com classe mono própria devem REPETIR a regra localmente.
+   ========================================================= */
+pre, code, .code-block pre, .terminal, .terminal-body, textarea,
+.mono, .mr-carimbo, .tl-ano,
+.prompt-card pre, .tela, .tela-linha, .chat-claude, .chat-msg,
+.code-header .filename, .code-header .lang-badge, .code-block .line-numbers,
+.hub-card .num{
+  font-variant-ligatures:none;
+  font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+  -webkit-font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+
+:root{
+  /* Backgrounds */
+  --bg:        #0e0c0f;   /* dark quente, quase preto — tela de terminal acolhedora */
+  --surface:   #16131a;
+  --surface2:  #1d1924;
+  --surface3:  #262130;
+  --code-bg:   #0c0a0e;
+
+  /* Text */
+  --text:      #f4f0ec;
+  --text-dim:  #a89e96;
+
+  /* === COR-TEMA: coral Claude === */
+  --claude:      #d97757;   /* coral/terracota Claude */
+  --claude-deep: #c05c3d;
+  --claude-soft: #e8a087;
+
+  /* === Verde-terminal: a "voz" do computador === */
+  --term:      #4ade80;
+  --term-dim:  #22c55e;
+
+  /* Acentos (base da família) */
+  --accent:    #d97757;   /* = claude: o "accent" padrão do material */
+  --accent2:   #ff6b6b;   /* coral vivo — armadilhas, erros */
+  --accent3:   #4ecdc4;   /* turquesa  — dicas */
+  --accent4:   #45b7d1;   /* azul      */
+  --accent5:   #f7b731;   /* âmbar     — permissões, avisos, destaques */
+  --accent6:   #a78bfa;   /* lilás     — conceitos */
+  --accent7:   #06d6a0;   /* menta     — sucesso, checklists */
+
+  /* Temáticos do material */
+  --voce:      #d97757;   /* balões/elementos "você" na conversa */
+  --resposta:  #4ade80;   /* respostas do Claude nas telas simuladas */
+  --permissao: #f7b731;   /* caixa de permissão Sim/Não */
+  --mito:      #ff4757;   /* carimbo do "Mito × Realidade" */
+
+  /* Glows */
+  --glow-claude: rgba(217,119,87,0.18);
+  --glow-term:   rgba(74,222,128,0.16);
+  --glow-perm:   rgba(247,183,49,0.18);
+  --glow-accent: rgba(217,119,87,0.15);
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* =========================================================
+   FUNDO: BRILHO DE FÓSFORO
+   Grid discreto de terminal antigo + scanlines quase invisíveis.
+   Aconchego de lan house, não frieza de datacenter.
+   ========================================================= */
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(217,119,87,0.030) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(217,119,87,0.030) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.bg-grid::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    to bottom, transparent 0 3px, rgba(255,255,255,0.006) 3px 4px);
+}
+.bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-orbs .orb{
+  position:absolute;border-radius:50%;
+  filter:blur(110px);opacity:0.10;
+  animation:orbFloat 25s ease-in-out infinite;
+}
+.bg-orbs .orb:nth-child(1){width:620px;height:620px;background:var(--claude);top:-160px;left:-160px;animation-delay:0s}
+.bg-orbs .orb:nth-child(2){width:500px;height:500px;background:var(--term-dim);bottom:-150px;right:-150px;animation-delay:-8s}
+.bg-orbs .orb:nth-child(3){width:420px;height:420px;background:var(--accent6);top:40%;left:60%;animation-delay:-16s}
+
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+.progress-track{
+  position:fixed;top:0;left:0;width:100%;height:4px;z-index:200;
+  background:rgba(255,255,255,0.03);
+}
+.progress-bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--claude),var(--accent5),var(--term));
+  transition:width 0.3s;
+  border-radius:0 2px 2px 0;
+  box-shadow:0 0 20px var(--claude);
+}
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+.container{
+  max-width:960px;
+  margin:0 auto;
+  padding:20px;
+  position:relative;
+  z-index:1;
+}
+
+/* =========================================================
+   SIDEBAR NAV (off-canvas)
+   ========================================================= */
+.sidebar-nav{
+  position:fixed;left:0;top:0;width:290px;height:100vh;
+  background:var(--surface);
+  border-right:1px solid rgba(217,119,87,0.12);
+  z-index:100;
+  transform:translateX(-100%);
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto;padding:24px 0;
+}
+.sidebar-nav.open{transform:translateX(0)}
+.sidebar-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  z-index:99;opacity:0;pointer-events:none;
+  transition:opacity 0.3s;
+}
+.sidebar-overlay.open{opacity:1;pointer-events:auto}
+.sidebar-header{
+  padding:0 24px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  margin-bottom:12px;
+}
+.sidebar-header h3{
+  font-size:1rem;color:var(--claude);
+  font-weight:800;display:flex;align-items:center;gap:8px;
+}
+.sidebar-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.75rem;color:var(--text-dim);
+  text-decoration:none;padding:6px 12px;border-radius:8px;
+  background:rgba(255,255,255,0.04);
+  margin-top:8px;font-weight:700;
+  transition:background 0.2s,color 0.2s;
+}
+.sidebar-back:hover{color:var(--text);background:rgba(217,119,87,0.15)}
+.sidebar-group{padding:8px 16px}
+.sidebar-group-title{
+  font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;
+  color:var(--text-dim);padding:8px;font-weight:700;
+}
+.sidebar-link{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 12px;border-radius:10px;
+  color:var(--text-dim);text-decoration:none;
+  font-size:0.85rem;font-weight:600;
+  transition:all 0.2s;cursor:pointer;
+}
+.sidebar-link:hover,.sidebar-link.active{
+  background:rgba(217,119,87,0.12);color:var(--text);
+}
+.sidebar-link .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sidebar-close{
+  position:absolute;top:16px;right:16px;
+  background:none;border:none;color:var(--text-dim);
+  font-size:1.4rem;cursor:pointer;padding:4px 8px;border-radius:8px;
+  transition:all 0.2s;
+}
+.sidebar-close:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+
+.menu-toggle{
+  position:fixed;top:16px;left:16px;z-index:98;
+  background:var(--surface2);
+  border:1px solid rgba(217,119,87,0.25);
+  color:var(--text);width:44px;height:44px;
+  border-radius:12px;font-size:1.2rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.3s;
+  box-shadow:0 4px 20px rgba(0,0,0,0.35);
+}
+.menu-toggle:hover{background:var(--claude);border-color:var(--claude);color:#160c08}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{
+  text-align:center;padding:100px 20px 70px;
+  position:relative;
+}
+.hero-icons{
+  font-size:3.5rem;display:flex;justify-content:center;gap:16px;
+  margin-bottom:24px;
+  animation:fadeSlideDown 0.8s ease both;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--claude-deep),var(--claude));
+  color:#1a0e08;font-weight:800;font-size:0.8rem;
+  padding:6px 20px;border-radius:50px;
+  text-transform:uppercase;letter-spacing:2px;
+  margin-bottom:24px;
+  animation:fadeSlideDown 0.8s ease 0.1s both;
+}
+.hero-badge.term    {background:linear-gradient(135deg,var(--term-dim),var(--term));color:#04150b}
+.hero-badge.pratica {background:linear-gradient(135deg,var(--accent5),var(--claude-soft));color:#1a1204}
+.hero-badge.conceito{background:linear-gradient(135deg,var(--accent6),var(--claude));color:#100a1c}
+.hero h1{
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  font-weight:900;
+  background:linear-gradient(135deg,var(--text),var(--claude));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.15;margin-bottom:16px;
+  animation:fadeSlideDown 0.8s ease 0.2s both;
+}
+.hero .subtitle{
+  font-size:1.15rem;color:var(--text-dim);
+  max-width:700px;margin:0 auto 28px;
+  animation:fadeSlideDown 0.8s ease 0.35s both;
+}
+.hero-stack{
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  animation:fadeSlideDown 0.8s ease 0.5s both;
+}
+.stack-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 16px;border-radius:50px;
+  font-size:0.8rem;font-weight:700;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface2);
+}
+.stack-chip.voce    {border-color:rgba(217,119,87,0.45);color:var(--claude-soft)}
+.stack-chip.term    {border-color:rgba(74,222,128,0.45);color:var(--term)}
+.stack-chip.pratica {border-color:rgba(247,183,49,0.45);color:var(--accent5)}
+.stack-chip.conceito{border-color:rgba(167,139,250,0.45);color:var(--accent6)}
+
+/* =========================================================
+   CHAPTER DIVIDER
+   ========================================================= */
+.chapter-divider{
+  text-align:center;padding:60px 20px 30px;position:relative;
+}
+.chapter-divider::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(217,119,87,0.35),transparent);
+}
+.chapter-icon{
+  font-size:3rem;display:block;margin-bottom:12px;
+  animation:bounce 2s ease-in-out infinite;
+}
+.chapter-number{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--claude-deep),var(--claude));
+  color:#1a0e08;font-weight:900;font-size:0.75rem;
+  padding:4px 16px;border-radius:50px;
+  text-transform:uppercase;letter-spacing:2px;
+  margin-bottom:12px;
+}
+.chapter-divider h2{
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  font-weight:900;margin-bottom:8px;
+}
+/* Gradientes por tema */
+.grad-claude  {background:linear-gradient(135deg,var(--claude),var(--claude-soft));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-term    {background:linear-gradient(135deg,var(--term),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-pratica {background:linear-gradient(135deg,var(--accent5),var(--claude));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-conceito{background:linear-gradient(135deg,var(--accent6),var(--claude));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-uau     {background:linear-gradient(135deg,var(--claude),var(--term));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.chapter-subtitle{
+  color:var(--text-dim);font-size:1rem;
+  max-width:560px;margin:0 auto;
+}
+
+/* =========================================================
+   STEP SECTION
+   ========================================================= */
+.step-section{
+  margin:30px 0;
+  opacity:0;transform:translateY(40px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.step-section.visible{opacity:1;transform:translateY(0)}
+/* rede de segurança: sem JS (file://, shared/ ausente, rede caída) o
+   scroll-reveal nunca roda e a página inteira ficaria invisível */
+@media (scripting: none){
+  .step-section{opacity:1;transform:none}
+  .tl-item{opacity:1;transform:none}
+  .mito-real .mr-carimbo{opacity:0.9;transform:rotate(-11deg) scale(1)}
+}
+.step-header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.step-number{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.3rem;color:#1a0e08;
+  flex-shrink:0;position:relative;
+}
+.step-number::after{
+  content:'';position:absolute;inset:-3px;border-radius:17px;
+  background:inherit;opacity:0.25;z-index:-1;
+}
+.sn-claude   {background:var(--claude)}
+.sn-term     {background:var(--term)}
+.sn-red      {background:var(--accent2)}
+.sn-blue     {background:var(--accent4)}
+.sn-green    {background:var(--accent3)}
+.sn-yellow   {background:var(--accent5)}
+.sn-purple   {background:var(--accent6)}
+.sn-mint     {background:var(--accent7)}
+.step-title{font-size:1.45rem;font-weight:800}
+.step-sub  {color:var(--text-dim);font-size:0.88rem;margin-top:2px}
+
+/* =========================================================
+   SECTION CONNECTOR
+   ========================================================= */
+.section-connector{
+  display:flex;justify-content:center;margin:30px 0;
+}
+.section-connector .line{
+  width:2px;height:48px;
+  background:linear-gradient(to bottom,transparent,rgba(217,119,87,0.45),transparent);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer{
+  text-align:center;padding:60px 20px 40px;
+  color:var(--text-dim);font-size:0.85rem;
+  border-top:1px solid rgba(255,255,255,0.04);
+  margin-top:60px;
+}
+.footer a{color:var(--claude);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.footer .heart{color:var(--accent2)}
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+.text-dim{color:var(--text-dim)}
+.text-accent{color:var(--claude)}
+.center{text-align:center}
+.mt-md{margin-top:24px}
+.mt-lg{margin-top:40px}
+.mb-md{margin-bottom:24px}
+
+@media (max-width: 720px){
+  .hero{padding:80px 16px 50px}
+  .container{padding:14px}
+  .step-header{gap:12px}
+  .step-number{width:44px;height:44px;font-size:1.1rem}
+  .step-title{font-size:1.2rem}
+}
