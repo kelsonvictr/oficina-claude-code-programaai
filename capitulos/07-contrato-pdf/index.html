@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática 07 · O contrato de 40 páginas — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local da prática 07 (prefixo .c7-) =====
+   Quase tudo vem do shared/; aqui só a estante de PDFs do kit. */
+
+.c7-estante{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;
+  margin:20px 0;
+}
+.c7-pdf{
+  background:var(--code-bg);border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:14px 16px;
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;line-height:1.7;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c7-pdf .c7-ic{font-size:1.5rem;display:block;margin-bottom:6px}
+.c7-pdf .c7-nome{color:var(--claude-soft);font-weight:700;display:block;word-break:break-all}
+.c7-pdf .c7-info{color:var(--text-dim);display:block}
+.c7-pdf.principal{border-color:rgba(217,119,87,0.35)}
+
+.cap-nav a.em-breve{opacity:0.45;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📚 Prática 07 · Contrato</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta prática</div>
+    <a class="sidebar-link" onclick="goTo('cenario')"><span class="dot" style="background:var(--accent5)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('precisa')"><span class="dot" style="background:var(--term)"></span>O que você vai precisar</a>
+    <a class="sidebar-link" onclick="goTo('etapa1')"><span class="dot" style="background:var(--accent4)"></span>Etapa 1: o resumo executivo</a>
+    <a class="sidebar-link" onclick="goTo('etapa2')"><span class="dot" style="background:var(--accent7)"></span>Etapa 2: valores e prazos</a>
+    <a class="sidebar-link" onclick="goTo('etapa3')"><span class="dot" style="background:var(--accent6)"></span>Etapa 3: o interrogatório</a>
+    <a class="sidebar-link" onclick="goTo('etapa4')"><span class="dot" style="background:var(--claude)"></span>Etapa 4: juntar e dividir</a>
+    <a class="sidebar-link" onclick="goTo('armadilhas')"><span class="dot" style="background:var(--accent2)"></span>Armadilhas desta prática</a>
+    <a class="sidebar-link" onclick="goTo('vida-real')"><span class="dot" style="background:var(--accent3)"></span>Levando para a vida real</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio solo</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">📚</span>
+    <span data-motion="float">🔎</span>
+    <span data-motion="float">⚖️</span>
+  </div>
+  <div class="hero-badge pratica">Prática 07</div>
+  <h1>O contrato de<br>40 páginas</h1>
+  <div class="pratica-meta">
+    <span class="pm-area">🏷️ jurídico · contábil</span>
+    <span class="pm-dif">★★☆ leitura com lupa</span>
+    <span class="pm-tempo">⏱️ ~35 min</span>
+  </div>
+  <p class="subtitle">
+    Um contrato gigante, um prazo curto e um assistente que leu tudo — e que aprende,
+    nesta prática, a <strong>dizer onde encontrou cada resposta</strong>. Esse detalhe
+    muda tudo.
+  </p>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ O CENÁRIO ═══════════ -->
+    <section class="step-section" id="cenario">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎬</div>
+        <div>
+          <div class="step-title">O cenário</div>
+          <div class="step-sub">"Dá uma olhada até amanhã?" — a frase que encolhe qualquer fim de tarde.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          Chegou por e-mail: um contrato de prestação de serviços com <strong>40 páginas</strong>
+          (41, se você contar direito — e o Claude vai contar). Alguém precisa "dar uma olhada"
+          até amanhã. As opções tradicionais são duas, e ambas são ruins:
+          <strong>ler tudo</strong> (ninguém lê, sejamos honestos) ou <strong>assinar sem ler</strong>
+          (perigoso, e você sabe disso).
+        </p>
+        <p>
+          Existe uma terceira via: um assistente que leu as 41 páginas em segundos <strong>e</strong>
+          te aponta a cláusula exata de cada resposta — para você conferir com os próprios olhos
+          só o que importa. É leitura com lupa, sem a maratona.
+        </p>
+        <p>
+          O kit traz o caso completo: um contrato fictício de manutenção de refrigeração entre a
+          <strong>Supermercados Bom Preço do Vale Ltda.</strong> (contratante) e a
+          <strong>RefriTec Manutenção e Serviços ME</strong> (contratada) — mais três anexos que
+          vão render na Etapa 4:
+        </p>
+
+        <div class="c7-estante">
+          <div class="c7-pdf principal">
+            <span class="c7-ic">📕</span>
+            <span class="c7-nome">contrato-prestacao-servicos.pdf</span>
+            <span class="c7-info">41 páginas · o contrato em si</span>
+          </div>
+          <div class="c7-pdf">
+            <span class="c7-ic">📄</span>
+            <span class="c7-nome">anexo-a-equipamentos.pdf</span>
+            <span class="c7-info">1 página · lista de equipamentos</span>
+          </div>
+          <div class="c7-pdf">
+            <span class="c7-ic">📄</span>
+            <span class="c7-nome">anexo-b-unidades.pdf</span>
+            <span class="c7-info">1 página · unidades atendidas</span>
+          </div>
+          <div class="c7-pdf">
+            <span class="c7-ic">📄</span>
+            <span class="c7-nome">anexo-c-precos-avulsos.pdf</span>
+            <span class="c7-info">1 página · tabela de preços extras</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE VOCÊ VAI PRECISAR ═══════════ -->
+    <section class="step-section" id="precisa">
+      <div class="step-header">
+        <div class="step-number sn-term">🧾</div>
+        <div>
+          <div class="step-title">O que você vai precisar</div>
+          <div class="step-sub">Checklist de 30 segundos antes de começar.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Para esta prática</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como no Cap 03)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (a pasta kit/contrato deve existir)</li>
+          <li class="opcional">Opcional (mas recomendado): o PDF do contrato aberto do lado, para as conferências</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>Perdeu o Cap 03?</strong> Ele ensina a criar a pasta e abrir o Claude Code no
+          lugar certo — 10 minutos que evitam 90% dos "não funcionou".
+          <a href="../03-primeira-conversa/" style="color:var(--accent3)">Está aqui</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 1: O RESUMO EXECUTIVO ═══════════ -->
+    <section class="step-section" id="etapa1">
+      <div class="step-header">
+        <div class="step-number sn-blue">📋</div>
+        <div>
+          <div class="step-title">Etapa 1: o resumo executivo</div>
+          <div class="step-sub">41 páginas viram 10 linhas — cada uma com endereço.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Repare bem no final deste prompt. As sete palavras que fecham o pedido são o
+        <strong>coração da prática inteira</strong>:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 1 · o resumo com endereço</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o arquivo kit/contrato/contrato-prestacao-servicos.pdf e faça
+um resumo executivo em no máximo 10 linhas: quem contrata quem, para
+fazer o quê, por quanto, por quanto tempo e o que acontece se alguém
+quiser sair. e para CADA informação, diga o número da cláusula onde
+ela está.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "diga o número da cláusula"
+          é o seu cinto de segurança contra invenção. Uma resposta sem endereço você é obrigado
+          a aceitar na fé; uma resposta com endereço você pode <strong>conferir na fonte</strong>
+          em 20 segundos. Nunca peça resumo de documento importante sem essa frase.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Resumo do contrato (41 páginas):</span>
+          <span class="tela-linha tela-claude">- Supermercados Bom Preço do Vale Ltda. contrata a RefriTec</span>
+          <span class="tela-linha tela-claude">  Manutenção e Serviços ME para manutenção de refrigeração (cl. 1ª)</span>
+          <span class="tela-linha tela-claude">- Valor mensal: R$ 7.350,00, vencimento todo dia 5 (cl. 4ª)</span>
+          <span class="tela-linha tela-claude">- Prazo: 24 meses, prorrogável (cl. 3ª)</span>
+          <span class="tela-linha tela-claude">- Rescisão sem motivo: multa de R$ 14.700,00, o equivalente</span>
+          <span class="tela-linha tela-claude">  a duas mensalidades (cl. 5ª)</span>
+          <span class="tela-linha tela-claude">- Reajuste anual pelo IPCA (cl. 6ª) · garantia de 3 meses (cl. 8ª)</span>
+          <span class="tela-linha tela-claude">- Confidencialidade por 5 anos após o término (cl. 10ª)</span>
+          <span class="tela-linha tela-claude">- Foro: Comarca de João Pessoa/PB (cl. 12ª)</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔎</div>
+        <div class="tip-content">
+          <strong>Já faça a primeira conferência:</strong> abra o PDF, vá até uma dessas cláusulas
+          (a do valor, por exemplo) e compare. Bateu? Ótimo — agora você sabe <em>como</em> se
+          confere, e vai repetir o gesto a prática inteira.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 2: VALORES E PRAZOS ═══════════ -->
+    <section class="step-section" id="etapa2">
+      <div class="step-header">
+        <div class="step-number sn-mint">💰</div>
+        <div>
+          <div class="step-title">Etapa 2: a tabela de valores e prazos</div>
+          <div class="step-sub">Tudo que é número, numa planilha — com a cláusula do lado.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Resumo é bom para entender; <strong>tabela</strong> é bom para trabalhar (e para anexar
+        no e-mail de resposta). Peça a extração completa:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 2 · a extração para planilha</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>agora extraia do contrato TODOS os valores em reais e TODOS os
+prazos, e salve num arquivo contrato-resumo.csv com três colunas:
+item;valor_ou_prazo;clausula</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você descreveu o resultado
+          (um CSV, três colunas com esses nomes) em vez do passo a passo — a lição da Prática 06.
+          E a coluna "clausula" mantém o cinto de segurança afivelado até dentro da planilha.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar o arquivo contrato-resumo.csv? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Criado! Encontrei 9 itens. Uma amostra:</span>
+          <span class="tela-linha tela-claude">mensalidade;R$ 7.350,00;4ª</span>
+          <span class="tela-linha tela-claude">vencimento;todo dia 5;4ª</span>
+          <span class="tela-linha tela-claude">prazo do contrato;24 meses, prorrogável;3ª</span>
+          <span class="tela-linha tela-claude">multa por rescisão imotivada;R$ 14.700,00;5ª</span>
+          <span class="tela-linha tela-claude">reajuste anual;IPCA;6ª</span>
+          <span class="tela-linha tela-claude">garantia dos serviços;3 meses;8ª</span>
+          <span class="tela-linha tela-claude">chamado urgente;até 6 horas úteis;7ª</span>
+          <span class="tela-linha tela-claude">chamado comum;até 2 dias úteis;7ª</span>
+          <span class="tela-linha tela-claude">confidencialidade;5 anos após o término;10ª</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Abra o <strong>contrato-resumo.csv</strong> (dois cliques — ele abre na sua planilha de
+        sempre) e passe o olho. Está tudo aí? Faltou algo que você viu no resumo da Etapa 1?
+        É só dizer: <em>"faltou o prazo do chamado comum, adicione"</em>.
+      </p>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 3: O INTERROGATÓRIO ═══════════ -->
+    <section class="step-section" id="etapa3">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎙️</div>
+        <div>
+          <div class="step-title">Etapa 3: o interrogatório</div>
+          <div class="step-sub">Perguntas diretas, respostas com endereço — e uma conversa séria sobre invenção.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O documento virou alguém com quem você conversa. Faça as perguntas que o seu chefe
+        faria — sempre exigindo a cláusula:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 3 · as perguntas diretas</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>duas perguntas sobre o contrato, e me diga a cláusula de cada
+resposta: 1) qual a multa se a contratante cancelar sem motivo?
+2) em quanto tempo eles atendem um chamado urgente?</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">1) Multa por rescisão imotivada pela contratante:</span>
+          <span class="tela-linha tela-claude">   R$ 14.700,00 — o equivalente a duas mensalidades (cláusula 5ª)</span>
+          <span class="tela-linha tela-claude">2) Chamados urgentes: atendimento em até 6 horas úteis;</span>
+          <span class="tela-linha tela-claude">   chamados comuns, em até 2 dias úteis (cláusula 7ª)</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Alucinação — dita com todas as letras</div>
+        <p>
+          Uma IA pode <strong>inventar</strong> uma resposta — número plausível, tom seguro,
+          até uma cláusula com cara de verdade que <strong>não existe no documento</strong>.
+          O nome técnico disso é <em>alucinação</em>, e não é um defeito raro: é um risco
+          permanente, que fica mais provável quanto mais longo o documento e mais específica
+          a pergunta.
+        </p>
+        <p>
+          A defesa não é torcer: é <strong>exigir a referência</strong> (cláusula, página) em
+          toda resposta e <strong>conferir na fonte</strong> o que for importante. Você não
+          precisa reler as 41 páginas — precisa checar as 3 linhas que vão parar no e-mail
+          para o chefe.
+        </p>
+        <p>
+          <strong>Faça agora, de verdade:</strong> abra o PDF, encontre a cláusula 5ª e a
+          cláusula 7ª, e confira as duas respostas acima na fonte. Esse gesto de 40 segundos
+          é o hábito que separa quem usa IA bem de quem repassa erro adiante.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 4: JUNTAR E DIVIDIR ═══════════ -->
+    <section class="step-section" id="etapa4">
+      <div class="step-header">
+        <div class="step-number sn-claude">🧩</div>
+        <div>
+          <div class="step-title">Etapa 4: juntar e dividir PDFs</div>
+          <div class="step-sub">Aquela tarefa que costuma exigir site suspeito com dez propagandas.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Os três anexos chegaram soltos, e alguém pediu "manda tudo num PDF só". Você conhece
+        os sites que fazem isso — e os banners que vêm junto. Aqui, é uma frase:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 4 · juntando os anexos</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>junte os três anexos da pasta kit/contrato (anexo-a, anexo-b e
+anexo-c, nessa ordem) num único arquivo anexos-completos.pdf</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Para juntar PDFs preciso instalar uma ferramenta</span>
+          <span class="tela-linha tela-claude">de manipulação de PDF. Posso instalar?</span>
+          <span class="tela-linha tela-perm">Instalar ferramenta de PDF? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — lembra do "peça a ele" do Cap 02? é isso)</span>
+          <span class="tela-linha tela-claude">Pronto: anexos-completos.pdf criado com 3 páginas,</span>
+          <span class="tela-linha tela-claude">na ordem A, B, C.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔧</div>
+        <div class="tip-content">
+          <strong>Ele pediu para instalar algo?</strong> Normal. O Claude Code não nasce sabendo
+          mexer em PDF — mas sabe <em>instalar</em> quem sabe, como você viu no Cap 02. Ele pede
+          permissão, você aprova uma vez, e a ferramenta fica para sempre.
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Dividir também é uma frase. Precisa mandar só o comecinho do contrato para alguém?
+        <em>"separe as 5 primeiras páginas do contrato num pdf novo"</em> — e está feito.
+        Girar página deitada, extrair uma página do meio, reordenar: tudo no mesmo espírito.
+      </p>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ARMADILHAS ═══════════ -->
+    <section class="step-section" id="armadilhas">
+      <div class="step-header">
+        <div class="step-number sn-red">🪤</div>
+        <div>
+          <div class="step-title">Armadilhas desta prática</div>
+          <div class="step-sub">Duas que valem tatuagem.</div>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>PDF escaneado é foto, não texto.</strong> Um PDF que nasceu de um scanner (ou
+          de uma foto de papel) às vezes não tem texto nenhum por dentro — só imagens de páginas.
+          Se o Claude disser que não consegue ler o arquivo, não desista: peça
+          <em>"esse PDF parece escaneado; consegue extrair o texto mesmo assim?"</em>. Ele vai
+          tentar uma técnica chamada OCR (leitura de imagem) ou te avisar honestamente do limite.
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Resumo NÃO é parecer jurídico.</strong> O Claude te ajuda a entender o documento
+          depressa — ele não substitui o advogado, o contador, nem a sua leitura das cláusulas
+          críticas. Quem assina embaixo é humano, e a responsabilidade vai junto com a assinatura.
+          Use o resumo para chegar <em>preparado</em> à decisão, nunca no lugar dela.
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧠</span>
+          O Claude respondeu: "multa de R$ 14.700,00, prevista na cláusula quinta".
+          Qual é o próximo passo antes de repassar isso ao chefe?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Repassar — ele citou a cláusula, está confirmado</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Abrir o PDF na cláusula quinta e conferir</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Perguntar "você tem certeza?"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir o mesmo resumo de novo, para comparar</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎯 Exatamente — a citação existe para ser usada."
+          data-wrong="😬 Quase… a citação é o convite para conferir."
+          data-explain="A cláusula citada não é prova, é endereço: serve para VOCÊ abrir o PDF e conferir em 20 segundos. Perguntar 'tem certeza?' devolve um 'sim' inútil, e pedir de novo só gera outra resposta a conferir. Fonte aberta, olhos na cláusula — esse é o gesto.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ VIDA REAL ═══════════ -->
+    <section class="step-section" id="vida-real">
+      <div class="step-header">
+        <div class="step-number sn-green">🌍</div>
+        <div>
+          <div class="step-title">Levando para a sua vida real</div>
+          <div class="step-sub">Todo documento longo e chato é candidato.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🏛️</span>
+          <span class="kw-name">Edital de licitação</span>
+          <span class="kw-desc">"Liste os requisitos de habilitação e os prazos, com o item do edital de cada um."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛡️</span>
+          <span class="kw-name">Apólice de seguro</span>
+          <span class="kw-desc">"O que está coberto, o que está excluído e as carências — com a página de cada."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🏢</span>
+          <span class="kw-name">Convenção de condomínio</span>
+          <span class="kw-desc">"Pode ter pet? Qual a regra de obra? Multas? Cite o artigo de cada resposta."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📘</span>
+          <span class="kw-name">Regulamento interno</span>
+          <span class="kw-desc">"Resuma as regras de home office e de reembolso, apontando a seção de cada uma."</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔁</div>
+        <div class="tip-content">
+          <strong>Reparou no padrão?</strong> Todos os quatro pedidos terminam do mesmo jeito:
+          "com o item / a página / o artigo / a seção". O cinto de segurança viaja com você
+          para qualquer documento.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO SOLO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio solo</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">A linha do tempo das obrigações</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Peça ao Claude Code uma <strong>linha do tempo das obrigações</strong> do contrato:
+          o que acontece e quando — vencimentos mensais, reajuste anual, renovação, fim da
+          garantia, fim da confidencialidade — em <strong>ordem cronológica</strong>, salva
+          num arquivo <strong>txt</strong>.
+        </p>
+        <p>
+          Monte o pedido você mesmo, com as 3 peças do Cap 03: a tarefa, o formato do resultado
+          e — a esta altura você já sabe — a exigência da cláusula em cada linha.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>monte uma linha do tempo das obrigações do contrato, em ordem
+cronológica: o que acontece e quando (vencimentos, reajuste,
+renovação, fim da garantia, fim da confidencialidade). salve num
+arquivo linha-do-tempo.txt, citando a cláusula de cada item.</pre>
+            </div>
+            <p>
+              O seu ficou diferente e funcionou? <strong>Perfeito</strong> — não existe pedido
+              único. E a conferência de sempre: abra o txt e cheque 2 itens na fonte antes de
+              dar a missão por cumprida.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou desta prática</div>
+          <div class="step-sub">Cinco hábitos que servem para qualquer documento da sua vida.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Documento longo não se lê nem se ignora: se <strong>interroga</strong> — resumo, tabela, perguntas diretas.</li>
+        <li>"<strong>Diga onde está</strong>" (cláusula, página, seção) é o cinto de segurança contra invenção — em todo pedido.</li>
+        <li><strong>Alucinação existe</strong>: a defesa é conferir as respostas importantes na fonte, com o PDF aberto.</li>
+        <li>Juntar, dividir e reorganizar PDFs é <strong>uma frase</strong> — e se faltar ferramenta, ele mesmo pede para instalar.</li>
+        <li>Resumo prepara a decisão, <strong>não substitui</strong> o advogado nem a sua assinatura.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar à oficina</a>
+        <a class="nav-proximo" href="../08-texto-vira-dez/">Prática 08: Um texto vira dez »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Prática 07 · O contrato de 40 páginas</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

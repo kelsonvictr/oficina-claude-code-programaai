@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática 05 · A planilha que se analisa sozinha — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local da prática 05 (prefixo .c5-) =====
+   As práticas usam quase só componentes do shared/;
+   o CSS local é a prévia do relatório HTML da Etapa 4. */
+
+/* Janela de navegador simulada com o relatorio-gastos.html */
+.c5-report{
+  margin:20px 0;border-radius:14px;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.09);
+  background:var(--surface);
+  box-shadow:0 10px 40px rgba(0,0,0,0.35);
+}
+.c5-report-bar{
+  display:flex;align-items:center;gap:6px;
+  background:var(--surface2);padding:9px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.c5-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.c5-dot.r{background:#ff5f57}
+.c5-dot.y{background:#febc2e}
+.c5-dot.g{background:#28c840}
+.c5-url{
+  margin-left:10px;flex:1;
+  background:var(--code-bg);border-radius:8px;padding:3px 12px;
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c5-report-body{padding:22px 24px}
+.c5-report-title{font-size:1.05rem;font-weight:900;margin-bottom:16px}
+.c5-bar-row{
+  display:grid;grid-template-columns:96px 1fr 96px;
+  gap:10px;align-items:center;margin-bottom:9px;
+}
+.c5-bar-label{font-size:0.78rem;font-weight:800;color:var(--text-dim);text-align:right}
+.c5-bar-track{
+  background:rgba(255,255,255,0.05);border-radius:6px;height:16px;overflow:hidden;
+}
+.c5-bar-fill{
+  height:100%;border-radius:6px;
+  background:linear-gradient(90deg,var(--accent7),var(--accent3));
+  min-width:6px;
+}
+.c5-bar-row.destaque .c5-bar-fill{background:linear-gradient(90deg,var(--claude),var(--claude-soft))}
+.c5-bar-val{
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c5-report-foot{
+  margin-top:14px;padding-top:12px;
+  border-top:1px dashed rgba(255,255,255,0.10);
+  font-size:0.8rem;color:var(--text-dim);
+}
+.c5-report-foot strong{color:var(--accent5)}
+@media (max-width:520px){
+  .c5-bar-row{grid-template-columns:76px 1fr 84px}
+  .c5-bar-label,.c5-bar-val{font-size:0.68rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📊 Prática 05 · Planilha</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta prática</div>
+    <a class="sidebar-link" onclick="goTo('cenario')"><span class="dot" style="background:var(--accent5)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('precisa')"><span class="dot" style="background:var(--term)"></span>O que você vai precisar</a>
+    <a class="sidebar-link" onclick="goTo('etapa1')"><span class="dot" style="background:var(--accent4)"></span>Etapa 1: só olhar</a>
+    <a class="sidebar-link" onclick="goTo('etapa2')"><span class="dot" style="background:var(--accent7)"></span>Etapa 2: as perguntas</a>
+    <a class="sidebar-link" onclick="goTo('etapa3')"><span class="dot" style="background:var(--accent2)"></span>Etapa 3: o detetive</a>
+    <a class="sidebar-link" onclick="goTo('etapa4')"><span class="dot" style="background:var(--claude)"></span>Etapa 4: o gráfico</a>
+    <a class="sidebar-link" onclick="goTo('etapa5')"><span class="dot" style="background:var(--accent6)"></span>Etapa 5: a conferência</a>
+    <a class="sidebar-link" onclick="goTo('vida-real')"><span class="dot" style="background:var(--accent3)"></span>Levando para a vida real</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio solo</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz relâmpago</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">📊</span>
+    <span data-motion="float">🔍</span>
+    <span data-motion="float">💸</span>
+  </div>
+  <div class="hero-badge pratica">Prática 05</div>
+  <h1>A planilha que<br>se analisa sozinha</h1>
+  <div class="pratica-meta">
+    <span class="pm-area">🏷️ financeiro · adm</span>
+    <span class="pm-dif">★★☆ intermediária</span>
+    <span class="pm-tempo">⏱️ ~30 min</span>
+  </div>
+  <p class="subtitle">
+    Um ano de gastos anotados às pressas — categorias escritas de três jeitos, lançamentos
+    repetidos, um valor absurdo escondido no meio. No Excel, isso pediria fórmulas.
+    Aqui, pede <strong>português</strong>.
+  </p>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ O CENÁRIO ═══════════ -->
+    <section class="step-section" id="cenario">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎬</div>
+        <div>
+          <div class="step-title">O cenário</div>
+          <div class="step-sub">Toda planilha de gastos começa organizada. Em fevereiro.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          Alguém passou um ano inteiro anotando cada despesa num arquivo, sempre com pressa.
+          O resultado está no kit: <strong>kit/planilha/gastos-2025.csv</strong>, com
+          <strong>306 linhas</strong> de lançamentos. Um CSV é só uma planilha em texto puro:
+          cada linha é um lançamento, as colunas separadas por ponto e vírgula
+          (<strong>data;descricao;categoria;valor</strong>, com os centavos depois da vírgula).
+        </p>
+        <p>Espie um pedacinho — e repare na coluna de categoria:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <span class="filename">kit/planilha/gastos-2025.csv</span>
+            <span class="lang-badge texto">TEXTO</span>
+          </div>
+          <pre>data;descricao;categoria;valor
+03/01/2025;passeio fim de semana;LAZER;145,17
+04/01/2025;cinema;Lazer;167,02
+14/01/2025;academia;Saúde;189,71
+15/01/2025;passeio fim de semana;lazer;40,59
+18/01/2025;padaria;ALIMENTAÇÃO;119,19
+19/01/2025;delivery jantar;Alimentação;21,88
+... e mais 300 linhas nesse espírito</pre>
+        </div>
+
+        <p>
+          <strong>LAZER</strong>, <strong>Lazer</strong> e <strong>lazer</strong> são a mesma
+          categoria para você — mas para uma fórmula de Excel são três coisas diferentes.
+          E a bagunça não para aí: há lançamentos <strong>sem categoria nenhuma</strong>, linhas
+          <strong>duplicadas</strong> e um valor tão fora do padrão que merece interrogatório.
+          Responder "quanto gastei por categoria?" nesse arquivo exigiria limpar tudo antes.
+          Ou exigiria... uma frase.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE VOCÊ VAI PRECISAR ═══════════ -->
+    <section class="step-section" id="precisa">
+      <div class="step-header">
+        <div class="step-number sn-term">🧾</div>
+        <div>
+          <div class="step-title">O que você vai precisar</div>
+          <div class="step-sub">Checklist de 30 segundos antes de começar.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Para esta prática</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como no Cap 03)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (o arquivo kit/planilha/gastos-2025.csv deve existir)</li>
+          <li class="opcional">Opcional: a planilha aberta do lado (Excel, LibreOffice ou bloco de notas) para conferir com os próprios olhos</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>Primeira prática sua?</strong> A
+          <a href="../04-pasta-bagunca/" style="color:var(--accent3)">Prática 04</a> ensina o
+          ritmo diagnóstico-plano-execução-conferência com uma tarefa mais simples. Mas esta
+          aqui funciona de forma independente — pode seguir.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 1: SÓ OLHAR ═══════════ -->
+    <section class="step-section" id="etapa1">
+      <div class="step-header">
+        <div class="step-number sn-blue">🔍</div>
+        <div>
+          <div class="step-title">Etapa 1: o diagnóstico (só olhar)</div>
+          <div class="step-sub">Antes de perguntar os totais, pergunte pela saúde do arquivo.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Comece pedindo um <strong>raio-X da planilha</strong> — leitura pura, sem mexer em nada:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 1 · o raio-X</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o arquivo kit/planilha/gastos-2025.csv e me diga: o que tem
+nele (colunas, período, quantos lançamentos) e que problemas de
+qualidade você enxerga nos dados. só analise, não mude nada.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> "que problemas de qualidade
+          você enxerga" convida ele a apontar a sujeira ANTES de qualquer conta. Total calculado
+          em cima de dado sujo é total errado com cara de certo.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Li o gastos-2025.csv: 306 lançamentos de despesas ao longo de um ano,</span>
+          <span class="tela-linha tela-claude">colunas data, descricao, categoria e valor (decimais com vírgula).</span>
+          <span class="tela-linha tela-claude">Problemas de qualidade que encontrei:</span>
+          <span class="tela-linha tela-claude">- a mesma categoria escrita de vários jeitos: Alimentação,</span>
+          <span class="tela-linha tela-claude">  alimentação, ALIMENTAÇÃO, alimentacao (e o mesmo nas outras)</span>
+          <span class="tela-linha tela-claude">- 6 lançamentos com a categoria em branco</span>
+          <span class="tela-linha tela-claude">- 5 linhas exatamente duplicadas (mesma data, descrição e valor)</span>
+          <span class="tela-linha tela-claude">- 1 valor muito acima do padrão da própria categoria</span>
+          <span class="tela-linha tela-claude">Quer que eu detalhe algum desses pontos?</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Em segundos, ele mapeou o que uma revisão manual de 306 linhas levaria uma tarde para
+        achar. Guarde essa lista de problemas — as próximas etapas visitam cada um deles.
+      </p>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 2: AS PERGUNTAS ═══════════ -->
+    <section class="step-section" id="etapa2">
+      <div class="step-header">
+        <div class="step-number sn-mint">💬</div>
+        <div>
+          <div class="step-title">Etapa 2: perguntas em português</div>
+          <div class="step-sub">A pergunta que o Excel cobraria em fórmulas.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Agora a pergunta de um milhão: <strong>quanto foi gasto por categoria?</strong> Repare
+        que o prompt já resolve o problema das grafias — você define a regra do jogo:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 2 · totais por categoria</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>quanto gastei no total por categoria? atenção: as categorias estão
+escritas de vários jeitos (Alimentação, alimentação, ALIMENTACAO,
+alimentacao...) — trate todas as variações como a MESMA categoria.
+me mostre uma tabela do maior para o menor, e diga o que fez com
+os lançamentos sem categoria.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você avisou da armadilha
+          (grafias diferentes) e disse como tratá-la. E o "diga o que fez com os sem categoria"
+          impede que 6 lançamentos sumam em silêncio da conta.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Total por categoria (juntando as variações de grafia):</span>
+          <span class="tela-linha tela-claude">Mercado          R$ 17.193,78</span>
+          <span class="tela-linha tela-claude">Moradia          R$ 14.162,58</span>
+          <span class="tela-linha tela-claude">Saúde            R$ 13.373,84</span>
+          <span class="tela-linha tela-claude">Educação         R$ 11.696,27</span>
+          <span class="tela-linha tela-claude">Alimentação      R$  7.830,72</span>
+          <span class="tela-linha tela-claude">Lazer            R$  4.994,43</span>
+          <span class="tela-linha tela-claude">Transporte       R$  4.868,94</span>
+          <span class="tela-linha tela-claude">(sem categoria)  R$    824,58  - os 6 lançamentos em branco</span>
+          <span class="tela-linha tela-dim">Obs.: as 5 linhas duplicadas estão incluídas na soma.</span>
+          <span class="tela-linha tela-dim">Quer que eu refaça os totais ignorando as duplicatas?</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Ele não fez essa conta "de cabeça"</div>
+        <p>
+          Nos bastidores, o Claude Code <strong>escreveu um programinha</strong>, rodou esse
+          programinha em cima do arquivo e te entregou o resultado. É por isso que ele soma 306
+          linhas sem errar: quem calculou foi o computador, do jeito burro e exato de sempre —
+          a IA só escreveu a receita.
+        </p>
+        <p>
+          Isso muda o seu papel: você não confere a aritmética (o computador não erra conta),
+          você confere <strong>a interpretação</strong> — se ele juntou as categorias certas,
+          se não deixou linhas de fora. É disso que trata a Etapa 5.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💬</div>
+        <div class="tip-content">
+          <strong>A conversa continua.</strong> Gostou da tabela? Emende: "e por mês?", "qual foi
+          o maior lançamento de cada categoria?", "refaça sem as duplicatas". Cada pergunta nova
+          custa uma frase — ele já conhece o arquivo.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 3: O DETETIVE ═══════════ -->
+    <section class="step-section" id="etapa3">
+      <div class="step-header">
+        <div class="step-number sn-red">🕵️</div>
+        <div>
+          <div class="step-title">Etapa 3: o detetive</div>
+          <div class="step-sub">Toda planilha esconde um segredo. Esta esconde três.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        A Etapa 1 avisou que havia sujeira. Agora peça o <strong>relatório completo dos
+        suspeitos</strong>:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 3 · a lista de suspeitos</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>agora seja detetive nesse mesmo arquivo: me mostre os lançamentos
+suspeitos — linhas duplicadas, lançamentos sem categoria e valores
+muito fora do padrão da própria categoria. liste cada um com data,
+descrição e valor. não mude nada no arquivo.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você deu três critérios
+          concretos de "suspeito" em vez de um vago "veja se tem algo errado". E o "não mude
+          nada" mantém a decisão do que fazer com você.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Relatório de suspeitos:</span>
+          <span class="tela-linha tela-claude">1) Valor fora da curva:</span>
+          <span class="tela-linha tela-claude">   17/08/2025  "jantar de aniversário"  Alimentação  R$ 4.890,00</span>
+          <span class="tela-linha tela-claude">   (o lançamento típico dessa categoria fica perto de R$ 80)</span>
+          <span class="tela-linha tela-claude">2) 5 linhas duplicadas exatas, entre elas:</span>
+          <span class="tela-linha tela-claude">   25/02/2025  farmácia          saúde      R$ 297,52  (2x)</span>
+          <span class="tela-linha tela-claude">   14/06/2025  material escolar  EDUCAÇÃO   R$ 420,03  (2x)</span>
+          <span class="tela-linha tela-claude">   28/10/2025  academia          Saúde      R$ 306,97  (2x)</span>
+          <span class="tela-linha tela-claude">3) 6 lançamentos sem categoria (gás, ônibus, livraria...)</span>
+          <span class="tela-linha tela-claude">Quer que eu remova as duplicatas ou só marque num arquivo à parte?</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">⚖️</div>
+        <div class="tip-content">
+          <strong>Ele acha, você julga.</strong> O jantar de R$ 4.890,00 pode ser um dígito a
+          mais na hora de digitar (era R$ 489,00?) — ou pode ter sido uma festa grande de
+          verdade. A farmácia duplicada pode ser erro — ou duas compras iguais no mesmo dia.
+          Nenhuma IA sabe disso; <strong>quem conhece a história por trás do dado decide</strong>.
+          O trabalho dele é colocar os suspeitos na sua mesa.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 4: O GRÁFICO ═══════════ -->
+    <section class="step-section" id="etapa4">
+      <div class="step-header">
+        <div class="step-number sn-claude">📊</div>
+        <div>
+          <div class="step-title">Etapa 4: o gráfico</div>
+          <div class="step-sub">De arquivo de texto a relatório apresentável, em um pedido.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Tabela no terminal informa, mas não apresenta. Peça um <strong>relatório visual</strong>
+        que abre em qualquer navegador:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 4 · o relatório visual</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie um arquivo relatorio-gastos.html na pasta kit/planilha com:
+um gráfico de barras do total por categoria (juntando as grafias,
+como antes), o total geral do ano e a lista de pontos de atenção
+que você encontrou. visual limpo, para eu abrir no navegador e
+mostrar para outras pessoas.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você descreveu o RESULTADO
+          (gráfico + total + pontos de atenção, visual limpo) e o destino (navegador, outras
+          pessoas). O "como fazer" — HTML, cores, barras — é problema dele.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar o arquivo kit/planilha/relatorio-gastos.html? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Criado! Abra o relatorio-gastos.html com dois cliques</span>
+          <span class="tela-linha tela-claude">para ver o gráfico no navegador.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Agora abra a pasta <strong>kit/planilha</strong> no Explorador/Finder e dê
+        <strong>dois cliques</strong> no relatorio-gastos.html. Ele abre no navegador, como uma
+        página da internet — só que feita agora, sob medida, com os seus dados. Algo assim:
+      </p>
+
+      <div class="c5-report">
+        <div class="c5-report-bar">
+          <span class="c5-dot r"></span><span class="c5-dot y"></span><span class="c5-dot g"></span>
+          <span class="c5-url">relatorio-gastos.html</span>
+        </div>
+        <div class="c5-report-body">
+          <div class="c5-report-title">📊 Gastos do ano por categoria</div>
+          <div class="c5-bar-row">
+            <span class="c5-bar-label">Mercado</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:100%"></div></div>
+            <span class="c5-bar-val">17.193,78</span>
+          </div>
+          <div class="c5-bar-row">
+            <span class="c5-bar-label">Moradia</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:82%"></div></div>
+            <span class="c5-bar-val">14.162,58</span>
+          </div>
+          <div class="c5-bar-row">
+            <span class="c5-bar-label">Saúde</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:78%"></div></div>
+            <span class="c5-bar-val">13.373,84</span>
+          </div>
+          <div class="c5-bar-row">
+            <span class="c5-bar-label">Educação</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:68%"></div></div>
+            <span class="c5-bar-val">11.696,27</span>
+          </div>
+          <div class="c5-bar-row destaque">
+            <span class="c5-bar-label">Alimentação</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:46%"></div></div>
+            <span class="c5-bar-val">7.830,72</span>
+          </div>
+          <div class="c5-bar-row">
+            <span class="c5-bar-label">Lazer</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:29%"></div></div>
+            <span class="c5-bar-val">4.994,43</span>
+          </div>
+          <div class="c5-bar-row">
+            <span class="c5-bar-label">Transporte</span>
+            <div class="c5-bar-track"><div class="c5-bar-fill" style="width:28%"></div></div>
+            <span class="c5-bar-val">4.868,94</span>
+          </div>
+          <div class="c5-report-foot">
+            Total geral: <strong>R$ 74.945,14</strong> em 306 lançamentos ·
+            ⚠️ 3 pontos de atenção: 1 valor fora da curva, 5 duplicatas, 6 sem categoria
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎨</div>
+        <div class="tip-content">
+          <strong>Não gostou do visual?</strong> É uma conversa: "deixa as barras azuis",
+          "põe o gráfico por mês também", "aumenta a letra". Cada ajuste, uma frase — e dois
+          cliques para ver de novo.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 5: A CONFERÊNCIA ═══════════ -->
+    <section class="step-section" id="etapa5">
+      <div class="step-header">
+        <div class="step-number sn-purple">🔎</div>
+        <div>
+          <div class="step-title">Etapa 5: a conferência (a etapa que te protege)</div>
+          <div class="step-sub">Número bonito não é número certo. Vamos aos fatos.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Antes de qualquer número desta conversa virar decisão, confira <strong>uma
+        amostra na fonte</strong>. Escolha uma categoria e peça os lançamentos um a um:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 5 · abrindo a caixa-preta</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>liste todos os lançamentos de Educação (qualquer grafia) com data,
+descrição e valor, e a soma no final.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> um total é uma caixa-preta;
+          a lista completa é a caixa aberta. Se a soma da lista bater com a tabela da Etapa 2,
+          e as linhas baterem com o arquivo original, o número ganhou sua confiança.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Lançamentos de Educação (todas as grafias) — 46 no total:</span>
+          <span class="tela-linha tela-claude">08/01/2025  curso online                 R$ 199,65</span>
+          <span class="tela-linha tela-claude">11/01/2025  curso online                 R$  78,95</span>
+          <span class="tela-linha tela-claude">11/01/2025  material escolar             R$ 152,45</span>
+          <span class="tela-linha tela-claude">12/01/2025  mensalidade curso de inglês  R$ 120,76</span>
+          <span class="tela-linha tela-dim">... (mais 42 linhas) ...</span>
+          <span class="tela-linha tela-claude">Soma: R$ 11.696,27</span>
+        </div>
+      </div>
+
+      <p class="mb-md">Agora o ritual de conferência, em três olhadas:</p>
+
+      <ul class="checklist">
+        <li>A soma da lista (<strong>R$ 11.696,27</strong>) bate com a linha de Educação da
+          tabela da Etapa 2?</li>
+        <li>Escolha <strong>2 ou 3 linhas</strong> da lista e ache cada uma no gastos-2025.csv
+          (abra no Excel ou no bloco de notas e use o buscar). Existem? Com esses valores?</li>
+        <li>A quantidade faz sentido? 46 lançamentos de Educação num ano de 306 é plausível —
+          se ele dissesse 4 ou 400, algo estaria errado.</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Número de IA só vai para relatório oficial depois de conferir uma amostra na
+          fonte.</strong> E atenção: perguntar "tem certeza?" <strong>não é conferência</strong>
+          — ele vai dizer que sim com a mesma confiança estando certo ou errado. Conferência é
+          botar o número dele ao lado do arquivo original e ver os dois baterem. Uma amostra de
+          2 ou 3 linhas já derruba a maioria dos erros — e custa um minuto.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ VIDA REAL ═══════════ -->
+    <section class="step-section" id="vida-real">
+      <div class="step-header">
+        <div class="step-number sn-green">🌍</div>
+        <div>
+          <div class="step-title">Levando para a sua vida real</div>
+          <div class="step-sub">Troque o gastos-2025.csv por qualquer tabela que te assombra.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🏦</span>
+          <span class="kw-name">Extrato do banco</span>
+          <span class="kw-desc">Quase todo app exporta CSV. "Some por tipo de gasto e ache cobranças repetidas."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛒</span>
+          <span class="kw-name">Planilha de vendas</span>
+          <span class="kw-desc">"Total por vendedor e por produto — e me diga quem mais cresceu."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⏱️</span>
+          <span class="kw-name">Controle de horas</span>
+          <span class="kw-desc">"Horas por projeto no período, e aponte dias com lançamento dobrado."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📝</span>
+          <span class="kw-name">Lista de inscrições</span>
+          <span class="kw-desc">"Quantos por cidade, quem se inscreveu duas vezes, e-mails digitados errado."</span>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Duas regras antes de usar a SUA planilha:</strong> ①&nbsp;se o arquivo estiver
+          <strong>aberto no Excel</strong> na hora em que você pedir mudanças NELE, a edição pode
+          travar — o Excel "segura" o arquivo. Feche antes de pedir alterações (para só
+          perguntar e ler, pode deixar aberto). ②&nbsp;<strong>Dados sensíveis de verdade</strong>
+          (CPF de clientes, salários, dados de saúde) merecem uma pausa: nesta oficina tudo é
+          fictício, mas na vida real vale checar as regras da sua empresa antes de analisar esse
+          tipo de arquivo com qualquer ferramenta de IA.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO SOLO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio solo</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">O mês do estouro</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Descubra, no gastos-2025.csv: <strong>em qual mês se gastou mais</strong> — e
+          <strong>qual categoria puxou</strong> esse resultado para cima.
+        </p>
+        <p>
+          Monte o pedido você mesmo. Lembre do que aprendeu nesta prática: as grafias das
+          categorias precisam de uma regra, e um resultado suspeito merece um "por quê?".
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>no gastos-2025.csv, some o total gasto em cada mês (juntando as
+grafias de categoria como antes) e me diga qual mês foi o mais
+caro. depois mostre os totais por categoria só desse mês, para
+eu entender qual categoria puxou o resultado.</pre>
+            </div>
+            <p>
+              Se tudo correu bem, ele aponta <strong>agosto</strong> como o mês mais caro — e a
+              categoria que puxou foi <strong>Alimentação</strong>. Estranho para quem viu a
+              tabela do ano (Alimentação nem estava no topo)... até lembrar do velho conhecido
+              da Etapa 3: o jantar de aniversário de R$ 4.890,00, dia 17/08. Um único
+              lançamento suspeito distorceu um mês inteiro — e é exatamente por isso que o
+              detetive trabalha antes do relatório.
+            </p>
+            <p>
+              O seu pedido ficou diferente e funcionou? <strong>Perfeito</strong> — não existe
+              pedido único. Veio um resultado estranho? Compare: o que o seu pedido deixou de
+              dizer sobre as grafias?
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🧠</div>
+        <div>
+          <div class="step-title">Quiz relâmpago</div>
+          <div class="step-sub">Uma pergunta só — mas é A pergunta.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🤔</span>
+          Ele respondeu "você gastou R$ 11.696,27 com Educação". O que faz esse número
+          merecer ir para um relatório de verdade?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Perguntar "tem certeza?" e ele confirmar</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Conferir uma amostra dos lançamentos no arquivo original</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir de novo e ver se o número se repete</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">O número veio num gráfico bonito, então está validado</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Exato!"
+          data-wrong="😬 Quase!"
+          data-explain="A única validação real é a fonte: pedir a lista de lançamentos, somar, e bater 2 ou 3 linhas com o arquivo original. 'Tem certeza?' ganha um 'sim' confiante de qualquer jeito, e repetir a pergunta pode repetir o mesmo erro — com o mesmo gráfico bonito."></div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou desta prática</div>
+          <div class="step-sub">Cinco ideias que valem para qualquer planilha da sua vida.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Perguntar em português substitui a fórmula</strong> — "quanto gastei por
+          categoria?" direto no arquivo, sem preparar nada antes.</li>
+        <li>Dado sujo se declara no prompt: <strong>"trate as variações de grafia como a mesma
+          categoria"</strong> resolve o que quebraria qualquer fórmula.</li>
+        <li>Nos bastidores ele <strong>escreve e roda um programinha</strong> — a conta é do
+          computador; a sua parte é validar a interpretação.</li>
+        <li>O detetive <strong>acha os suspeitos; você julga</strong> — duplicata, valor absurdo
+          e campo vazio são decisões humanas.</li>
+        <li>Número de IA em relatório oficial <strong>só depois de conferir amostra na
+          fonte</strong> — e "tem certeza?" não é conferência.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar à oficina</a>
+        <a class="nav-proximo" href="../06-documentos-lote/">Prática 06: Cem declarações em cinco minutos »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Prática 05 · A planilha que se analisa sozinha</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

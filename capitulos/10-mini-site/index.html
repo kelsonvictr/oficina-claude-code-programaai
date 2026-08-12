@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática 10 · Seu cantinho na internet — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local da prática 10 (prefixo .c10-) =====
+   Quase tudo vem do shared/; aqui só o "momento da revelação"
+   e a mini-árvore de arquivos do site. */
+
+/* A caixa do momento uau — quando a página abre no navegador */
+.c10-momento{
+  margin:26px 0;padding:30px 26px;text-align:center;border-radius:18px;
+  background:linear-gradient(135deg,rgba(217,119,87,0.12),rgba(74,222,128,0.07));
+  border:1.5px solid rgba(217,119,87,0.35);
+}
+.c10-momento .grande{
+  display:block;font-size:1.5rem;font-weight:900;margin-bottom:10px;
+  background:linear-gradient(90deg,var(--claude-soft),var(--term));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.c10-momento p{color:var(--text-dim);max-width:520px;margin:0 auto}
+.c10-momento p strong{color:var(--text)}
+
+/* Mini-árvore de arquivos (fonte mono: ligatures OFF, sempre) */
+.c10-arvore{
+  background:var(--code-bg);border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:16px 20px;margin:18px 0;
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;line-height:2;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c10-arvore .pasta{color:var(--claude-soft);font-weight:700;display:block}
+.c10-arvore .arq{color:var(--text-dim);display:block;padding-left:22px}
+.c10-arvore .arq.novo{color:var(--term)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🌐 Prática 10 · Seu site</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta prática</div>
+    <a class="sidebar-link" onclick="goTo('cenario')"><span class="dot" style="background:var(--accent5)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('precisa')"><span class="dot" style="background:var(--term)"></span>O que você vai precisar</a>
+    <a class="sidebar-link" onclick="goTo('etapa1')"><span class="dot" style="background:var(--accent4)"></span>Etapa 1: o briefing</a>
+    <a class="sidebar-link" onclick="goTo('etapa2')"><span class="dot" style="background:var(--claude)"></span>Etapa 2: a revelação</a>
+    <a class="sidebar-link" onclick="goTo('etapa3')"><span class="dot" style="background:var(--accent6)"></span>Etapa 3: o vai-e-vem</a>
+    <a class="sidebar-link" onclick="goTo('etapa4')"><span class="dot" style="background:var(--accent7)"></span>Etapa 4: a foto</a>
+    <a class="sidebar-link" onclick="goTo('etapa5')"><span class="dot" style="background:var(--accent3)"></span>E a internet de verdade?</a>
+    <a class="sidebar-link" onclick="goTo('vida-real')"><span class="dot" style="background:var(--accent2)"></span>Levando para a vida real</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio solo</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Teste rápido</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🌐</span>
+    <span data-motion="float">🎨</span>
+    <span data-motion="float">🚀</span>
+  </div>
+  <div class="hero-badge pratica">Prática 10</div>
+  <h1>Seu cantinho<br>na internet</h1>
+  <div class="pratica-meta">
+    <span class="pm-area">🏷️ todos</span>
+    <span class="pm-dif">★★★ o grande final</span>
+    <span class="pm-tempo">⏱️ ~40 min</span>
+  </div>
+  <p class="subtitle">
+    Até agora você organizou, analisou e conferiu coisas que já existiam. Nesta prática
+    você <strong>cria algo do zero</strong>: uma página sua, de verdade, aberta no navegador —
+    escrita inteirinha em português.
+  </p>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ O CENÁRIO ═══════════ -->
+    <section class="step-section" id="cenario">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎬</div>
+        <div>
+          <div class="step-title">O cenário</div>
+          <div class="step-sub">O salto: de "mexer no que existe" para "criar o que não existia".</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          Você já pediu, aprovou e conferiu: arquivos renomeados, planilhas analisadas,
+          PDFs resumidos. Tudo em cima de material que já estava lá. Agora vem o momento
+          que dá nome à oficina inteira: pedir algo que <strong>não existe</strong> — e
+          vê-lo nascer na sua frente.
+        </p>
+        <p>
+          Uma página na internet parece coisa de outro mundo: designer, programador,
+          empresa de tecnologia. Nesta prática você descobre que ela é, antes de tudo,
+          <strong>um arquivo na sua pasta</strong> — e que o seu assistente escreve esse
+          arquivo enquanto você descreve, em português, o que quer ver.
+        </p>
+        <p>
+          Pode ser o seu <strong>currículo</strong>, o <strong>cardápio da lanchonete</strong>,
+          o <strong>portfólio</strong> dos seus trabalhos, a página do seu <strong>ateliê</strong>.
+          Desta vez não tem arquivo do kit para usar: <strong>a matéria-prima é você</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE VOCÊ VAI PRECISAR ═══════════ -->
+    <section class="step-section" id="precisa">
+      <div class="step-header">
+        <div class="step-number sn-term">🧾</div>
+        <div>
+          <div class="step-title">O que você vai precisar</div>
+          <div class="step-sub">A lista mais curta da oficina — porque o ingrediente principal é você.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Para esta prática</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como sempre)</li>
+          <li><strong>3 informações suas</strong> anotadas num papel: quem você é, o que você faz,
+            como as pessoas te encontram (um e-mail profissional basta)</li>
+          <li class="opcional">Nenhum arquivo do kit — desta vez a história é sua</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">✍️</div>
+        <div class="tip-content">
+          <strong>Anote as 3 informações ANTES de começar.</strong> Com elas na mão, o primeiro
+          prompt sai em um minuto. Sem elas, você trava na frente da tela pensando "o que eu
+          faço bem, mesmo?" — e essa pergunta merece um café, não pressa.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 1: O BRIEFING ═══════════ -->
+    <section class="step-section" id="etapa1">
+      <div class="step-header">
+        <div class="step-number sn-blue">📝</div>
+        <div>
+          <div class="step-title">Etapa 1: o briefing (escolha a sua página)</div>
+          <div class="step-sub">Todo bom trabalho começa com um bom pedido. Este é o pedido mais pessoal da oficina.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Primeiro, decida <strong>que tipo de página</strong> vai nascer. Não precisa ser a
+        escolha definitiva da sua vida — é a escolha dos próximos 40 minutos:
+      </p>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📄</span>
+          <span class="kw-name">Currículo</span>
+          <span class="kw-desc">Quem você é, experiências, habilidades — a versão sua que abre portas.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🍔</span>
+          <span class="kw-name">Cardápio</span>
+          <span class="kw-desc">Da lanchonete, da marmita, dos doces por encomenda — com preços e destaque do dia.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🖼️</span>
+          <span class="kw-name">Portfólio</span>
+          <span class="kw-desc">Seus trabalhos, projetos ou artes — mostrados com o capricho que merecem.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🏪</span>
+          <span class="kw-name">Página do negócio</span>
+          <span class="kw-desc">Ateliê, consultório, oficina, loja — o que você faz e como te acham.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Escolheu? Então preencha as lacunas e mande o pedido. As partes destacadas são
+        as que você troca pelas <strong>suas</strong> informações:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 1 · o briefing do seu site</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie uma pagina pessoal em meu-site/index.html sobre mim:
+<span class="pc-lacuna">[seu nome]</span>, <span class="pc-lacuna">[sua profissão ou negócio]</span>,
+e destaque <span class="pc-lacuna">[3 coisas que você faz bem]</span>.
+estilo moderno, cores <span class="pc-lacuna">[suas cores preferidas]</span>, tudo em português.
+quando terminar, me diga como abrir no navegador.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> tem as 3 peças de um bom
+          pedido — a tarefa (criar a página), o conteúdo (as suas informações) e o formato
+          (estilo, cores, idioma). E o final pede a instrução de conferência: "me diga como
+          abrir". Você nunca fica sem o próximo passo.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar a pasta meu-site e o arquivo index.html dentro dela? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Criando a página… pronto!</span>
+          <span class="tela-linha tela-claude">Sua página está em meu-site/index.html.</span>
+          <span class="tela-linha tela-claude">Para abrir: entre na pasta meu-site pelo Explorador/Finder</span>
+          <span class="tela-linha tela-claude">e dê dois cliques em index.html — ela abre no navegador.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 2: A REVELAÇÃO ═══════════ -->
+    <section class="step-section" id="etapa2">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎉</div>
+        <div>
+          <div class="step-title">Etapa 2: a revelação</div>
+          <div class="step-sub">Dois cliques separam você de uma frase que poucos podem dizer.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Abra a pasta <strong>oficina-claude</strong> no Explorador (Windows) ou Finder (Mac).
+        Lá dentro apareceu uma pasta nova:
+      </p>
+
+      <div class="c10-arvore">
+        <span class="pasta">oficina-claude/</span>
+        <span class="arq">kit/ (as práticas anteriores)</span>
+        <span class="pasta" style="padding-left:22px">meu-site/</span>
+        <span class="arq novo" style="padding-left:44px">index.html  (a sua página!)</span>
+      </div>
+
+      <p class="mb-md">
+        Entre em <strong>meu-site</strong> e dê <strong>dois cliques</strong> em
+        <strong>index.html</strong>. O navegador abre e…
+      </p>
+
+      <div class="c10-momento">
+        <span class="grande">A página existe. Você fez um site.</span>
+        <p>
+          Com o seu nome, as suas cores, as suas palavras. Há alguns minutos ela não
+          existia em lugar nenhum do mundo — e quem descreveu como ela deveria ser
+          foi <strong>você</strong>, em português.
+        </p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que é um site, afinal?</div>
+        <p>
+          Um site é só um <strong>arquivo</strong> — um texto com instruções que o navegador
+          lê e desenha na tela. Quem escreveu esse arquivo foi o seu assistente; quem desenha
+          é o navegador; quem manda é você.
+        </p>
+        <p>
+          E repare: <strong>a internet é opcional</strong>. Essa página mora no seu computador
+          e funciona perfeitamente aí — ninguém mais a vê até você decidir publicá-la.
+          O navegador desenha arquivos locais com o mesmo capricho com que desenha sites famosos.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 3: O VAI-E-VEM ═══════════ -->
+    <section class="step-section" id="etapa3">
+      <div class="step-header">
+        <div class="step-number sn-purple">🔁</div>
+        <div>
+          <div class="step-title">Etapa 3: o vai-e-vem (o coração da prática)</div>
+          <div class="step-sub">A primeira versão nunca é a final — e é exatamente assim que deve ser.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Olhe para a sua página com olho crítico. Muito escura? Muito clara? Faltou o
+        e-mail? Agora vem o superpoder: <strong>ajustar conversando</strong>. Deixe o
+        navegador aberto de um lado, o Claude Code do outro, e vá lapidando:
+      </p>
+
+      <div class="chat-claude">
+        <div class="chat-head"><span class="dot r"></span><span class="dot y"></span>
+          <span class="dot g"></span><span class="chat-title">meu-site — claude</span></div>
+        <div class="chat-body">
+          <div class="chat-msg voce"><span class="quem">você</span>deixa o fundo escuro e as letras maiores</div>
+          <div class="chat-msg claude"><span class="quem">claude</span>Feito! Fundo escuro, letras maiores. Recarregue a página no navegador para ver.</div>
+          <div class="chat-msg voce"><span class="quem">você</span>adiciona uma seção de contato no final, com meu e-mail: maria@exemplo.com</div>
+          <div class="chat-msg claude"><span class="quem">claude</span>Seção de contato adicionada, com o e-mail em destaque. Recarregue e confira.</div>
+          <div class="chat-msg voce"><span class="quem">você</span>hmm, muito sério isso. deixa mais alegre, com mais cor</div>
+          <div class="chat-msg claude"><span class="quem">claude</span>Dei mais vida: cores mais quentes nos títulos e um toque de cor nas seções. Se ficou alegre demais, é só me dizer que eu doso.</div>
+          <div class="chat-msg voce"><span class="quem">você</span>agora sim! só aumenta um pouco o espaço entre as seções</div>
+          <div class="chat-msg claude"><span class="quem">claude</span>Espaçamento ajustado. Sua página está tomando forma!</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-content">
+          <strong>O ritual: pedir, recarregar, olhar.</strong> A cada mudança, aperte
+          <strong>F5</strong> no navegador (ou o botão de recarregar) para ver o resultado.
+          Esse ciclo de pedir, ver e ajustar é o superpoder da oficina inteira — ninguém
+          acerta design de primeira. <strong>Nem os designers.</strong> A diferença é que
+          agora cada tentativa custa uma frase, não uma tarde.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 4: A FOTO E OS RETOQUES ═══════════ -->
+    <section class="step-section" id="etapa4">
+      <div class="step-header">
+        <div class="step-number sn-mint">📸</div>
+        <div>
+          <div class="step-title">Etapa 4: a foto e os retoques finais</div>
+          <div class="step-sub">Uma página com rosto é outra página.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Escolha uma foto sua (qualquer uma que você goste) e <strong>copie-a para dentro
+        da pasta meu-site</strong> — arrastar e soltar no Explorador/Finder resolve.
+        Se o arquivo tiver um nome complicado, renomeie para algo simples, como
+        <strong>minha-foto.jpg</strong>. Depois, peça:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 2 · a foto</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>coloquei uma foto chamada minha-foto.jpg na pasta meu-site.
+usa essa foto no topo da página, redonda, num tamanho elegante.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você avisou ONDE a foto
+          está e o nome exato do arquivo — sem isso, ele teria que adivinhar. E "redonda,
+          num tamanho elegante" descreve o resultado, não o passo a passo.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso editar o arquivo meu-site/index.html? [confirmar]</span>
+          <span class="tela-linha tela-claude">Foto adicionada no topo, com moldura redonda.</span>
+          <span class="tela-linha tela-claude">Recarregue a página para ver como ficou.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔧</div>
+        <div class="tip-content">
+          <strong>E se algo quebrar?</strong> "A foto não apareceu", "ficou um quadrado
+          cinza com um ícone quebrado" — respire e conte <strong>exatamente o que você
+          vê</strong>, do jeito que vê. Mensagem de erro é informação, não bronca:
+          quanto mais literal a sua descrição, mais rápido ele acha a causa (quase sempre
+          um nome de arquivo digitado diferente).
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha: o perfeccionismo.</strong> 40 minutos dão uma página
+          <strong>boa</strong> — não dão a página <strong>final</strong>, e tudo bem.
+          Quando bater o "só mais um ajustezinho" pela décima vez, peça: <em>"crie um
+          arquivo melhorias.txt na pasta meu-site com esta lista do que quero melhorar
+          depois"</em> — e encerre a sessão com a lista salva. A página continua lá
+          amanhã. Você também.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 5: E A INTERNET DE VERDADE? ═══════════ -->
+    <section class="step-section" id="etapa5">
+      <div class="step-header">
+        <div class="step-number sn-green">🚀</div>
+        <div>
+          <div class="step-title">E para colocar NA internet de verdade?</div>
+          <div class="step-sub">Resposta honesta: dá, não é hoje, e você já tem quem te guie.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          Neste momento a sua página mora no seu computador — só você a vê. Para o mundo
+          vê-la, ela precisa morar num <strong>serviço de hospedagem</strong>: um computador
+          que fica ligado o tempo todo servindo páginas para quem acessar. Existem opções
+          <strong>gratuitas e sérias</strong> para páginas simples como a sua.
+        </p>
+        <p>
+          A oficina termina aqui, com a página local — e a publicação fica como
+          <strong>dever de casa</strong>: a sua primeira aventura solo. A boa notícia?
+          Você não vai sozinho. Dá para pedir ao próprio assistente que te guie:
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🏠</span>
+          <span class="pc-titulo">Dever de casa · a publicação</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>me explique as opções gratuitas para publicar a pasta meu-site
+na internet e me guie na mais simples, passo a passo,
+como se eu nunca tivesse feito isso.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> primeiro as opções
+          (você decide), depois o guia (ele conduz), com o nível de detalhe combinado
+          ("como se eu nunca tivesse feito isso"). É a oficina inteira num prompt só.</div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha séria: dados pessoais.</strong> No dia em que você publicar,
+          a página fica visível <strong>para o mundo inteiro</strong> — inclusive para quem
+          você não conhece. Antes de publicar, releia a página com esse olhar: nada de
+          telefone pessoal, endereço de casa, documentos ou rotina da família.
+          Um <strong>e-mail profissional basta</strong> para quem quiser te encontrar.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ VIDA REAL ═══════════ -->
+    <section class="step-section" id="vida-real">
+      <div class="step-header">
+        <div class="step-number sn-red">🌍</div>
+        <div>
+          <div class="step-title">Levando para a sua vida real</div>
+          <div class="step-sub">"Página" é um formato — o conteúdo é o que você quiser.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🎂</span>
+          <span class="kw-name">Convite em página</span>
+          <span class="kw-desc">Aniversário, casamento, chá de bebê — com data, mapa e "confirme por aqui".</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛍️</span>
+          <span class="kw-name">Catálogo simples</span>
+          <span class="kw-desc">Seus produtos com foto, descrição e preço — para mandar o link no WhatsApp.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔗</span>
+          <span class="kw-name">Linktree caseiro</span>
+          <span class="kw-desc">Uma página só com os seus links importantes — do seu jeito, sem mensalidade.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📖</span>
+          <span class="kw-name">Apostila navegável</span>
+          <span class="kw-desc">Aquele manual ou material de aula, com índice clicável e busca do navegador.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO SOLO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio solo</div>
+          <div class="step-sub">Seu site vai ganhar uma segunda página — e você, uma lição de bastidor.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">A página de contato</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Peça uma <strong>segunda página</strong>, <strong>meu-site/contato.html</strong>,
+          no mesmo estilo da primeira, com um <strong>formulário de contato desativado</strong>
+          (só visual, sem funcionar de verdade). A primeira página deve ganhar um
+          <strong>link</strong> para a nova — e a nova, um link de volta.
+        </p>
+        <p>
+          De quebra, peça que ele <strong>explique</strong> por que um formulário de verdade
+          precisaria de mais peças. Spoiler honesto: para receber o que alguém digita, é
+          preciso um computador do outro lado escutando — e isso é assunto para outra aventura.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Monte o pedido você mesmo antes de espiar. Você já criou
+            um site hoje — uma segunda página é moleza perto disso.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>crie uma segunda pagina em meu-site/contato.html, no mesmo estilo
+da index.html, com um formulário de contato (nome, e-mail, mensagem)
+que seja SÓ VISUAL, sem funcionar. coloque um link "contato" na
+pagina principal e um link "voltar" na nova. depois me explique,
+em palavras simples, por que um formulário de verdade precisa
+de mais peças para funcionar.</pre>
+            </div>
+            <p>
+              O seu pedido ficou diferente e funcionou? <strong>Perfeito</strong> — não existe
+              pedido único. E a explicação que ele te der sobre formulários é a primeira
+              espiada num mundo maior: páginas mostram; para <em>receber</em>, é preciso
+              alguém do outro lado.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🧠</div>
+        <div>
+          <div class="step-title">Teste rápido</div>
+          <div class="step-sub">Uma situação real, quatro reações possíveis.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">📱</span>
+          Você abriu a sua página no celular e ela ficou estranha: texto cortado,
+          foto gigante. Qual é o melhor pedido para o Claude Code?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"conserta aí"</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">"no celular o texto fica cortado e a foto muito grande; deixa a página boa em telas pequenas"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"refaz a página inteira do zero"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Aceitar que celular não é lugar de site</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Pedido de gente grande!"
+          data-wrong="😬 Dá para pedir melhor…"
+          data-explain="Um bom pedido descreve O QUE você vê e ONDE ('no celular o texto fica cortado') e o resultado desejado ('boa em telas pequenas'). 'Conserta aí' obriga o assistente a adivinhar o problema; refazer do zero joga fora tudo o que já estava bom.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou desta prática</div>
+          <div class="step-sub">Você chegou aqui sem escrever uma linha de código. Releia essa frase.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Você <strong>criou algo do zero</strong>: uma página que não existia — descrita em português, escrita pelo assistente.</li>
+        <li>Um site é <strong>um arquivo que o navegador desenha</strong>; a internet é opcional até você decidir publicar.</li>
+        <li>O ciclo <strong>pedir, recarregar (F5), olhar, ajustar</strong> é o superpoder — ninguém acerta design de primeira.</li>
+        <li>Quando algo quebra, <strong>descrever exatamente o que você vê</strong> vale mais que qualquer termo técnico.</li>
+        <li>Publicar é o dever de casa: <strong>peça ao próprio Claude</strong> que explique as opções gratuitas e te guie.</li>
+        <li>Antes de publicar, <strong>releia com olhos de estranho</strong>: nada de telefone pessoal, endereço ou documentos.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar à oficina</a>
+        <a class="nav-proximo" href="../11-e-agora/">Cap 11: E agora? »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Prática 10 · Seu cantinho na internet</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

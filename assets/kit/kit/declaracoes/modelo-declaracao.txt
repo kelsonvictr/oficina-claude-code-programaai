@@ -1,0 +1,12 @@
+DECLARAÇÃO DE PARTICIPAÇÃO
+
+Declaramos, para os devidos fins, que {{NOME}} (matrícula {{MATRICULA}})
+participou do curso "{{CURSO}}", promovido pelo Instituto Aurora de
+Capacitação, com carga horária total de {{CARGA_HORARIA}} horas,
+tendo cumprido todas as atividades previstas.
+
+Esta declaração é emitida a pedido da pessoa interessada.
+
+______________________________________
+Coordenação de Cursos — Instituto Aurora de Capacitação
+(instituição fictícia, criada para esta oficina)

@@ -1,0 +1,49 @@
+APOSTILA DE EDUCAÇÃO FINANCEIRA — CAPÍTULO 3
+JUROS COMPOSTOS NO DIA A DIA
+
+3.1 O QUE SÃO JUROS COMPOSTOS
+Juros compostos são juros calculados sobre o valor inicial MAIS os
+juros já acumulados. É o famoso "juros sobre juros". Nos juros
+simples, o cálculo é sempre sobre o valor inicial; nos compostos,
+a base de cálculo cresce a cada período.
+
+Exemplo: R$ 1.000,00 aplicados a 1% ao mês.
+- Mês 1: 1.000,00 + 10,00 = 1.010,00
+- Mês 2: 1.010,00 + 10,10 = 1.020,10
+- Mês 3: 1.020,10 + 10,20 = 1.030,30
+A diferença parece pequena no início, mas cresce rápido com o tempo.
+
+3.2 A FÓRMULA
+M = C x (1 + i)^t, onde:
+M = montante final, C = capital inicial, i = taxa por período,
+t = número de períodos. A taxa entra em forma decimal (1% = 0,01).
+
+3.3 ONDE OS JUROS COMPOSTOS APARECEM A FAVOR
+- Poupança e investimentos de renda fixa
+- Reinvestimento de dividendos
+- Aportes mensais constantes (o tempo é o melhor amigo do investidor)
+
+3.4 ONDE ELES APARECEM CONTRA
+- Rotativo do cartão de crédito (taxas mensais altíssimas)
+- Cheque especial
+- Parcelamentos longos com juros embutidos
+Regra prática: dívida cara cresce mais rápido que investimento seguro.
+Por isso, quitar dívidas caras costuma vir antes de investir.
+
+3.5 O EFEITO DO TEMPO
+Dobrar o TEMPO de uma aplicação rende mais que dobrar o VALOR
+aplicado, quando o prazo é longo. Uma aproximação útil é a "regra
+dos 72": dividir 72 pela taxa anual dá uma estimativa de quantos
+anos o dinheiro leva para dobrar (a 8% ao ano: 72 / 8 = 9 anos).
+
+3.6 RESUMO DO CAPÍTULO
+- Juros compostos incidem sobre capital + juros acumulados.
+- A fórmula do montante é M = C x (1 + i)^t.
+- O tempo é o fator mais poderoso da fórmula.
+- O mesmo mecanismo que multiplica investimentos multiplica dívidas.
+- Regra dos 72: estimativa rápida do tempo para dobrar um valor.
+
+EXERCÍCIOS PROPOSTOS (para a próxima aula)
+1. Calcule o montante de R$ 500,00 a 2% ao mês por 3 meses.
+2. Pela regra dos 72, em quanto tempo dobra um valor a 6% ao ano?
+3. Cite duas situações em que os juros compostos jogam contra você.

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática 04 · Domando a pasta bagunçada — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local da prática 04 (prefixo .c4-) =====
+   As práticas usam quase só componentes do shared/;
+   CSS local é para o "antes/depois" desta prática. */
+
+/* Antes/depois da pasta */
+.c4-antes-depois{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;
+  margin:20px 0;
+}
+@media (max-width:640px){
+  .c4-antes-depois{grid-template-columns:1fr}
+  .c4-seta{transform:rotate(90deg)}
+}
+.c4-painel{
+  background:var(--code-bg);border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:16px 18px;
+  font-family:'JetBrains Mono',monospace;font-size:0.74rem;line-height:1.9;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c4-painel .titulo{
+  font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:900;
+  letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:8px;
+}
+.c4-painel.antes .titulo{color:var(--accent2)}
+.c4-painel.depois .titulo{color:var(--term)}
+.c4-painel .arq{color:var(--text-dim);display:block}
+.c4-painel .pasta{color:var(--claude-soft);font-weight:700;display:block}
+.c4-seta{font-size:1.8rem;color:var(--claude);text-align:center}
+
+.cap-nav a.em-breve{opacity:0.45;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🗂️ Prática 04 · Bagunça</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta prática</div>
+    <a class="sidebar-link" onclick="goTo('cenario')"><span class="dot" style="background:var(--accent5)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('precisa')"><span class="dot" style="background:var(--term)"></span>O que você vai precisar</a>
+    <a class="sidebar-link" onclick="goTo('etapa1')"><span class="dot" style="background:var(--accent4)"></span>Etapa 1: reconhecimento</a>
+    <a class="sidebar-link" onclick="goTo('etapa2')"><span class="dot" style="background:var(--accent6)"></span>Etapa 2: o plano</a>
+    <a class="sidebar-link" onclick="goTo('etapa3')"><span class="dot" style="background:var(--claude)"></span>Etapa 3: a execução</a>
+    <a class="sidebar-link" onclick="goTo('etapa4')"><span class="dot" style="background:var(--accent7)"></span>Etapa 4: a conferência</a>
+    <a class="sidebar-link" onclick="goTo('bonus')"><span class="dot" style="background:var(--accent3)"></span>Bônus: duplicados</a>
+    <a class="sidebar-link" onclick="goTo('vida-real')"><span class="dot" style="background:var(--accent2)"></span>Levando para a vida real</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio solo</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🗂️</span>
+    <span data-motion="float">🧹</span>
+    <span data-motion="float">✨</span>
+  </div>
+  <div class="hero-badge pratica">Prática 04</div>
+  <h1>Domando a<br>pasta bagunçada</h1>
+  <div class="pratica-meta">
+    <span class="pm-area">🏷️ qualquer área</span>
+    <span class="pm-dif">★☆☆ primeira prática ideal</span>
+    <span class="pm-tempo">⏱️ ~25 min</span>
+  </div>
+  <p class="subtitle">
+    34 arquivos com nomes horríveis viram uma pasta arrumada — e, no caminho, você aprende
+    o movimento mais importante da oficina: <strong>pedir o plano antes de deixar mexer</strong>.
+  </p>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ O CENÁRIO ═══════════ -->
+    <section class="step-section" id="cenario">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎬</div>
+        <div>
+          <div class="step-title">O cenário</div>
+          <div class="step-sub">Se você nunca viveu isso, parabéns: você é a primeira pessoa do mundo.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          Aquela pasta. Você sabe qual. Downloads, ou "Coisas", ou a área de trabalho inteira:
+          <strong>IMG_8274.jpg</strong> convivendo com <strong>relatorio final FINAL (2).txt</strong>,
+          três cópias do mesmo scan, um boleto perdido entre prints. Organizar levaria uma tarde —
+          então nunca acontece.
+        </p>
+        <p>
+          O Kit da Oficina traz uma réplica dessa cena do crime: a pasta
+          <strong>kit/bagunca</strong>, com 34 arquivos deliberadamente mal nomeados
+          (fotos, textos, planilhas, PDFs e — sim — duplicados escondidos). Sua missão:
+          transformá-la nisto, sem tocar em um arquivo sequer com as próprias mãos:
+        </p>
+
+        <div class="c4-antes-depois">
+          <div class="c4-painel antes">
+            <span class="titulo">😵 antes</span>
+            <span class="arq">IMG_8274.jpg</span>
+            <span class="arq">relatorio final FINAL (2).txt</span>
+            <span class="arq">scan0001.pdf</span>
+            <span class="arq">sem título (2).txt</span>
+            <span class="arq">logo-final-AGORA-VAI.png</span>
+            <span class="arq">…e mais 29</span>
+          </div>
+          <div class="c4-seta">➜</div>
+          <div class="c4-painel depois">
+            <span class="titulo">😌 depois</span>
+            <span class="pasta">imagens/</span>
+            <span class="pasta">documentos/</span>
+            <span class="pasta">planilhas/</span>
+            <span class="pasta">pdfs/</span>
+            <span class="arq">relatorio-organizacao.txt</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE VOCÊ VAI PRECISAR ═══════════ -->
+    <section class="step-section" id="precisa">
+      <div class="step-header">
+        <div class="step-number sn-term">🧾</div>
+        <div>
+          <div class="step-title">O que você vai precisar</div>
+          <div class="step-sub">Checklist de 30 segundos antes de começar.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Para esta prática</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como no Cap 03)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (a pasta kit/bagunca deve existir)</li>
+          <li class="opcional">Opcional: a pasta aberta no Explorador/Finder do lado, para ver a mágica acontecer</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>Perdeu o Cap 03?</strong> Ele ensina a criar a pasta e abrir o Claude Code no
+          lugar certo — 10 minutos que evitam 90% dos "não funcionou".
+          <a href="../03-primeira-conversa/" style="color:var(--accent3)">Está aqui</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 1: RECONHECIMENTO ═══════════ -->
+    <section class="step-section" id="etapa1">
+      <div class="step-header">
+        <div class="step-number sn-blue">🔍</div>
+        <div>
+          <div class="step-title">Etapa 1: reconhecimento (só olhar)</div>
+          <div class="step-sub">Todo bom faxineiro primeiro anda pela casa.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Começe pedindo um <strong>diagnóstico</strong> — leitura pura, sem mexer em nada:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 1 · o diagnóstico</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>analise a pasta kit/bagunca e me diga: quantos arquivos por tipo,
+quais parecem duplicados e quais têm os piores nomes. só analise,
+não mude nada ainda.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "só analise, não mude nada
+          ainda" tira qualquer pressa da conversa. Você conhece o terreno junto com ele antes
+          de qualquer decisão.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Na pasta kit/bagunca encontrei 34 arquivos:</span>
+          <span class="tela-linha tela-claude">- 15 imagens (jpg/png), 8 delas com nome IMG_xxxx</span>
+          <span class="tela-linha tela-claude">- 12 textos e planilhas (txt/csv)</span>
+          <span class="tela-linha tela-claude">- 7 PDFs (scans, boleto, manual, comprovante)</span>
+          <span class="tela-linha tela-claude">Prováveis duplicados: "relatorio final FINAL.txt" e</span>
+          <span class="tela-linha tela-claude">"relatorio final FINAL (2).txt" têm o MESMO conteúdo…</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 2: O PLANO ═══════════ -->
+    <section class="step-section" id="etapa2">
+      <div class="step-header">
+        <div class="step-number sn-purple">🗺️</div>
+        <div>
+          <div class="step-title">Etapa 2: o plano (o movimento profissional)</div>
+          <div class="step-sub">Esta etapa é a alma da prática. E da oficina inteira, cá entre nós.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Agora peça a <strong>proposta de organização</strong> — ainda sem executar. É a peça 3
+        do Cap 03 (o freio) em ação:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 2 · o plano antes de mexer</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>proponha uma organização para a pasta kit/bagunca: subpastas por tipo
+de arquivo e nomes padronizados (minúsculas, sem espaços nem acentos).
+me mostre o plano completo ANTES de mexer em qualquer coisa.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você define as regras
+          (subpastas por tipo, padrão de nome) e exige o plano por escrito. Ele vira o
+          estagiário apresentando a proposta ao chefe — e o chefe é você.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Plano de organização:</span>
+          <span class="tela-linha tela-claude">1. Criar: imagens/  documentos/  planilhas/  pdfs/</span>
+          <span class="tela-linha tela-claude">2. Renomear e mover, por exemplo:</span>
+          <span class="tela-linha tela-claude">   "relatorio final FINAL (2).txt" vira documentos/relatorio-final.txt</span>
+          <span class="tela-linha tela-claude">   "IMG_8274.jpg" vira imagens/img-8274.jpg</span>
+          <span class="tela-linha tela-claude">3. Duplicados: manter 1 versão, marcar as cópias (sem apagar)</span>
+          <span class="tela-linha tela-claude">Aprova o plano? Posso ajustar o que você quiser.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">✏️</div>
+        <div class="tip-content">
+          <strong>Não gostou de algo? Negocie!</strong> "Prefiro as fotos separadas por prints e
+          fotos", "mantém os PDFs onde estão" — o plano é um rascunho, não um contrato. Ajustar
+          agora custa uma frase; ajustar depois custa outra rodada inteira.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 3: EXECUÇÃO ═══════════ -->
+    <section class="step-section" id="etapa3">
+      <div class="step-header">
+        <div class="step-number sn-claude">⚡</div>
+        <div>
+          <div class="step-title">Etapa 3: a execução (a parte satisfatória)</div>
+          <div class="step-sub">Se a pasta estiver aberta do lado, você vê os arquivos se mexendo. É ótimo.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">Plano aprovado na conversa? Solte o "pode ir":</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 3 · a execução</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>plano aprovado! pode executar. no final, crie um arquivo
+relatorio-organizacao.txt com a lista de tudo o que mudou
+(nome antigo e nome novo).</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o relatório final não é
+          frescura — é o seu recibo. Se algo parecer estranho depois, o "antes e depois" de cada
+          arquivo está documentado.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar 4 pastas e mover/renomear 34 arquivos? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — é a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Organizando… criadas as pastas. Movendo os arquivos…</span>
+          <span class="tela-linha tela-claude">Pronto! 34 arquivos organizados em 4 pastas.</span>
+          <span class="tela-linha tela-claude">O relatorio-organizacao.txt tem a lista completa.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 4: CONFERÊNCIA ═══════════ -->
+    <section class="step-section" id="etapa4">
+      <div class="step-header">
+        <div class="step-number sn-mint">🔎</div>
+        <div>
+          <div class="step-title">Etapa 4: a conferência (o hábito de ouro)</div>
+          <div class="step-sub">Um minuto agora vale mais que uma surpresa depois.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Abra a pasta <strong>kit/bagunca</strong> no Explorador/Finder: as 4 subpastas estão lá?</li>
+        <li>Entre em uma delas e abra <strong>2 ou 3 arquivos</strong>: o conteúdo continua intacto?
+          (Renomear e mover não mudam o conteúdo — confirme com os próprios olhos.)</li>
+        <li>Abra o <strong>relatorio-organizacao.txt</strong> e passe o olho no antes/depois.</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha clássica: conferir perguntando.</strong> "Você tem certeza que deu
+          tudo certo?" não é conferência — ele vai dizer que sim (e quase sempre é verdade, mas
+          o "quase" é o problema). Conferência de verdade é <strong>abrir a pasta e olhar</strong>.
+        </div>
+      </div>
+
+      <p class="mb-md">
+        E se você <strong>odiou</strong> o resultado? Sem drama:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">↩️</span>
+          <span class="pc-titulo">Prompt reserva · o desfazer</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>não gostei do resultado. usando o relatorio-organizacao.txt,
+volte todos os arquivos para os nomes e lugares originais.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o relatório da Etapa 3 registrou
+          cada mudança — então "voltar tudo" é uma tarefa mecânica que ele executa em segundos.
+          Viu por que o recibo importava?</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ BÔNUS: DUPLICADOS ═══════════ -->
+    <section class="step-section" id="bonus">
+      <div class="step-header">
+        <div class="step-number sn-green">👯</div>
+        <div>
+          <div class="step-title">Bônus: a caça aos duplicados</div>
+          <div class="step-sub">Agora com a lição do apagar bem aprendida.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        No simulador do Cap 01, você aprendeu: <strong>apagar merece uma lista antes</strong>.
+        Hora de aplicar de verdade — repare como o prompt já pede a lista:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 4 · duplicados, do jeito seguro</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>procure arquivos com conteúdo idêntico na pasta kit/bagunca
+(mesmo que os nomes sejam diferentes). me mostre a lista em pares
+e NÃO apague nada ainda.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Encontrei 4 grupos de conteúdo idêntico, entre eles:</span>
+          <span class="tela-linha tela-claude">- relatorio-final.txt = relatorio-final-2.txt (mesmo texto)</span>
+          <span class="tela-linha tela-claude">- img-8274.jpg = copia-de-img-8274.jpg (mesma imagem)</span>
+          <span class="tela-linha tela-claude">Quer que eu apague as cópias e mantenha 1 de cada?</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Leu a lista, concorda? Então agora sim: <em>"pode apagar as cópias, mantendo a versão
+        de nome mais limpo"</em>. A caixinha de permissão aparece, você confirma — e o ciclo
+        se fecha mais uma vez.
+      </p>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ VIDA REAL ═══════════ -->
+    <section class="step-section" id="vida-real">
+      <div class="step-header">
+        <div class="step-number sn-red">🌍</div>
+        <div>
+          <div class="step-title">Levando para a sua vida real</div>
+          <div class="step-sub">A pasta de treino era o ensaio. Estas são as estreias.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">⬇️</span>
+          <span class="kw-name">Downloads</span>
+          <span class="kw-desc">O clássico. "Organize por tipo e apague instaladores antigos — lista antes!"</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📸</span>
+          <span class="kw-name">Fotos do celular</span>
+          <span class="kw-desc">Backup no computador? "Separe por ano e mês usando a data de cada foto."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🖥️</span>
+          <span class="kw-name">Área de trabalho</span>
+          <span class="kw-desc">"Crie uma pasta 'mesa-limpa' e mova tudo que tem mais de 30 dias."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">💼</span>
+          <span class="kw-name">Pasta do trabalho</span>
+          <span class="kw-desc">Documentos por cliente, por mês, por projeto — as regras são suas.</span>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Antes de rodar numa pasta importante de verdade:</strong> ①&nbsp;faça uma cópia
+          da pasta (botão direito, copiar e colar — backup de pobre, mas backup) ②&nbsp;sempre
+          peça o plano antes ③&nbsp;sempre peça o relatório do que mudou. Com os três, o pior
+          cenário é "voltei tudo em dois minutos".
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO SOLO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio solo</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">O índice da pasta</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Peça ao Claude Code um arquivo <strong>indice.txt</strong> na pasta kit/bagunca
+          que liste cada subpasta e, dentro de cada uma, os arquivos com o
+          <strong>tamanho</strong> de cada um — do maior para o menor.
+        </p>
+        <p>
+          Monte o pedido você mesmo, com as 3 peças do Cap 03: a tarefa, o formato do
+          resultado e — se achar que precisa — o freio.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>crie um arquivo indice.txt na pasta kit/bagunca listando cada
+subpasta e seus arquivos com o tamanho de cada um, ordenados
+do maior para o menor. formato simples, fácil de ler.</pre>
+            </div>
+            <p>
+              O seu ficou diferente e funcionou? <strong>Perfeito</strong> — não existe pedido
+              único. Se o resultado veio estranho, compare: o que o seu pedido deixou de dizer?
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou desta prática</div>
+          <div class="step-sub">Quatro etapas que servem para TODA tarefa com arquivos.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>O ritmo profissional: <strong>diagnóstico, plano, execução, conferência</strong> — nessa ordem.</li>
+        <li>"<strong>Me mostre o plano antes</strong>" transforma qualquer tarefa arriscada em tarefa tranquila.</li>
+        <li>O <strong>relatório do que mudou</strong> é seu recibo — e o caminho do desfazer.</li>
+        <li>Apagar (duplicados inclusive) sempre começa com <strong>uma lista para você ler</strong>.</li>
+        <li>Na vida real: <strong>cópia de segurança + plano + relatório</strong> = coragem com juízo.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar à oficina</a>
+        <a class="nav-proximo" href="../05-planilha-gastos/">Prática 05: A planilha que se analisa »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Prática 04 · Domando a pasta bagunçada</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

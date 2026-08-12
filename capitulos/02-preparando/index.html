@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 02 · Preparando o computador — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do capítulo 02 (prefixo .c2-) ===== */
+
+/* Seletor de sistema operacional — persiste na página inteira */
+.c2-so{
+  position:sticky;top:12px;z-index:50;
+  display:flex;justify-content:center;gap:10px;
+  margin:10px 0 24px;
+}
+.c2-so button{
+  font-family:inherit;font-size:0.9rem;font-weight:800;
+  padding:10px 26px;border-radius:50px;cursor:pointer;
+  background:var(--surface2);color:var(--text-dim);
+  border:1.5px solid rgba(255,255,255,0.1);
+  transition:all 0.25s;
+  box-shadow:0 6px 22px rgba(0,0,0,0.35);
+}
+.c2-so button.on{
+  background:var(--claude);color:#1a0e08;border-color:var(--claude);
+  box-shadow:0 6px 24px var(--glow-claude);
+}
+/* blocos por sistema: só o escolhido aparece */
+.so-win,.so-mac{display:none}
+body[data-so="win"] .so-win{display:block}
+body[data-so="mac"] .so-mac{display:block}
+span.so-win,span.so-mac{display:none}
+body[data-so="win"] span.so-win{display:inline}
+body[data-so="mac"] span.so-mac{display:inline}
+
+/* As duas portas de entrada */
+.c2-portas{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:640px){.c2-portas{grid-template-columns:1fr}}
+.c2-porta{
+  background:var(--surface2);border-radius:18px;padding:24px;
+  border:1.5px solid rgba(255,255,255,0.07);position:relative;
+}
+.c2-porta.recomendada{border-color:rgba(74,222,128,0.4)}
+.c2-porta .selo{
+  position:absolute;top:-11px;left:20px;
+  font-size:0.64rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
+  background:var(--term);color:#04150b;
+  padding:3px 12px;border-radius:20px;
+}
+.c2-porta .p-ic{font-size:2.2rem;display:block;margin-bottom:8px}
+.c2-porta h4{font-size:1.05rem;font-weight:900;margin-bottom:8px}
+.c2-porta p{font-size:0.88rem;color:var(--text-dim)}
+.c2-porta p strong{color:var(--text)}
+
+/* Passo a passo numerado */
+.c2-passos{counter-reset:passo;margin:18px 0;padding:0;list-style:none}
+.c2-passos li{
+  position:relative;padding:14px 18px 14px 58px;margin-bottom:10px;
+  background:var(--surface2);border-radius:14px;
+  border:1px solid rgba(255,255,255,0.05);
+  font-size:0.94rem;
+}
+.c2-passos li::before{
+  counter-increment:passo;content:counter(passo);
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:var(--claude);color:#1a0e08;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.85rem;
+}
+.c2-passos li strong{color:var(--claude-soft)}
+.c2-passos li .mono-inline{
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--term);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+
+/* Botões de download */
+.c2-download{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 26px;border-radius:50px;margin:6px 8px 6px 0;
+  background:linear-gradient(135deg,var(--claude-deep),var(--claude));
+  color:#1a0e08;font-weight:900;font-size:0.9rem;text-decoration:none;
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.c2-download:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--glow-claude)}
+
+.cap-nav a.em-breve{opacity:0.45;pointer-events:none}
+</style>
+</head>
+<body data-so="win">
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🧰 Cap 02 · Preparando</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste capítulo</div>
+    <a class="sidebar-link" onclick="goTo('conta')"><span class="dot" style="background:var(--accent5)"></span>Passo 0: a conta</a>
+    <a class="sidebar-link" onclick="goTo('portas')"><span class="dot" style="background:var(--accent6)"></span>As duas portas</a>
+    <a class="sidebar-link" onclick="goTo('desktop')"><span class="dot" style="background:var(--term)"></span>Porta A: aplicativo</a>
+    <a class="sidebar-link" onclick="goTo('terminal')"><span class="dot" style="background:var(--claude)"></span>Porta B: terminal</a>
+    <a class="sidebar-link" onclick="goTo('login')"><span class="dot" style="background:var(--accent4)"></span>O primeiro login</a>
+    <a class="sidebar-link" onclick="goTo('socorro')"><span class="dot" style="background:var(--accent2)"></span>Deu errado?</a>
+    <a class="sidebar-link" onclick="goTo('teste')"><span class="dot" style="background:var(--accent7)"></span>O teste do "oi"</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent3)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🧰</span>
+    <span data-motion="float">⬇️</span>
+    <span data-motion="float">🔑</span>
+  </div>
+  <div class="hero-badge">Capítulo 02 · Instalação</div>
+  <h1>Preparando o<br>computador</h1>
+  <p class="subtitle">
+    Vinte minutos de paciência agora, meses de trabalho automatizado depois.
+    Passo a passo para <strong>Windows e Mac</strong> — sem pré-requisitos escondidos,
+    sem "instale antes o negócio X".
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💻 windows e mac</span>
+    <span class="stack-chip term">🚪 2 portas de entrada</span>
+    <span class="stack-chip pratica">🛟 plano B para cada tropeço</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- Seletor de sistema (gruda no topo) -->
+    <div class="c2-so" id="seletor-so">
+      <button class="on" data-so="win" onclick="trocaSO(this)">🪟 Estou no Windows</button>
+      <button data-so="mac" onclick="trocaSO(this)">🍎 Estou no Mac</button>
+    </div>
+
+    <!-- ═══════════ 1 · A CONTA ═══════════ -->
+    <section class="step-section" id="conta">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🪪</div>
+        <div>
+          <div class="step-title">Passo 0: a conta (a única parte que custa dinheiro)</div>
+          <div class="step-sub">Resolva isso primeiro — de preferência em casa, antes da oficina.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Como vimos no capítulo 1, o Claude Code precisa de uma <strong>assinatura paga</strong>
+        (o plano Pro, de ~US$ 20/mês, resolve). A boa notícia: criar a conta e assinar é igual
+        a assinar qualquer streaming — e-mail, senha, cartão, pronto.
+      </p>
+
+      <ol class="c2-passos">
+        <li>Abra <span class="mono-inline">claude.ai</span> no navegador e crie sua conta
+          (pode entrar com a conta Google, é o caminho mais rápido).</li>
+        <li>Confirme seu e-mail, se for pedido.</li>
+        <li>Vá em <strong>planos</strong> (ou acesse <span class="mono-inline">claude.com/pricing</span>)
+          e assine o <strong>Pro</strong>. Guarde o e-mail e a senha usados — você vai precisar
+          deles no primeiro login.</li>
+      </ol>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Já usa o Claude no navegador com plano pago?</strong> Então este passo já está
+          feito: é a mesma conta. Pule direto para as portas de entrada.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 2 · AS DUAS PORTAS ═══════════ -->
+    <section class="step-section" id="portas">
+      <div class="step-header">
+        <div class="step-number sn-purple">🚪</div>
+        <div>
+          <div class="step-title">Duas portas para o mesmo lugar</div>
+          <div class="step-sub">O motor é idêntico. O que muda é a maçaneta.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Existem dois jeitos de usar o Claude Code no seu computador. <strong>Os dois funcionam
+        igualmente bem</strong> — escolha pela sua personalidade:
+      </p>
+
+      <div class="c2-portas">
+        <div class="c2-porta recomendada">
+          <span class="selo">recomendada para começar</span>
+          <span class="p-ic">🖥️</span>
+          <h4>Porta A: o aplicativo</h4>
+          <p>
+            Um programa normal, com janela, botões e menus — como o Word ou o Spotify.
+            Você baixa, instala com dois cliques e conversa numa interface visual.
+            <strong>Se a palavra "terminal" te dá arrepio, entre por aqui.</strong>
+          </p>
+        </div>
+        <div class="c2-porta">
+          <span class="p-ic">⌨️</span>
+          <h4>Porta B: o terminal</h4>
+          <p>
+            A janela "de hacker" — que, spoiler, é só uma <strong>caixa de conversa sem
+            botões</strong>. Instala com um único comando copiado e colado. Quem quer a
+            experiência raiz (ou vai usar o material desta oficina ao pé da letra) entra por aqui.
+          </p>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Carro automático × manual</div>
+        <p>
+          O aplicativo é o câmbio automático: mais confortável no começo. O terminal é o manual:
+          o mesmo carro, um pouco mais de controle. <strong>Você pode trocar de porta a qualquer
+          momento</strong> — as configurações e conversas são as mesmas nos dois.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 3 · PORTA A: APLICATIVO ═══════════ -->
+    <section class="step-section" id="desktop">
+      <div class="step-header">
+        <div class="step-number sn-term">🖥️</div>
+        <div>
+          <div class="step-title">Porta A: instalando o aplicativo</div>
+          <div class="step-sub">Baixar, clicar, esperar. Você já fez isso mil vezes na vida.</div>
+        </div>
+      </div>
+
+      <div class="so-win">
+        <ol class="c2-passos">
+          <li><strong>Baixe o instalador</strong> clicando no botão abaixo
+            (o download começa sozinho).</li>
+          <li>Abra o arquivo baixado e siga o instalador — pode aceitar as opções padrão,
+            clicando em <strong>Avançar</strong> até o fim.</li>
+          <li>Ao abrir pela primeira vez, o aplicativo mostra abas no topo.
+            Clique na aba <strong>Code</strong> — é onde a nossa oficina inteira acontece.</li>
+        </ol>
+        <p class="center">
+          <a class="c2-download" href="https://claude.ai/api/desktop/win32/x64/setup/latest/redirect">
+            ⬇️ Baixar o aplicativo para Windows</a>
+        </p>
+      </div>
+
+      <div class="so-mac">
+        <ol class="c2-passos">
+          <li><strong>Baixe o instalador</strong> clicando no botão abaixo
+            (o download começa sozinho).</li>
+          <li>Abra o arquivo <span class="mono-inline">.dmg</span> baixado e
+            <strong>arraste o ícone do Claude para a pasta Aplicativos</strong>,
+            como o macOS sugere na janelinha.</li>
+          <li>Abra o Claude pela pasta Aplicativos (na primeira vez, o Mac pergunta se
+            confia no app — confirme). Nas abas do topo, clique em <strong>Code</strong> —
+            é onde a nossa oficina inteira acontece.</li>
+        </ol>
+        <p class="center">
+          <a class="c2-download" href="https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect">
+            ⬇️ Baixar o aplicativo para Mac</a>
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>As três abas do aplicativo:</strong> <em>Chat</em> é o Claude comum de conversa;
+          <em>Cowork</em> é um modo avançado (ignore por ora); <strong><em>Code</em> é o nosso</strong> —
+          o assistente que mexe nos seus arquivos. Se a tela parecer diferente do material,
+          confira primeiro se você está na aba certa.
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Instalou? Ótimo — <strong>pule direto para o primeiro login</strong> (a Porta B é
+        alternativa, não etapa).
+      </p>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 4 · PORTA B: TERMINAL ═══════════ -->
+    <section class="step-section" id="terminal">
+      <div class="step-header">
+        <div class="step-number sn-claude">⌨️</div>
+        <div>
+          <div class="step-title">Porta B: instalando pelo terminal</div>
+          <div class="step-sub">Um comando. Literalmente um. E você ainda ganha uma história para contar.</div>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Terminal é coisa de programador, vou quebrar o computador."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            O terminal é uma <strong>caixa de conversa com o computador</strong> — o WhatsApp
+            sem os botões. Você digita, ele responde. Colar um comando ali não é mais perigoso
+            que clicar num instalador; a diferença é só a estética.
+          </p>
+        </div>
+      </div>
+
+      <div class="so-win">
+        <ol class="c2-passos">
+          <li><strong>Abra o PowerShell:</strong> aperte a tecla <strong>Windows</strong>,
+            digite <span class="mono-inline">powershell</span> e aperte Enter.
+            Vai abrir uma janela azul (ou preta) com texto — é ela.</li>
+          <li><strong>Copie o comando abaixo</strong> (botão 📋), clique na janela do
+            PowerShell, cole com <span class="mono-inline">Ctrl+V</span> e aperte Enter.</li>
+          <li>Aguarde o texto parar de rolar (menos de um minuto). Quando aparecer a mensagem
+            de sucesso, <strong>feche o PowerShell e abra de novo</strong> — isso "apresenta"
+            o programa novo ao Windows.</li>
+        </ol>
+        <div class="prompt-card">
+          <div class="pc-head"><span class="pc-ic">⌨️</span>
+            <span class="pc-titulo">Comando pronto — cole no PowerShell</span>
+            <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+          <pre>irm https://claude.ai/install.ps1 | iex</pre>
+          <div class="pc-por-que"><strong>O que ele faz:</strong> baixa o instalador oficial do
+            site da Anthropic e o executa. É o mesmo que baixar e dar dois cliques — em versão texto.</div>
+        </div>
+      </div>
+
+      <div class="so-mac">
+        <ol class="c2-passos">
+          <li><strong>Abra o Terminal:</strong> aperte <span class="mono-inline">Cmd + espaço</span>,
+            digite <span class="mono-inline">terminal</span> e aperte Enter.
+            Vai abrir uma janela branca (ou preta) com texto — é ela.</li>
+          <li><strong>Copie o comando abaixo</strong> (botão 📋), clique na janela do
+            Terminal, cole com <span class="mono-inline">Cmd+V</span> e aperte Enter.</li>
+          <li>Aguarde o texto parar de rolar (menos de um minuto). Quando aparecer a mensagem
+            de sucesso, <strong>feche o Terminal e abra de novo</strong> — isso "apresenta"
+            o programa novo ao Mac.</li>
+        </ol>
+        <div class="prompt-card">
+          <div class="pc-head"><span class="pc-ic">⌨️</span>
+            <span class="pc-titulo">Comando pronto — cole no Terminal</span>
+            <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+          <pre>curl -fsSL https://claude.ai/install.sh | bash</pre>
+          <div class="pc-por-que"><strong>O que ele faz:</strong> baixa o instalador oficial do
+            site da Anthropic e o executa. É o mesmo que baixar e dar dois cliques — em versão texto.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Regra de ouro dos comandos colados:</strong> só cole comandos de fontes em que
+          você confia — este veio da documentação oficial da Anthropic. É como remédio: a receita
+          importa tanto quanto o comprimido.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎉</div>
+        <div class="tip-content">
+          <strong>Nada de Node, nada de git, nada de Python.</strong> Versões antigas de tutoriais
+          pedem instalações extras — o instalador oficial atual é autossuficiente. Se alguma
+          prática precisar de uma ferramenta a mais, o próprio Claude instala (pedindo permissão,
+          claro).
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 5 · O PRIMEIRO LOGIN ═══════════ -->
+    <section class="step-section" id="login">
+      <div class="step-header">
+        <div class="step-number sn-blue">🔑</div>
+        <div>
+          <div class="step-title">O primeiro login: apresentando você a ele</div>
+          <div class="step-sub">Acontece uma vez só. Depois ele lembra de você.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Instalado (por qualquer porta), o Claude Code precisa saber <strong>quem você é</strong> —
+        afinal, é a sua assinatura que ele vai usar. O fluxo é o mesmo nos dois caminhos:
+      </p>
+
+      <ol class="c2-passos">
+        <li><strong>Abra o Claude Code.</strong> No aplicativo: abra o app e clique na aba
+          <strong>Code</strong>. No terminal: digite <span class="mono-inline">claude</span>
+          e aperte Enter.</li>
+        <li>Ele avisa que precisa de login e <strong>abre o seu navegador sozinho</strong>
+          na página da Anthropic.</li>
+        <li>No navegador, <strong>entre com a conta</strong> que você criou no Passo 0
+          (a mesma do claude.ai).</li>
+        <li>O navegador confirma e manda você de volta. Na janela do Claude Code aparece:
+          <span class="mono-inline">Login successful</span>. Pronto — vocês se conhecem.</li>
+      </ol>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela (terminal)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-voce">&gt; claude</span>
+          <span class="tela-linha tela-dim">Bem-vindo ao Claude Code!</span>
+          <span class="tela-linha tela-claude">Abrindo o navegador para você entrar na sua conta…</span>
+          <span class="tela-linha tela-dim">(o navegador abre, você faz login, e a janela continua:)</span>
+          <span class="tela-linha tela-claude">Login successful. Tudo certo!</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔁</div>
+        <div class="tip-content">
+          <strong>Isso não vai se repetir.</strong> O login fica guardado com segurança no seu
+          computador. Amanhã, você abre o Claude Code e ele já sabe quem você é.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 6 · DEU ERRADO? ═══════════ -->
+    <section class="step-section" id="socorro">
+      <div class="step-header">
+        <div class="step-number sn-red">🛟</div>
+        <div>
+          <div class="step-title">Deu errado? Respira — está tudo previsto aqui</div>
+          <div class="step-sub">Os quatro tropeços clássicos e a saída de cada um.</div>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>😵 Digitei <strong>claude</strong> e apareceu "comando não encontrado"</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p>
+            Clássico — e inofensivo. O terminal que estava aberto <strong>ainda não conhece</strong>
+            o programa recém-instalado. Solução: <strong>feche a janela do terminal e abra uma
+            nova</strong>. Se persistir, rode o comando de instalação de novo (não faz mal rodar
+            duas vezes) e reabra.
+          </p>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🌐 O navegador não abriu sozinho na hora do login</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p>
+            A janela do Claude Code mostra um <strong>endereço (link)</strong> nesse caso —
+            copie e cole no navegador você mesmo. Depois do login, se a volta automática também
+            falhar, a página mostra um <strong>código de 6 caracteres</strong>: copie e cole na
+            janela do Claude Code, onde ele diz "Paste code here". Mesmo destino, caminho manual.
+          </p>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🔒 "Esta conta não tem acesso" ou pedido de assinatura</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p>
+            Sinal de que a conta é <strong>gratuita</strong> (ou você entrou com outro e-mail
+            sem querer — acontece mais do que parece!). Confira no claude.ai, no seu perfil,
+            se o plano Pro está ativo <strong>nesse e-mail</strong>. Ajustou? Rode o login de
+            novo: digite <span class="mono-inline">/login</span> na conversa do Claude Code.
+          </p>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🐢 Instalou, logou… e a primeira resposta está demorando</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p>
+            Normal! Na primeira conversa em uma pasta, ele <strong>lê o terreno</strong> antes de
+            responder — é o estagiário conhecendo a mesa nova. As respostas seguintes são bem
+            mais rápidas. Só desconfie se passar de uns dois minutos sem nada acontecer
+            (aí: feche e abra de novo, sem dó).
+          </p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🆘</div>
+        <div class="tip-content">
+          <strong>O plano C universal:</strong> descreva o erro para o Claude comum no navegador
+          (claude.ai) — cole a mensagem de erro e pergunte o que fazer. Usar uma IA para instalar
+          a outra é totalmente permitido. 😄
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 7 · O TESTE DO OI ═══════════ -->
+    <section class="step-section" id="teste">
+      <div class="step-header">
+        <div class="step-number sn-mint">👋</div>
+        <div>
+          <div class="step-title">O teste do "oi"</div>
+          <div class="step-sub">Trinta segundos para confirmar que está tudo vivo.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Antes de encerrar o capítulo, faça o teste completo. Abra o Claude Code
+        (aba <strong>Code</strong> no aplicativo, ou <span style="font-family:'JetBrains Mono',monospace;font-size:0.85em">claude</span>
+        no terminal) e digite:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Seu primeiro prompt</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>oi! você está funcionando? me responde em uma frase, em português.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (a sua será parecida, não idêntica)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Estou funcionando perfeitamente — pronto para trabalhar com você!</span>
+        </div>
+      </div>
+
+      <p class="mb-md">Recebeu uma resposta em português? Então confira a lista da vitória:</p>
+
+      <ul class="checklist">
+        <li>Conta criada no claude.ai com <strong>plano Pro ativo</strong></li>
+        <li>Claude Code instalado (pelo aplicativo <strong>ou</strong> pelo terminal)</li>
+        <li>Login feito — apareceu o <strong>Login successful</strong> (ou o app entrou direto)</li>
+        <li>O teste do "oi" respondeu em português</li>
+      </ul>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧠</span>
+          Amanhã você abre o computador para usar o Claude Code de novo. O que vai ser preciso?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Instalar tudo de novo</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Fazer login no navegador de novo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Só abrir e usar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pagar mais US$ 20</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Exato!"
+          data-wrong="😬 Boa notícia: é mais simples que isso."
+          data-explain="Instalação e login acontecem uma vez. A assinatura é mensal e renova sozinha. No dia a dia: abrir, pedir, aprovar, conferir.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 8 · RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou deste capítulo</div>
+          <div class="step-sub">O computador está pronto. Falta a primeira conversa de verdade.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>O pré-requisito real é um só: <strong>conta com plano pago</strong>. Sem Node, sem git, sem Python.</li>
+        <li>Duas portas, mesmo motor: <strong>aplicativo</strong> (visual, recomendado) e <strong>terminal</strong> (raiz).</li>
+        <li>Terminal não morde: é uma <strong>caixa de conversa sem botões</strong>.</li>
+        <li>Login acontece <strong>uma vez</strong>, pelo navegador, com a conta do claude.ai.</li>
+        <li>Deu erro? Fechar e reabrir resolve metade; a seção "Deu errado?" resolve o resto.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">No próximo capítulo…</div>
+        <p>
+          A primeira conversa de verdade: você vai criar a <strong>pasta da oficina</strong>,
+          baixar o <strong>Kit de treino</strong> (arquivos fictícios para errar sem medo) e
+          aprender a anatomia de um pedido que funciona. É onde a mágica começa.
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../01-o-que-e/">« Cap 01: O que é?</a>
+        <a class="nav-proximo" href="../03-primeira-conversa/">Cap 03: A primeira conversa »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Capítulo 02 · Preparando o computador</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+<script>
+/* Seletor Windows/Mac: troca os blocos .so-win/.so-mac da página toda */
+function trocaSO(btn){
+  document.querySelectorAll('#seletor-so button').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.body.dataset.so = btn.dataset.so;
+}
+window.trocaSO = trocaSO;
+</script>
+
+</body>
+</html>

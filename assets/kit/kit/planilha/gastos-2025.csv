@@ -1,0 +1,307 @@
+data;descricao;categoria;valor
+03/01/2025;passeio fim de semana;LAZER;145,17
+04/01/2025;cinema;Lazer;167,02
+05/01/2025;compra do mês;MERCADO;434,10
+08/01/2025;mercadinho;MERCADO;391,16
+08/01/2025;curso online;educação;199,65
+08/01/2025;streaming;Lazer;109,76
+09/01/2025;farmácia;Saúde;370,26
+11/01/2025;curso online;Educação;78,95
+11/01/2025;material escolar;Educação;152,45
+12/01/2025;mensalidade curso de inglês;Educação;120,76
+14/01/2025;show;Lazer;71,96
+14/01/2025;academia;Saúde;189,71
+15/01/2025;passeio fim de semana;lazer;40,59
+18/01/2025;padaria;ALIMENTAÇÃO;119,19
+19/01/2025;delivery jantar;Alimentação;21,88
+21/01/2025;gás;Moradia;162,87
+22/01/2025;lanche da tarde;Alimentação;112,31
+22/01/2025;hortifruti;mercado;448,55
+23/01/2025;mercadinho;mercado;286,22
+23/01/2025;passeio fim de semana;Lazer;60,02
+23/01/2025;exame;saúde;121,75
+24/01/2025;mercadinho;mercado;354,91
+25/01/2025;curso online;Educação;136,20
+27/01/2025;show;Lazer;48,34
+28/01/2025;estacionamento;Transporte;160,14
+02/02/2025;feira;Mercado;549,86
+02/02/2025;padaria;Alimentação;26,64
+03/02/2025;academia;saúde;198,64
+03/02/2025;sorveteria;Alimentação;94,99
+04/02/2025;exame;SAÚDE;407,96
+04/02/2025;padaria;Alimentação;125,20
+04/02/2025;água;Moradia;221,78
+05/02/2025;curso online;EDUCAÇÃO;317,10
+07/02/2025;consulta;Saúde;195,13
+09/02/2025;farmácia;Saúde;334,53
+09/02/2025;mercadinho;mercado;546,65
+10/02/2025;delivery jantar;Alimentação;37,30
+12/02/2025;gás;;355,99
+14/02/2025;curso online;educacao;79,62
+16/02/2025;farmácia;Saúde;368,88
+18/02/2025;show;Lazer;172,56
+18/02/2025;feira;mercado;454,95
+19/02/2025;almoço com cliente;;46,07
+19/02/2025;passeio fim de semana;;111,90
+21/02/2025;feira;mercado;500,45
+21/02/2025;show;LAZER;104,81
+22/02/2025;ônibus;;61,99
+24/02/2025;show;Lazer;214,24
+24/02/2025;delivery jantar;ALIMENTAÇÃO;117,55
+25/02/2025;farmácia;saúde;297,52
+25/02/2025;farmácia;saúde;297,52
+02/03/2025;mercadinho;Mercado;91,06
+03/03/2025;aplicativo de corrida;Transporte;101,12
+04/03/2025;condomínio;MORADIA;237,28
+06/03/2025;internet;Moradia;393,09
+06/03/2025;delivery jantar;alimentação;18,26
+07/03/2025;feira;Mercado;353,36
+07/03/2025;hortifruti;Mercado;170,18
+13/03/2025;sorveteria;Alimentação;59,39
+14/03/2025;açougue;mercado;321,78
+15/03/2025;almoço com cliente;Alimentação;139,81
+17/03/2025;exame;Saúde;450,29
+18/03/2025;lanche da tarde;Alimentação;79,72
+19/03/2025;delivery jantar;ALIMENTAÇÃO;79,35
+20/03/2025;restaurante;Alimentação;100,38
+20/03/2025;restaurante;ALIMENTAÇÃO;69,15
+21/03/2025;mensalidade curso de inglês;EDUCAÇÃO;43,29
+22/03/2025;sorveteria;Alimentação;138,07
+22/03/2025;hortifruti;Mercado;307,90
+23/03/2025;show;lazer;63,93
+24/03/2025;farmácia;Saúde;365,33
+26/03/2025;condomínio;moradia;130,49
+26/03/2025;ônibus;transporte;79,88
+26/03/2025;passeio fim de semana;lazer;150,68
+27/03/2025;farmácia;Saúde;465,89
+27/03/2025;condomínio;MORADIA;566,55
+01/04/2025;padaria;alimentacao;112,08
+01/04/2025;farmácia;saúde;59,24
+02/04/2025;curso online;Educação;306,40
+04/04/2025;combustível;Transporte;195,09
+04/04/2025;almoço com cliente;alimentacao;71,02
+05/04/2025;academia;Saúde;82,99
+06/04/2025;ônibus;transporte;147,02
+06/04/2025;curso online;Educação;410,19
+08/04/2025;cinema;LAZER;87,50
+09/04/2025;material escolar;educação;309,42
+09/04/2025;lanche da tarde;Alimentação;88,83
+10/04/2025;pedágio;Transporte;61,08
+10/04/2025;aplicativo de corrida;transporte;64,18
+11/04/2025;material escolar;EDUCAÇÃO;294,61
+13/04/2025;hortifruti;Mercado;205,20
+14/04/2025;mensalidade curso de inglês;Educação;354,78
+16/04/2025;curso online;educação;123,82
+18/04/2025;compra do mês;MERCADO;524,89
+22/04/2025;combustível;Transporte;244,61
+22/04/2025;hortifruti;Mercado;335,61
+22/04/2025;mensalidade curso de inglês;Educação;380,51
+22/04/2025;hortifruti;Mercado;335,61
+24/04/2025;hortifruti;mercado;494,87
+26/04/2025;combustível;Transporte;234,53
+26/04/2025;compra do mês;Mercado;264,96
+27/04/2025;passeio fim de semana;Lazer;82,89
+02/05/2025;lanche da tarde;ALIMENTAÇÃO;138,04
+05/05/2025;gás;MORADIA;540,66
+07/05/2025;passeio fim de semana;lazer;112,00
+07/05/2025;academia;Saúde;249,94
+10/05/2025;passeio fim de semana;lazer;78,40
+10/05/2025;aplicativo de corrida;TRANSPORTE;116,33
+10/05/2025;streaming;Lazer;180,35
+11/05/2025;passeio fim de semana;Lazer;79,35
+11/05/2025;academia;saúde;303,76
+13/05/2025;almoço com cliente;Alimentação;41,19
+13/05/2025;estacionamento;Transporte;147,71
+14/05/2025;cinema;LAZER;121,58
+14/05/2025;curso online;educacao;113,87
+14/05/2025;academia;saúde;433,23
+15/05/2025;farmácia;Saúde;278,62
+16/05/2025;material escolar;Educação;148,86
+19/05/2025;exame;Saúde;209,76
+20/05/2025;show;Lazer;34,14
+21/05/2025;exame;saúde;236,57
+21/05/2025;compra do mês;Mercado;558,28
+21/05/2025;material escolar;EDUCAÇÃO;361,64
+22/05/2025;gás;Moradia;547,67
+22/05/2025;compra do mês;mercado;208,18
+24/05/2025;streaming;Lazer;89,67
+25/05/2025;curso online;educacao;231,27
+01/06/2025;passeio fim de semana;Lazer;92,98
+02/06/2025;exame;Saúde;127,02
+03/06/2025;consulta;saúde;93,63
+04/06/2025;pedágio;Transporte;14,47
+05/06/2025;streaming;lazer;28,17
+10/06/2025;streaming;Lazer;70,70
+10/06/2025;ônibus;transporte;223,07
+11/06/2025;água;Moradia;387,38
+13/06/2025;material escolar;educação;355,84
+14/06/2025;material escolar;EDUCAÇÃO;420,03
+14/06/2025;material escolar;EDUCAÇÃO;420,03
+16/06/2025;energia elétrica;moradia;339,98
+16/06/2025;compra do mês;Mercado;369,28
+18/06/2025;ônibus;Transporte;112,78
+19/06/2025;farmácia;saúde;63,20
+20/06/2025;mercadinho;mercado;60,51
+20/06/2025;farmácia;Saúde;378,90
+21/06/2025;água;Moradia;257,71
+21/06/2025;curso online;Educação;356,78
+22/06/2025;academia;saúde;205,48
+23/06/2025;internet;Moradia;612,17
+24/06/2025;consulta;Saúde;247,14
+26/06/2025;livraria;lazer;163,46
+27/06/2025;combustível;transporte;126,52
+27/06/2025;compra do mês;Mercado;402,27
+28/06/2025;açougue;Mercado;149,49
+01/07/2025;ônibus;Transporte;215,23
+03/07/2025;mercadinho;mercado;442,10
+04/07/2025;hortifruti;MERCADO;533,92
+04/07/2025;mensalidade curso de inglês;Educação;368,71
+07/07/2025;feira;Mercado;469,70
+07/07/2025;material escolar;Educação;135,54
+08/07/2025;sorveteria;ALIMENTAÇÃO;67,58
+08/07/2025;mensalidade curso de inglês;educacao;239,96
+09/07/2025;exame;Saúde;412,53
+09/07/2025;material escolar;EDUCAÇÃO;157,46
+09/07/2025;passeio fim de semana;Lazer;17,08
+10/07/2025;estacionamento;transporte;66,10
+11/07/2025;curso online;Educação;244,77
+11/07/2025;compra do mês;mercado;472,16
+12/07/2025;gás;moradia;569,26
+14/07/2025;exame;saúde;56,38
+15/07/2025;aplicativo de corrida;TRANSPORTE;197,12
+15/07/2025;energia elétrica;Moradia;127,00
+16/07/2025;pedágio;transporte;141,79
+18/07/2025;show;lazer;87,12
+19/07/2025;passeio fim de semana;Lazer;137,34
+22/07/2025;academia;saúde;178,06
+23/07/2025;água;MORADIA;280,47
+24/07/2025;mercadinho;Mercado;600,15
+26/07/2025;academia;saúde;236,52
+01/08/2025;pedágio;Transporte;39,90
+02/08/2025;hortifruti;mercado;586,11
+03/08/2025;aplicativo de corrida;transporte;37,85
+03/08/2025;streaming;LAZER;64,17
+03/08/2025;condomínio;moradia;88,70
+04/08/2025;condomínio;Moradia;221,86
+06/08/2025;restaurante;alimentacao;67,84
+10/08/2025;academia;Saúde;242,81
+10/08/2025;livraria;;29,59
+10/08/2025;mensalidade curso de inglês;EDUCAÇÃO;354,56
+11/08/2025;passeio fim de semana;Lazer;66,33
+13/08/2025;show;lazer;117,60
+15/08/2025;internet;moradia;679,32
+15/08/2025;combustível;Transporte;126,11
+16/08/2025;exame;Saúde;39,85
+17/08/2025;jantar de aniversário;Alimentação;4890,00
+18/08/2025;padaria;Alimentação;103,08
+19/08/2025;pedágio;transporte;23,18
+20/08/2025;consulta;saúde;377,94
+21/08/2025;farmácia;SAÚDE;94,04
+22/08/2025;mercadinho;Mercado;382,60
+25/08/2025;lanche da tarde;Alimentação;94,31
+26/08/2025;pedágio;Transporte;174,62
+26/08/2025;pedágio;Transporte;174,62
+27/08/2025;restaurante;Alimentação;66,89
+27/08/2025;aplicativo de corrida;Transporte;26,00
+28/08/2025;livraria;Lazer;36,03
+01/09/2025;sorveteria;Alimentação;92,28
+03/09/2025;água;Moradia;774,43
+03/09/2025;material escolar;educação;364,52
+04/09/2025;água;moradia;418,83
+06/09/2025;material escolar;educação;212,89
+06/09/2025;show;LAZER;127,92
+08/09/2025;gás;moradia;456,91
+10/09/2025;açougue;mercado;551,49
+11/09/2025;pedágio;transporte;200,24
+11/09/2025;água;Moradia;766,16
+14/09/2025;academia;saúde;465,92
+14/09/2025;estacionamento;Transporte;88,91
+15/09/2025;restaurante;Alimentação;56,37
+15/09/2025;cinema;LAZER;56,73
+16/09/2025;streaming;lazer;106,54
+17/09/2025;gás;Moradia;719,57
+17/09/2025;hortifruti;mercado;403,01
+17/09/2025;estacionamento;transporte;112,70
+20/09/2025;mercadinho;Mercado;474,12
+22/09/2025;material escolar;Educação;282,02
+22/09/2025;ônibus;TRANSPORTE;213,02
+24/09/2025;estacionamento;;219,04
+25/09/2025;delivery jantar;Alimentação;123,52
+26/09/2025;pedágio;Transporte;75,33
+28/09/2025;passeio fim de semana;Lazer;109,71
+03/10/2025;açougue;Mercado;494,38
+03/10/2025;consulta;Saúde;312,18
+05/10/2025;água;MORADIA;442,44
+09/10/2025;livraria;Lazer;188,29
+11/10/2025;sorveteria;alimentação;75,70
+12/10/2025;exame;Saúde;476,67
+13/10/2025;consulta;saúde;414,49
+15/10/2025;estacionamento;transporte;176,04
+17/10/2025;mercadinho;Mercado;235,90
+19/10/2025;água;moradia;227,18
+19/10/2025;estacionamento;transporte;169,01
+20/10/2025;ônibus;Transporte;171,76
+21/10/2025;mensalidade curso de inglês;educação;406,48
+22/10/2025;água;Moradia;416,64
+22/10/2025;mensalidade curso de inglês;Educação;199,60
+22/10/2025;pedágio;transporte;47,81
+23/10/2025;livraria;Lazer;193,84
+23/10/2025;hortifruti;Mercado;564,47
+24/10/2025;lanche da tarde;alimentacao;68,02
+24/10/2025;compra do mês;Mercado;294,53
+26/10/2025;combustível;Transporte;81,93
+26/10/2025;streaming;Lazer;49,85
+28/10/2025;material escolar;educação;81,88
+28/10/2025;academia;Saúde;306,97
+28/10/2025;gás;moradia;136,79
+28/10/2025;academia;Saúde;306,97
+02/11/2025;show;Lazer;176,67
+03/11/2025;água;Moradia;602,99
+04/11/2025;aplicativo de corrida;TRANSPORTE;126,81
+04/11/2025;energia elétrica;MORADIA;229,06
+05/11/2025;restaurante;Alimentação;133,44
+06/11/2025;material escolar;educação;423,90
+09/11/2025;consulta;saúde;310,85
+09/11/2025;almoço com cliente;Alimentação;33,08
+09/11/2025;energia elétrica;Moradia;557,00
+10/11/2025;mensalidade curso de inglês;Educação;405,57
+11/11/2025;consulta;saúde;319,68
+12/11/2025;consulta;Saúde;66,01
+13/11/2025;açougue;mercado;258,33
+14/11/2025;compra do mês;MERCADO;524,37
+15/11/2025;mensalidade curso de inglês;educação;166,92
+18/11/2025;material escolar;Educação;262,96
+18/11/2025;livraria;lazer;135,40
+22/11/2025;mensalidade curso de inglês;educação;323,25
+24/11/2025;ônibus;Transporte;52,26
+24/11/2025;show;lazer;134,83
+26/11/2025;exame;Saúde;124,65
+26/11/2025;mensalidade curso de inglês;educação;193,63
+27/11/2025;sorveteria;Alimentação;66,29
+27/11/2025;internet;Moradia;618,53
+28/11/2025;farmácia;saúde;439,33
+02/12/2025;ônibus;Transporte;77,52
+02/12/2025;exame;Saúde;233,41
+03/12/2025;mercadinho;Mercado;164,12
+04/12/2025;farmácia;Saúde;241,69
+09/12/2025;compra do mês;mercado;117,89
+10/12/2025;academia;saúde;255,03
+11/12/2025;curso online;EDUCAÇÃO;455,30
+12/12/2025;passeio fim de semana;lazer;199,85
+14/12/2025;energia elétrica;Moradia;285,03
+15/12/2025;água;Moradia;675,92
+15/12/2025;água;moradia;357,95
+16/12/2025;delivery jantar;Alimentação;70,01
+18/12/2025;hortifruti;Mercado;504,15
+19/12/2025;farmácia;Saúde;230,66
+20/12/2025;curso online;Educação;156,46
+20/12/2025;aplicativo de corrida;Transporte;24,55
+21/12/2025;passeio fim de semana;Lazer;214,07
+21/12/2025;exame;SAÚDE;198,31
+23/12/2025;gás;Moradia;112,91
+25/12/2025;passeio fim de semana;Lazer;162,77
+26/12/2025;curso online;Educação;287,32
+26/12/2025;sorveteria;alimentacao;31,96
+27/12/2025;material escolar;Educação;78,50
+28/12/2025;curso online;Educação;178,00
+28/12/2025;cinema;Lazer;42,02

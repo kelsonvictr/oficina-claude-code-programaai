@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática 09 · A prova que se monta sozinha — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local da prática 09 (prefixo .c9-) =====
+   As práticas usam quase só componentes do shared/;
+   CSS local é para o "A × B lado a lado" desta prática. */
+
+.c9-ab{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;
+}
+@media (max-width:640px){
+  .c9-ab{grid-template-columns:1fr}
+}
+.c9-prova{
+  background:var(--code-bg);border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:16px 18px;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.9;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c9-prova .titulo{
+  font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:900;
+  letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:8px;
+  color:var(--claude-soft);
+}
+.c9-prova .q{color:var(--text-dim);display:block}
+.c9-prova .certa{color:var(--term);font-weight:700;display:block}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🧑‍🏫 Prática 09 · Prova</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta prática</div>
+    <a class="sidebar-link" onclick="goTo('cenario')"><span class="dot" style="background:var(--accent5)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('precisa')"><span class="dot" style="background:var(--term)"></span>O que você vai precisar</a>
+    <a class="sidebar-link" onclick="goTo('etapa1')"><span class="dot" style="background:var(--accent4)"></span>Etapa 1: o quiz com gabarito</a>
+    <a class="sidebar-link" onclick="goTo('etapa2')"><span class="dot" style="background:var(--accent6)"></span>Etapa 2: a curadoria</a>
+    <a class="sidebar-link" onclick="goTo('etapa3')"><span class="dot" style="background:var(--claude)"></span>Etapa 3: versões A e B</a>
+    <a class="sidebar-link" onclick="goTo('etapa4')"><span class="dot" style="background:var(--accent3)"></span>Etapa 4: a lista de presença</a>
+    <a class="sidebar-link" onclick="goTo('etapa5')"><span class="dot" style="background:var(--accent7)"></span>Etapa 5: a conferência</a>
+    <a class="sidebar-link" onclick="goTo('vida-real')"><span class="dot" style="background:var(--accent2)"></span>Levando para a vida real</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio solo</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz relâmpago</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🧑‍🏫</span>
+    <span data-motion="float">📝</span>
+    <span data-motion="float">🎲</span>
+  </div>
+  <div class="hero-badge pratica">Prática 09</div>
+  <h1>A prova que se<br>monta sozinha</h1>
+  <div class="pratica-meta">
+    <span class="pm-area">🏷️ educação</span>
+    <span class="pm-dif">★★☆ intermediária</span>
+    <span class="pm-tempo">⏱️ ~30 min</span>
+  </div>
+  <p class="subtitle">
+    De um capítulo de apostila saem 8 questões com gabarito comentado, duas versões
+    embaralhadas e a lista de presença — e você descobre o gesto docente da oficina:
+    <strong>a IA rascunha, o professor faz a curadoria</strong>.
+  </p>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ O CENÁRIO ═══════════ -->
+    <section class="step-section" id="cenario">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎬</div>
+        <div>
+          <div class="step-title">O cenário</div>
+          <div class="step-sub">Véspera de avaliação. A apostila está pronta. A prova, não.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          Quem já deu aula conhece a cena: o conteúdo está redondo, os exercícios da apostila
+          estão lá — mas a <strong>prova</strong> continua em branco na tela. Montar questão boa
+          dá trabalho de verdade: cada alternativa errada precisa ser <em>tentadora</em>
+          (senão a questão se responde sozinha), e o gabarito precisa ser indiscutível.
+        </p>
+        <p>
+          E tem o detalhe clássico da sala apertada: as carteiras são grudadas, então
+          precisa de <strong>duas versões</strong> — mesmas questões, ordens diferentes.
+          Ou seja: o dobro do trabalho, na véspera.
+        </p>
+        <p>
+          O Kit da Oficina traz o material dessa história: <strong>kit/professor/apostila-capitulo.txt</strong>,
+          um capítulo de apostila de educação financeira sobre <strong>juros compostos no dia a dia</strong> —
+          o "juros sobre juros", a fórmula M = C x (1 + i)^t, onde eles ajudam (investimentos) e
+          onde atrapalham (rotativo do cartão, cheque especial), o efeito do tempo e a
+          "regra dos 72". Sua missão: sair daqui com a avaliação completa — sem digitar
+          uma questão sequer, mas <strong>validando todas</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE VOCÊ VAI PRECISAR ═══════════ -->
+    <section class="step-section" id="precisa">
+      <div class="step-header">
+        <div class="step-number sn-term">🧾</div>
+        <div>
+          <div class="step-title">O que você vai precisar</div>
+          <div class="step-sub">Checklist de 30 segundos antes de começar.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Para esta prática</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como no Cap 03)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (o arquivo kit/professor/apostila-capitulo.txt deve existir)</li>
+          <li class="opcional">Opcional: abrir a apostila num editor de texto do lado — você vai conferir contra ela na Etapa 5</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>Não é da educação?</strong> Fique mesmo assim: "transformar um material em
+          perguntas com gabarito" serve para treinamento de equipe, prova de certificação
+          interna, dinâmica de onboarding… A mecânica é idêntica.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 1: O QUIZ COM GABARITO ═══════════ -->
+    <section class="step-section" id="etapa1">
+      <div class="step-header">
+        <div class="step-number sn-blue">📝</div>
+        <div>
+          <div class="step-title">Etapa 1: o quiz com gabarito comentado</div>
+          <div class="step-sub">A parte que levaria a noite inteira sai no primeiro pedido.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Repare nas duas cercas do prompt: <strong>só o conteúdo da apostila</strong> (nada de
+        matéria inventada) e <strong>gabarito comentado</strong> — porque a errada tentadora
+        também precisa de explicação:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 1 · as 8 questões</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o kit/professor/apostila-capitulo.txt e crie 8 questões de
+múltipla escolha usando SÓ o conteúdo dele — não invente matéria
+além da apostila. cada questão com 4 alternativas (a, b, c, d) e
+uma única correta. depois das questões, um gabarito comentado:
+por que a certa está certa e por que cada errada é tentadora.
+salve tudo em prova/quiz-gabarito.txt.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "SÓ o conteúdo dele" amarra
+          as questões à fonte que a turma estudou. E pedir o porquê de cada errada obriga as
+          alternativas a serem plausíveis — o segredo de uma questão bem feita.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela (resumido)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar a pasta prova/ e salvar quiz-gabarito.txt? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Pronto! 8 questões salvas. Um exemplo do que ficou:</span>
+          <span class="tela-linha tela-claude">Questão 5. Pela regra dos 72, um valor aplicado a 8% ao ano</span>
+          <span class="tela-linha tela-claude">leva aproximadamente quanto tempo para dobrar?</span>
+          <span class="tela-linha tela-claude">a) 72 anos   b) 9 anos   c) 8 anos   d) 6 anos</span>
+          <span class="tela-linha tela-claude">Gabarito: b — 72 dividido pela taxa anual: 72 / 8 = 9.</span>
+          <span class="tela-linha tela-claude">A alternativa (a) fisga quem lê "72" e para de pensar;</span>
+          <span class="tela-linha tela-claude">a (c) fisga quem repete a taxa como se fosse o prazo.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 2: A CURADORIA ═══════════ -->
+    <section class="step-section" id="etapa2">
+      <div class="step-header">
+        <div class="step-number sn-purple">🧑‍🏫</div>
+        <div>
+          <div class="step-title">Etapa 2: a curadoria (professor continua sendo professor)</div>
+          <div class="step-sub">Ler as 8 e reagir. É aqui que a prova vira SUA prova.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Abra o <strong>prova/quiz-gabarito.txt</strong> e leia as 8 questões com olho de
+        professor. Alguma ficou ambígua? Fácil demais? Fora do jeito que você pergunta em
+        sala? <strong>Reaja por conversa</strong> — é assim que se itera:
+      </p>
+
+      <div class="chat-claude">
+        <div class="chat-head"><span class="dot r"></span><span class="dot y"></span>
+          <span class="dot g"></span><span class="chat-title">oficina-claude — claude</span></div>
+        <div class="chat-body">
+          <div class="chat-msg voce"><span class="quem">você</span>li as 8. a questão 3 ficou ambígua — "o tempo é importante" não dá para corrigir sem briga. refaça com uma situação concreta. e a 7 está fácil demais: sobe a dificuldade.</div>
+          <div class="chat-msg claude"><span class="quem">claude</span>Boa leitura! Refiz a 3 com um caso concreto: comparar dobrar o TEMPO de uma aplicação com dobrar o VALOR aplicado, como a apostila faz. E subi a 7: agora ela pede o cálculo do montante com a fórmula <span class="mono-mini">M = C x (1 + i)^t</span>, em vez de só reconhecer a fórmula. Atualizei o prova/quiz-gabarito.txt.</div>
+          <div class="chat-msg voce"><span class="quem">você</span>agora sim. a 3 ficou do jeito que eu perguntaria em sala.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">A IA monta o rascunho. A pedagogia é sua.</div>
+        <p>
+          O que aconteceu aqui tem nome: <strong>curadoria</strong>. O Claude Code produz as
+          questões em segundos, mas quem sabe o que a turma consegue responder, o que é
+          pegadinha justa e o que é crueldade, o que cai em prova e o que fica para o
+          debate — é <strong>você</strong>.
+        </p>
+        <p>
+          É o "você confere" do ciclo da oficina, na versão docente: a ferramenta acelera a
+          produção; <strong>a validação pedagógica não se delega</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 3: VERSÕES A E B ═══════════ -->
+    <section class="step-section" id="etapa3">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎲</div>
+        <div>
+          <div class="step-title">Etapa 3: versões A e B (as carteiras grudadas agradecem)</div>
+          <div class="step-sub">O dobro do trabalho manual vira uma frase.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Questões aprovadas? Hora de resolver o problema da cola. Repare no detalhe de
+        segurança: <strong>gabarito fora do corpo da prova</strong> — ninguém quer imprimir
+        as respostas junto por acidente:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 2 · o embaralhado</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>a partir do prova/quiz-gabarito.txt aprovado, gere duas versões
+da prova: as mesmas 8 questões, mas com a ordem das questões E a
+ordem das alternativas embaralhadas de um jeito diferente em cada
+versão. SEM gabarito no corpo das provas. salve as provas em
+prova/prova-a.txt e prova/prova-b.txt, e os dois gabaritos juntos
+num arquivo separado, prova/gabaritos.txt.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> embaralhar questões E
+          alternativas é o que torna a cola de canto de olho inútil. E o gabarito num arquivo
+          separado é a diferença entre "prova pronta" e "vexame na copiadora".</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar prova-a.txt, prova-b.txt e gabaritos.txt em prova/? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma)</span>
+          <span class="tela-linha tela-claude">Prontas! As duas versões têm as mesmas 8 questões em ordens diferentes.</span>
+          <span class="tela-linha tela-claude">Exemplo: a questão da regra dos 72 é a 2 na versão A (resposta: b)</span>
+          <span class="tela-linha tela-claude">e a 5 na versão B (resposta: d) — alternativas embaralhadas também.</span>
+          <span class="tela-linha tela-claude">As respostas estão só no prova/gabaritos.txt.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 4: A LISTA DE PRESENÇA ═══════════ -->
+    <section class="step-section" id="etapa4">
+      <div class="step-header">
+        <div class="step-number sn-green">✍️</div>
+        <div>
+          <div class="step-title">Etapa 4: bônus — a lista de presença</div>
+          <div class="step-sub">Os arquivos do kit conversam entre si. E os seus também vão conversar.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Falta o papel que sempre falta na hora H. E aqui vem um truque bonito: você vai usar
+        um arquivo de <strong>outra prática</strong> — o <strong>kit/declaracoes/participantes.csv</strong>,
+        com 30 nomes, que serve à mala direta da Prática 06. Na sua vida real será igual:
+        a planilha da secretaria serve para a declaração, para a prova, para o crachá…
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt 3 · a lista de presença</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>use os nomes do kit/declaracoes/participantes.csv e gere um
+arquivo prova/lista-presenca.txt: título "LISTA DE PRESENÇA -
+AVALIAÇÃO", os 30 nomes em ordem alfabética, numerados, cada um
+seguido de uma linha para assinatura.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você descreveu o RESULTADO
+          (título, ordem, numeração, linha de assinatura) e apontou a fonte dos dados — mesmo
+          ela morando na pasta de outra prática. Para ele, é tudo a mesma pasta de trabalho.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela (resumido)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Li o csv: 30 participantes. Gerei o prova/lista-presenca.txt:</span>
+          <span class="tela-linha tela-claude">LISTA DE PRESENÇA - AVALIAÇÃO</span>
+          <span class="tela-linha tela-claude"> 1. Ana Clara Beltrão      ______________________________</span>
+          <span class="tela-linha tela-claude"> 2. Bruno Cavalcanti       ______________________________</span>
+          <span class="tela-linha tela-claude"> 3. Camila Duarte          ______________________________</span>
+          <span class="tela-linha tela-dim">…e assim até o 30.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ETAPA 5: A CONFERÊNCIA ═══════════ -->
+    <section class="step-section" id="etapa5">
+      <div class="step-header">
+        <div class="step-number sn-mint">🔎</div>
+        <div>
+          <div class="step-title">Etapa 5: a conferência (a mais importante da prática)</div>
+          <div class="step-sub">Nenhuma prova sai para a turma sem passar por aqui.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Resolva 2 questões você mesmo</strong>, com a apostila aberta do lado.
+          A resposta do gabarito bate com o que o texto diz? (A da regra dos 72 é rápida:
+          72 dividido pela taxa — confira a conta.)</li>
+        <li>Abra o <strong>prova/gabaritos.txt</strong> e cruze: a questão da regra dos 72 na
+          versão A e na versão B apontam para o <strong>mesmo conteúdo</strong>, mesmo com
+          letras diferentes?</li>
+        <li>Passe o olho nas duas provas impressas mentalmente: <strong>nenhum gabarito
+          vazou</strong> para o corpo delas?</li>
+      </ul>
+
+      <div class="c9-ab">
+        <div class="c9-prova">
+          <span class="titulo">📄 versão A — questão 2</span>
+          <span class="q">Pela regra dos 72, um valor a 8% ao ano</span>
+          <span class="q">dobra em aproximadamente:</span>
+          <span class="q">a) 72 anos   c) 8 anos</span>
+          <span class="certa">b) 9 anos    d) 6 anos</span>
+          <span class="q">gabaritos.txt diz: A-2 = b</span>
+        </div>
+        <div class="c9-prova">
+          <span class="titulo">📄 versão B — questão 5</span>
+          <span class="q">Pela regra dos 72, um valor a 8% ao ano</span>
+          <span class="q">dobra em aproximadamente:</span>
+          <span class="q">a) 6 anos    c) 72 anos</span>
+          <span class="certa">d) 9 anos    b) 8 anos</span>
+          <span class="q">gabaritos.txt diz: B-5 = d</span>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha da prática: a questão "quase certa".</strong> Questão gerada por IA
+          pode vir com <strong>duas alternativas defensáveis</strong> — ou com o gabarito
+          simplesmente errado. Numa prova de verdade, isso vira recurso, discussão em sala e
+          nota recalculada. A revisão humana da Etapa 2 e desta etapa <strong>não é opcional</strong>:
+          a prova só sai para a turma depois dela.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ VIDA REAL ═══════════ -->
+    <section class="step-section" id="vida-real">
+      <div class="step-header">
+        <div class="step-number sn-red">🌍</div>
+        <div>
+          <div class="step-title">Levando para a sua vida real</div>
+          <div class="step-sub">A apostila de juros era o ensaio. O seu material é a estreia.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📖</span>
+          <span class="kw-name">Estudo dirigido</span>
+          <span class="kw-desc">"Transforme o capítulo em roteiro de perguntas com respostas para revisão."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🃏</span>
+          <span class="kw-name">Flashcards</span>
+          <span class="kw-desc">"Gere 20 cartões pergunta/resposta curtos a partir do resumo do capítulo."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🎚️</span>
+          <span class="kw-name">Três níveis</span>
+          <span class="kw-desc">"As mesmas questões em versão básica, intermediária e desafio."</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗺️</span>
+          <span class="kw-name">Plano de aula</span>
+          <span class="kw-desc">"Monte um plano de 2 horas a partir do capítulo: abertura, atividade, fechamento."</span>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Linha vermelha: dados de alunos reais.</strong> Conteúdo didático (apostila,
+          slides, lista de exercícios) pode ir para a conversa sem drama. <strong>Notas,
+          laudos, relatórios individuais e dados pessoais de alunos, não.</strong> Se a tarefa
+          precisa de nomes, use uma lista fictícia ou anonimizada — como o csv do kit, que é
+          inventado por design.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO SOLO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio solo</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">A versão "estudo em casa"</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Peça ao Claude Code uma versão de revisão da avaliação: as <strong>mesmas 8
+          questões</strong> reescritas como <strong>perguntas abertas</strong> — sem
+          alternativas — cada uma com uma <strong>dica curta</strong> para quem travar,
+          salvas em <strong>prova/estudo-dirigido.txt</strong>.
+        </p>
+        <p>
+          Monte o pedido você mesmo, com as 3 peças do Cap 03: a fonte, o resultado que você
+          quer e onde salvar.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>pegue as 8 questões do prova/quiz-gabarito.txt e reescreva cada
+uma como pergunta aberta, sem alternativas, com uma dica curta
+entre parênteses para quem travar. sem as respostas. salve em
+prova/estudo-dirigido.txt.</pre>
+            </div>
+            <p>
+              O seu ficou diferente e funcionou? <strong>Perfeito</strong> — não existe pedido
+              único. Detalhe fino: o "sem as respostas" evita que o gabarito vá parar no
+              material que a turma leva para casa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ RELÂMPAGO ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🧠</div>
+        <div>
+          <div class="step-title">Quiz relâmpago</div>
+          <div class="step-sub">Uma pergunta só — mas é A pergunta.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🤔</span>
+          Ao revisar, você percebe que a resposta "certa" de uma questão gerada
+          contradiz o que a apostila diz. O que isso ilustra?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Que a apostila está desatualizada — a IA sabe mais</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Que a IA pode alucinar — a curadoria humana vem antes de aplicar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Que o arquivo foi salvo com defeito</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Que faltou pedir "com atenção" no prompt</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Exatamente!"
+          data-wrong="😬 Quase — pense no que a Etapa 5 treinou…"
+          data-explain="A IA às vezes afirma com confiança algo que a fonte não sustenta — o nome disso é alucinação. Por isso a conferência contra a apostila não é etapa decorativa: a prova só sai para a turma depois da SUA revisão.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou desta prática</div>
+          <div class="step-sub">O fluxo que serve para toda produção de material didático.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>O ritmo docente: <strong>gerar, curar, embaralhar, conferir</strong> — nessa ordem.</li>
+        <li>Iterar por conversa ("<strong>refaça a 3</strong>", "sobe a dificuldade da 7") é a sua
+          ferramenta de curadoria — a pedagogia continua sendo sua.</li>
+        <li>Duas versões embaralhadas custam <strong>uma frase</strong> — com gabarito
+          <strong>fora do corpo da prova</strong>, sempre.</li>
+        <li>Os arquivos do kit <strong>conversam entre si</strong>: o csv de outra prática virou
+          lista de presença desta.</li>
+        <li>Questão de IA pode alucinar: <strong>resolver algumas você mesmo, contra a
+          fonte</strong>, é o que autoriza a prova a sair da sua tela.</li>
+        <li>Conteúdo didático vai para a conversa; <strong>dados pessoais de alunos, nunca</strong>.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar à oficina</a>
+        <a class="nav-proximo" href="../10-mini-site/">Prática 10: Seu cantinho na internet »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Prática 09 · A prova que se monta sozinha</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 03 · A primeira conversa — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do capítulo 03 (prefixo .c3-) ===== */
+
+/* Passo a passo numerado (mesmo desenho do cap 02) */
+.c3-passos{counter-reset:passo;margin:18px 0;padding:0;list-style:none}
+.c3-passos li{
+  position:relative;padding:14px 18px 14px 58px;margin-bottom:10px;
+  background:var(--surface2);border-radius:14px;
+  border:1px solid rgba(255,255,255,0.05);
+  font-size:0.94rem;
+}
+.c3-passos li::before{
+  counter-increment:passo;content:counter(passo);
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:var(--claude);color:#1a0e08;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.85rem;
+}
+.c3-passos li strong{color:var(--claude-soft)}
+.c3-passos li .mono-inline{
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--term);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+
+/* Árvore da pasta da oficina */
+.c3-arvore{
+  font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:2;
+  background:var(--code-bg);border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:18px 22px;margin:16px 0;color:var(--text);
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+.c3-arvore .pasta{color:var(--claude-soft);font-weight:700}
+.c3-arvore .dim{color:var(--text-dim)}
+
+/* Montador de pedido: as três peças */
+.c3-pecas{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.c3-peca{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface2);border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:14px;padding:14px 16px;cursor:pointer;
+  transition:all 0.25s;user-select:none;
+}
+.c3-peca:hover{border-color:rgba(217,119,87,0.4)}
+.c3-peca.on{border-color:var(--term);background:rgba(74,222,128,0.06)}
+.c3-peca .caixinha{
+  width:22px;height:22px;border-radius:6px;flex-shrink:0;margin-top:2px;
+  border:2px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:transparent;transition:all 0.25s;
+}
+.c3-peca.on .caixinha{background:var(--term);border-color:var(--term);color:#04150b}
+.c3-peca .peca-rotulo{
+  font-size:0.66rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--claude-soft);display:block;margin-bottom:2px;
+}
+.c3-peca p{font-size:0.9rem;color:var(--text);margin:0}
+
+/* Medidor de qualidade do pedido */
+.c3-medidor{
+  display:flex;align-items:center;gap:12px;margin:14px 0 6px;
+}
+.c3-medidor .trilho{
+  flex:1;height:10px;border-radius:6px;background:var(--surface3);overflow:hidden;
+}
+.c3-medidor .nivel{
+  height:100%;width:5%;border-radius:6px;
+  background:linear-gradient(90deg,var(--accent2),var(--accent5),var(--term));
+  transition:width 0.5s ease;
+}
+.c3-medidor .rotulo{
+  font-size:0.8rem;font-weight:900;min-width:130px;text-align:right;
+  color:var(--text-dim);
+}
+
+.cap-nav a.em-breve{opacity:0.45;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>💬 Cap 03 · Primeira conversa</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste capítulo</div>
+    <a class="sidebar-link" onclick="goTo('pasta')"><span class="dot" style="background:var(--accent5)"></span>A pasta da oficina</a>
+    <a class="sidebar-link" onclick="goTo('kit')"><span class="dot" style="background:var(--term)"></span>O Kit da Oficina</a>
+    <a class="sidebar-link" onclick="goTo('abrir')"><span class="dot" style="background:var(--claude)"></span>Abrindo na pasta certa</a>
+    <a class="sidebar-link" onclick="goTo('mesa')"><span class="dot" style="background:var(--accent6)"></span>O que ele enxerga</a>
+    <a class="sidebar-link" onclick="goTo('pedido')"><span class="dot" style="background:var(--accent4)"></span>O bom pedido</a>
+    <a class="sidebar-link" onclick="goTo('duas-conversas')"><span class="dot" style="background:var(--accent7)"></span>Suas 2 primeiras tarefas</a>
+    <a class="sidebar-link" onclick="goTo('codigo')"><span class="dot" style="background:var(--accent2)"></span>"Apareceu código!"</a>
+    <a class="sidebar-link" onclick="goTo('sobrevivencia')"><span class="dot" style="background:var(--accent3)"></span>Kit de sobrevivência</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">💬</span>
+    <span data-motion="float">📁</span>
+    <span data-motion="float">🚀</span>
+  </div>
+  <div class="hero-badge term">Capítulo 03 · Mão na massa</div>
+  <h1>A primeira<br>conversa</h1>
+  <p class="subtitle">
+    Instalado e logado? Então este é o capítulo em que você <strong>fala com ele de
+    verdade</strong>: pasta de trabalho, arquivos de treino e a receita de um pedido
+    que funciona de primeira.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">📁 pasta da oficina</span>
+    <span class="stack-chip term">🧰 kit de treino grátis</span>
+    <span class="stack-chip pratica">🧪 2 tarefas guiadas</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ 1 · A PASTA ═══════════ -->
+    <section class="step-section" id="pasta">
+      <div class="step-header">
+        <div class="step-number sn-yellow">📁</div>
+        <div>
+          <div class="step-title">Primeiro, uma casa: a pasta da oficina</div>
+          <div class="step-sub">Um cantinho onde errar não tem consequência nenhuma.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Regra de bolso desta oficina (e da vida com IA): <strong>dê a ela um território
+        delimitado</strong>. Em vez de soltar o Claude Code na sua pasta de documentos da
+        empresa, vamos criar uma pasta nova, vazia, só para o treino:
+      </p>
+
+      <ol class="c3-passos">
+        <li>Abra a sua pasta <strong>Documentos</strong> (Explorador de Arquivos no Windows,
+          Finder no Mac).</li>
+        <li>Crie uma pasta nova (botão direito, <strong>Nova pasta</strong>) chamada
+          <span class="mono-inline">oficina-claude</span> — sem espaços e sem acentos,
+          de propósito: nomes simples evitam sustos em qualquer programa.</li>
+        <li>Pronto. É a sua bancada de treino pelas próximas práticas.</li>
+      </ol>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Por que não usar uma pasta com coisas reais?</strong> Porque confiança se
+          constrói em degraus. Primeiro você treina no ringue com arquivos descartáveis;
+          quando o ciclo pedir-aprovar-conferir virar reflexo, aí sim leva para o trabalho real.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 2 · O KIT ═══════════ -->
+    <section class="step-section" id="kit">
+      <div class="step-header">
+        <div class="step-number sn-term">🧰</div>
+        <div>
+          <div class="step-title">O Kit da Oficina: sua bagunça de mentirinha</div>
+          <div class="step-sub">Uma pasta caótica, uma planilha suja, um contrato de 40 páginas… tudo fictício.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Preparamos um pacote de arquivos de treino para todas as práticas — nomes, valores e
+        documentos <strong>100% inventados</strong> (até o CPF mais desconfiado não acha nada
+        real ali). Baixe e solte na sua pasta:
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Instalando o kit</div>
+        <ul>
+          <li><strong>Baixe o zip</strong> no botão abaixo</li>
+          <li><strong>Extraia</strong> (botão direito no arquivo, "Extrair tudo…" no Windows;
+            dois cliques no Mac)</li>
+          <li>Mova a pasta <strong>kit</strong> extraída para dentro de
+            <strong>Documentos / oficina-claude</strong></li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Baixar o Kit da Oficina (24 KB)</a>
+      </div>
+
+      <p class="mb-md">Depois de extrair, sua pasta fica assim:</p>
+
+      <div class="c3-arvore">
+        <span class="pasta">oficina-claude/</span><br>
+        &nbsp;&nbsp;└─ <span class="pasta">kit/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="pasta">bagunca/</span> <span class="dim">— 34 arquivos mal nomeados (Prática 04)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="pasta">planilha/</span> <span class="dim">— um ano de gastos com sujeira (Prática 05)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="pasta">declaracoes/</span> <span class="dim">— lista de pessoas + modelo (Prática 06)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="pasta">contrato/</span> <span class="dim">— PDF de 40 páginas + anexos (Prática 07)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="pasta">marketing/</span> <span class="dim">— release de produto (Prática 08)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="pasta">professor/</span> <span class="dim">— capítulo de apostila (Prática 09)</span>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 3 · ABRIR NA PASTA CERTA ═══════════ -->
+    <section class="step-section" id="abrir">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎯</div>
+        <div>
+          <div class="step-title">O detalhe que muda tudo: abrir NA pasta certa</div>
+          <div class="step-sub">Se uma coisa deste capítulo merece marca-texto, é esta.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Onde você abre = o que ele enxerga</div>
+        <p>
+          O Claude Code trabalha <strong>na pasta em que foi aberto</strong>. Abriu na pasta
+          errada? Ele não acha seus arquivos — e vocês dois ficam confusos. Abrir no lugar
+          certo é 90% do sucesso da primeira conversa.
+        </p>
+      </div>
+
+      <p class="mb-md"><strong>🖥️ No aplicativo:</strong></p>
+      <ol class="c3-passos">
+        <li>Abra o Claude e vá na aba <strong>Code</strong>.</li>
+        <li>Ele pergunta <strong>em qual pasta trabalhar</strong> (botão de abrir/escolher pasta).</li>
+        <li>Navegue até <strong>Documentos / oficina-claude</strong> e confirme. O nome da pasta
+          aparece na janela — confira sempre.</li>
+      </ol>
+
+      <p class="mb-md"><strong>⌨️ No terminal</strong> (o truque de quem não quer digitar caminhos):</p>
+      <ol class="c3-passos">
+        <li><strong>Windows:</strong> abra a pasta <span class="mono-inline">oficina-claude</span>
+          no Explorador, clique na <strong>barra de endereço</strong> (onde mostra o caminho),
+          digite <span class="mono-inline">powershell</span> e aperte Enter — o terminal abre
+          <strong>já dentro da pasta</strong>. Depois digite <span class="mono-inline">claude</span>.</li>
+        <li><strong>Mac:</strong> no Finder, clique com o botão direito na pasta
+          <span class="mono-inline">oficina-claude</span> e escolha
+          <strong>"Novo Terminal na Pasta"</strong> (em Serviços). Depois digite
+          <span class="mono-inline">claude</span>.</li>
+        <li>Na dúvida sobre onde ele está: pergunte! <em>"em qual pasta você está
+          trabalhando?"</em> — ele responde na hora.</li>
+      </ol>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 4 · A MESA ═══════════ -->
+    <section class="step-section" id="mesa">
+      <div class="step-header">
+        <div class="step-number sn-purple">🗺️</div>
+        <div>
+          <div class="step-title">O que ele enxerga (e o que não enxerga)</div>
+          <div class="step-sub">Menos místico do que parece, e mais útil também.</div>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">A mesa de trabalho</div>
+        <p>
+          Pense na pasta como a <strong>mesa</strong> onde o estagiário sentou hoje. Tudo o que
+          está sobre a mesa (a pasta e o que há dentro dela), ele pode ler e usar. As outras
+          mesas do escritório? Ele até alcança <em>se você pedir e apontar o caminho</em> —
+          mas não sai fuçando: não é bisbilhoteiro.
+        </p>
+        <p>
+          E a internet? Ele consegue consultar quando a tarefa pede — mas o forte dele, nesta
+          oficina, é o que está <strong>na mesa</strong>.
+        </p>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Se instalei, ele está vendo tudo do meu computador o tempo todo."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Ele trabalha <strong>na pasta aberta, durante a conversa</strong> — e mexe em algo
+            só depois do seu "pode". Não fica rodando escondido, não vasculha suas outras pastas
+            por conta própria. Fechou a janela, acabou a sessão.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 5 · O BOM PEDIDO ═══════════ -->
+    <section class="step-section" id="pedido">
+      <div class="step-header">
+        <div class="step-number sn-blue">🧩</div>
+        <div>
+          <div class="step-title">Anatomia de um pedido que funciona</div>
+          <div class="step-sub">A diferença entre "faz aí" e "faz assim" é o seu resultado.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Um bom pedido tem <strong>três peças</strong>. Monte e desmonte no simulador abaixo
+        e veja o pedido mudar de qualidade em tempo real:
+      </p>
+
+      <div class="sim">
+        <div class="sim-head">
+          <span class="sim-ic">🧩</span>
+          <h4>Simulador: monte o pedido</h4>
+          <span class="sim-tag">3 peças</span>
+        </div>
+        <div class="sim-body">
+          <div class="c3-pecas">
+            <div class="c3-peca" data-peca="tarefa" onclick="c3Toggle(this)">
+              <span class="caixinha">✓</span>
+              <div>
+                <span class="peca-rotulo">Peça 1 · A tarefa (o quê)</span>
+                <p>"renomeie as fotos da pasta bagunca que começam com IMG"</p>
+              </div>
+            </div>
+            <div class="c3-peca" data-peca="formato" onclick="c3Toggle(this)">
+              <span class="caixinha">✓</span>
+              <div>
+                <span class="peca-rotulo">Peça 2 · O resultado (como eu quero)</span>
+                <p>"use o padrão foto-01.jpg, foto-02.jpg, em ordem de data"</p>
+              </div>
+            </div>
+            <div class="c3-peca" data-peca="freio" onclick="c3Toggle(this)">
+              <span class="caixinha">✓</span>
+              <div>
+                <span class="peca-rotulo">Peça 3 · O freio (plano antes)</span>
+                <p>"me mostre a lista do que vai mudar ANTES de renomear"</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="c3-medidor">
+            <div class="trilho"><div class="nivel" id="c3-nivel"></div></div>
+            <span class="rotulo" id="c3-rotulo">pedido vazio</span>
+          </div>
+
+          <div class="sim-out" id="c3-out">
+            <span class="ln muted on">Clique nas peças acima para montar (e desmontar) o pedido…</span>
+          </div>
+        </div>
+        <div class="sim-hint">
+          <strong>Repare:</strong> a peça 3 não melhora o resultado — ela protege você.
+          Pedir o plano antes é o cinto de segurança dos pedidos grandes.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🗣️</div>
+        <div class="tip-content">
+          <strong>Escreva como você fala.</strong> Não existe "linguagem de IA": erro de
+          digitação, vírgula fora do lugar, tudo bem. O que ele precisa é do <em>o quê</em>,
+          do <em>como</em> — e, nos pedidos grandes, do seu freio.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 6 · AS DUAS PRIMEIRAS TAREFAS ═══════════ -->
+    <section class="step-section" id="duas-conversas">
+      <div class="step-header">
+        <div class="step-number sn-mint">🧪</div>
+        <div>
+          <div class="step-title">Suas duas primeiras tarefas de verdade</div>
+          <div class="step-sub">Uma que só olha, outra que mexe. Nessa ordem, de propósito.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Com o Claude Code aberto na pasta <span style="font-family:'JetBrains Mono',monospace;font-size:0.85em">oficina-claude</span>,
+        faça o primeiro pedido — um que <strong>só lê</strong>, sem mexer em nada:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Tarefa 1 — só olhar (leitura não pede permissão)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>dá uma olhada na pasta kit/bagunca e me conta: quantos arquivos tem,
+de quais tipos, e qual é a maior bagunça que você enxerga ali.</pre>
+        <div class="pc-por-que"><strong>Por que começar lendo:</strong> ler é seguro e instantâneo —
+          ele não pede permissão para olhar, só para mexer. É o jeito perfeito de criar intimidade
+          com a ferramenta.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">A pasta kit/bagunca tem 34 arquivos: 15 imagens, 12 textos e</span>
+          <span class="tela-linha tela-claude">planilhas, 7 PDFs. A maior bagunça: nomes sem padrão (IMG_8274,</span>
+          <span class="tela-linha tela-claude">"relatorio final FINAL (2)"…) e pelo menos 4 arquivos duplicados.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Agora a segunda tarefa — esta <strong>mexe</strong> na pasta, então repare na caixinha
+        de permissão aparecendo:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Tarefa 2 — criar algo (aí sim, permissão)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie um arquivo chamado diario-da-oficina.txt aqui na pasta, com uma
+linha dizendo que hoje foi minha primeira conversa com o Claude Code.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Vou criar o arquivo diario-da-oficina.txt com essa linha.</span>
+          <span class="tela-linha tela-perm">Posso criar o arquivo? [confirmar / recusar]</span>
+          <span class="tela-linha tela-dim">(você confirma…)</span>
+          <span class="tela-linha tela-claude">Criado! Abra a pasta e confira — ele está lá.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🏆</div>
+        <div class="tip-content">
+          <strong>Feche o ciclo:</strong> abra a pasta no Explorador/Finder e veja o arquivo com
+          seus próprios olhos. Pedir ✔ aprovar ✔ conferir ✔ — você acabou de rodar o ciclo
+          completo do capítulo 1 na vida real.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 7 · APARECEU CÓDIGO ═══════════ -->
+    <section class="step-section" id="codigo">
+      <div class="step-header">
+        <div class="step-number sn-red">😱</div>
+        <div>
+          <div class="step-title">"Apareceu um monte de código na tela!"</div>
+          <div class="step-sub">Vai acontecer. Provavelmente hoje. E está tudo bem.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Em algum momento, o Claude Code vai encher a tela com texto técnico — código, comandos,
+        nomes de arquivo passando rápido. <strong>Isso é ele trabalhando</strong>, não um erro.
+        Protocolo anti-pânico:
+      </p>
+
+      <ul class="checklist">
+        <li><strong>Não precisa ler o código.</strong> É bastidor — como a cozinha do restaurante:
+          você pediu o prato, não precisa assistir ao preparo.</li>
+        <li>Olhe para a <strong>última mensagem em português</strong> — é ali que ele resume o
+          que fez e o que encontrou.</li>
+        <li>Achou que ele se perdeu? <strong>Esc interrompe na hora</strong>, sem quebrar nada.
+          Depois é só reformular o pedido.</li>
+        <li>Ficou curioso? Pergunte: <em>"me explica o que você acabou de fazer, como se eu
+          tivesse 10 anos"</em>. Ele adora explicar.</li>
+      </ul>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 8 · KIT DE SOBREVIVÊNCIA ═══════════ -->
+    <section class="step-section" id="sobrevivencia">
+      <div class="step-header">
+        <div class="step-number sn-green">🎒</div>
+        <div>
+          <div class="step-title">Kit de sobrevivência: 5 coisas que resolvem 95% dos apuros</div>
+          <div class="step-sub">Cole na parede. Sério.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">⛔</span>
+          <span class="kw-name">Esc</span>
+          <span class="kw-desc">Interrompe o que ele está fazendo, na hora. O botão de pausa universal.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧹</span>
+          <span class="kw-name">/clear</span>
+          <span class="kw-desc">Começa uma conversa nova, do zero. Bom quando o assunto mudou de vez.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔑</span>
+          <span class="kw-name">/login</span>
+          <span class="kw-desc">Troca de conta (útil se você entrou com o e-mail errado).</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🚪</span>
+          <span class="kw-name">Fechar a janela</span>
+          <span class="kw-desc">Pode fechar sem medo: seus arquivos ficam. Só a conversa termina.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗣️</span>
+          <span class="kw-name">Perguntar</span>
+          <span class="kw-desc">"onde você está?", "o que você fez?", "me explica" — sempre funciona.</span>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧠</span>
+          Você pediu uma tarefa e ele começou a fazer algo que parece errado.
+          Qual é o primeiro movimento?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Fechar o computador correndo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Apertar Esc e reformular o pedido</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Esperar acabar para ver no que dá</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Desinstalar tudo</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Reflexo perfeito!"
+          data-wrong="😬 Tem saída mais elegante…"
+          data-explain="Esc pausa na hora, sem estrago. Aí você explica melhor o que queria — ou pergunta o que ele estava tentando fazer. Pânico nunca é a ferramenta certa.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 9 · RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou deste capítulo</div>
+          <div class="step-sub">Você está oficialmente pronto para as práticas.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>A pasta <strong>oficina-claude</strong> é sua bancada; o <strong>Kit</strong> é a bagunça segura para treinar.</li>
+        <li><strong>Onde você abre = o que ele enxerga.</strong> Abrir na pasta certa é 90% do jogo.</li>
+        <li>Bom pedido = <strong>tarefa + resultado desejado + freio</strong> ("plano antes de mexer").</li>
+        <li>Ler é livre; <strong>mexer pede permissão</strong>. Você viu os dois na prática.</li>
+        <li>Código na tela é bastidor; <strong>Esc</strong> é o botão de pausa; perguntar sempre funciona.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">Agora escolha a sua aventura…</div>
+        <p>
+          A partir daqui, as práticas são <strong>independentes</strong>: volte ao hub e escolha
+          a que mais parece com o seu dia a dia. Se quiser um conselho: a
+          <strong>Prática 04 (a pasta bagunçada)</strong> é a esteira de aquecimento perfeita —
+          rápida, visual e satisfatória demais.
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../02-preparando/">« Cap 02: Preparando</a>
+        <a class="nav-proximo" href="../04-pasta-bagunca/">Prática 04: A pasta bagunçada »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Capítulo 03 · A primeira conversa</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+<script>
+/* ===== Montador de pedido (3 peças) ===== */
+(function(){
+  const FRASES = {
+    tarefa:  'renomeie as fotos da pasta bagunca que começam com IMG',
+    formato: 'use o padrão foto-01.jpg, foto-02.jpg, em ordem de data',
+    freio:   'me mostre a lista do que vai mudar ANTES de renomear'
+  };
+  const NIVEIS = [
+    ['5%',   'pedido vazio',      'muted', 'Sem peças, sem pedido. Clique nas peças acima.'],
+    ['33%',  'vago demais',       'warn',  'Com 1 peça ele até tenta — mas vai ter que adivinhar o resto, e adivinhar é onde a IA erra.'],
+    ['66%',  'bom pedido',        'ok',    'Com 2 peças o resultado já sai do jeito que você imagina na cabeça.'],
+    ['100%', 'ótimo: com freio!', 'ok',    'As 3 peças: resultado do seu jeito E a chance de revisar antes de qualquer mudança. É o padrão dos profissionais.']
+  ];
+  window.c3Toggle = function(el){
+    el.classList.toggle('on');
+    const ativas = [...document.querySelectorAll('.c3-peca.on')].map(p => p.dataset.peca);
+    const n = ativas.length;
+    document.getElementById('c3-nivel').style.width = NIVEIS[n][0];
+    const rotulo = document.getElementById('c3-rotulo');
+    rotulo.textContent = NIVEIS[n][1];
+    rotulo.style.color = n === 3 ? 'var(--term)' : (n === 0 ? 'var(--text-dim)' : 'var(--accent5)');
+
+    const out = document.getElementById('c3-out');
+    out.innerHTML = '';
+    if (n > 0){
+      const cab = document.createElement('span');
+      cab.className = 'ln muted on';
+      cab.textContent = 'Seu pedido ficou assim:';
+      out.appendChild(cab);
+      out.appendChild(document.createElement('br'));
+      const ordem = ['tarefa','formato','freio'].filter(p => ativas.includes(p));
+      const pedido = document.createElement('span');
+      pedido.className = 'ln ok';
+      pedido.textContent = '"' + ordem.map(p => FRASES[p]).join('; ') + '"';
+      out.appendChild(pedido);
+      out.appendChild(document.createElement('br'));
+    }
+    const aval = document.createElement('span');
+    aval.className = 'ln ' + NIVEIS[n][2];
+    aval.textContent = NIVEIS[n][3];
+    out.appendChild(aval);
+    out.querySelectorAll('.ln').forEach((ln, i) => setTimeout(() => ln.classList.add('on'), 90 + i * 200));
+  };
+})();
+</script>
+
+</body>
+</html>

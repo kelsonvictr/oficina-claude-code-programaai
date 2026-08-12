@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 11 · E agora? Hábitos, segurança e a máquina do tempo — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do capítulo 11 (prefixo .c11-) ===== */
+
+/* Os 5 hábitos — checklist grande, com número e título */
+.c11-habitos{list-style:none;margin:20px 0;padding:0}
+.c11-habito{
+  display:flex;gap:18px;align-items:flex-start;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:20px 22px;margin-bottom:14px;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.c11-habito:hover{border-color:rgba(74,222,128,0.35);transform:translateY(-2px)}
+.c11-habito .num{
+  font-family:'JetBrains Mono',monospace;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+  font-size:1.1rem;font-weight:800;color:var(--term);
+  width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(74,222,128,0.10);border:1px solid rgba(74,222,128,0.3);
+}
+.c11-habito h4{font-size:1.02rem;font-weight:900;margin:0 0 5px;color:var(--text)}
+.c11-habito p{font-size:0.9rem;color:var(--text-dim);margin:0}
+.c11-habito p strong{color:var(--text)}
+
+/* Linha de antídoto dentro dos chips de limite */
+.c11-antidoto{
+  display:block;margin-top:8px;font-size:0.76rem;font-weight:800;
+  color:var(--term);
+}
+
+/* Card do encerramento emocional */
+.c11-final{
+  background:linear-gradient(135deg,rgba(217,119,87,0.10),rgba(74,222,128,0.05));
+  border:1px solid rgba(217,119,87,0.30);
+  border-radius:20px;padding:34px 30px;margin:24px 0;
+  text-align:center;
+}
+.c11-final .titulo{
+  font-family:'Caveat',cursive;font-size:2rem;color:var(--claude-soft);
+  margin-bottom:12px;line-height:1.1;
+}
+.c11-final p{
+  font-size:1rem;color:var(--text-dim);max-width:620px;margin:0 auto 12px;
+}
+.c11-final p:last-child{margin-bottom:0}
+.c11-final p strong{color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🧭 Cap 11 · E agora?</h3>
+    <a class="sidebar-back" href="../../">« voltar à oficina</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste capítulo</div>
+    <a class="sidebar-link" onclick="goTo('habitos')"><span class="dot" style="background:var(--term)"></span>Os 5 hábitos</a>
+    <a class="sidebar-link" onclick="goTo('limites')"><span class="dot" style="background:var(--accent2)"></span>Os limites honestos</a>
+    <a class="sidebar-link" onclick="goTo('caderninho')"><span class="dot" style="background:var(--accent5)"></span>O caderninho oficial</a>
+    <a class="sidebar-link" onclick="goTo('maquina-tempo')"><span class="dot" style="background:var(--accent6)"></span>A máquina do tempo</a>
+    <a class="sidebar-link" onclick="goTo('continuar')"><span class="dot" style="background:var(--accent4)"></span>Para onde ir agora</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent7)"></span>Quiz final da oficina</a>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--claude)"></span>Até logo</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🧭</span>
+    <span data-motion="float">🛡️</span>
+    <span data-motion="float">⏰</span>
+  </div>
+  <div class="hero-badge term">Capítulo 11 · Fechamento</div>
+  <h1>E agora?</h1>
+  <p class="subtitle">
+    A oficina acaba, o hábito começa. Este capítulo junta o que separa quem
+    <strong>testou</strong> uma ferramenta de quem <strong>trabalha</strong> com ela —
+    e entrega dois presentes de despedida: o caderninho oficial e a máquina do tempo.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip term">🧭 5 hábitos</span>
+    <span class="stack-chip voce">🛡️ 3 limites honestos</span>
+    <span class="stack-chip pratica">⏰ máquina do tempo</span>
+    <span class="stack-chip conceito">🎓 fechamento</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ 1 · OS 5 HÁBITOS ═══════════ -->
+    <section class="step-section" id="habitos">
+      <div class="step-header">
+        <div class="step-number sn-term">🧭</div>
+        <div>
+          <div class="step-title">Os 5 hábitos de quem usa IA todo dia</div>
+          <div class="step-sub">Você já praticou todos eles sem perceber. Agora ganham nome e moldura.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Nada disto é paranoia. É <strong>etiqueta profissional</strong> — o equivalente a
+        revisar um e-mail antes de enviar ou conferir o anexo antes do "responder a todos".
+        Quem trabalha com um assistente rápido e confiante adota estes cinco costumes:
+      </p>
+
+      <ul class="c11-habitos">
+        <li class="c11-habito">
+          <span class="num">1</span>
+          <div>
+            <h4>Uma pasta de trabalho por assunto</h4>
+            <p>Abra o Claude Code sempre numa pasta dedicada àquele assunto — nunca na pasta
+            raiz do computador. Ele enxerga (e mexe) só no que está ali dentro: <strong>a pasta
+            é o cercadinho</strong>.</p>
+          </div>
+        </li>
+        <li class="c11-habito">
+          <span class="num">2</span>
+          <div>
+            <h4>Plano antes de mexer</h4>
+            <p>Para qualquer tarefa que altere arquivos: <strong>"me mostre o plano antes"</strong>.
+            Custa uma frase e transforma surpresa em decisão.</p>
+          </div>
+        </li>
+        <li class="c11-habito">
+          <span class="num">3</span>
+          <div>
+            <h4>Conferir uma amostra na fonte</h4>
+            <p>Terminou? Abra <strong>dois ou três resultados</strong> com seus próprios olhos —
+            a planilha, o documento, a pasta. Um minuto de conferência vale mais que uma hora
+            de "será que deu certo?".</p>
+          </div>
+        </li>
+        <li class="c11-habito">
+          <span class="num">4</span>
+          <div>
+            <h4>Desconfiar de números e certezas</h4>
+            <p>Totais, datas, valores e afirmações categóricas ("a cláusula 12 diz que…")
+            merecem checagem na fonte <strong>antes</strong> de irem para qualquer decisão
+            importante. Não é desconfiança da ferramenta: é o mesmo cuidado que você teria
+            com um colega novo e apressado.</p>
+          </div>
+        </li>
+        <li class="c11-habito">
+          <span class="num">5</span>
+          <div>
+            <h4>Relatório do que mudou</h4>
+            <p>Em tarefas grandes, feche o pedido com <strong>"no final, crie um relatório
+            do que mudou"</strong>. É o seu recibo — e, se algo sair torto, o mapa do desfazer.</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Parece muito?</strong> Na prática vira reflexo em uma semana. Os cinco cabem
+          em uma linha: <strong>pasta certa, plano antes, amostra depois, número conferido,
+          recibo no final.</strong>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 2 · OS LIMITES HONESTOS ═══════════ -->
+    <section class="step-section" id="limites">
+      <div class="step-header">
+        <div class="step-number sn-red">⚖️</div>
+        <div>
+          <div class="step-title">Os limites honestos</div>
+          <div class="step-sub">Vender sonho é fácil. Este material prefere vender juízo.</div>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Agora que aprendi a usar, posso confiar de olhos fechados."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Aprender a usar não elimina os limites da ferramenta — <strong>ensina a trabalhar
+            com eles</strong>. O piloto experiente não confia menos no avião que o passageiro;
+            ele só sabe exatamente o que conferir antes de decolar. São três limites, e cada um
+            tem antídoto:
+          </p>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🎭</span>
+          <span class="kw-name">ALUCINA</span>
+          <span class="kw-desc">Às vezes inventa — um número, uma cláusula, um fato — com a
+          maior cara de certeza do mundo. Não é mentira, é o jeito como ele funciona.
+          <span class="c11-antidoto">💊 Antídoto: conferir a amostra na fonte.</span></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐠</span>
+          <span class="kw-name">MEMÓRIA DE PEIXE ENTRE CONVERSAS</span>
+          <span class="kw-desc">Cada conversa nova começa quase do zero: ele não lembra do que
+          vocês combinaram semana passada.
+          <span class="c11-antidoto">💊 Antídoto: regras e relatórios em arquivos na pasta —
+          arquivo ele lê, memória ele não tem.</span></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⛽</span>
+          <span class="kw-name">CUSTA USO</span>
+          <span class="kw-desc">O plano tem um limite de uso que se renova ao longo do dia.
+          Se ele avisar que o limite chegou, é pausa para o café — não defeito, não punição.
+          <span class="c11-antidoto">💊 Antídoto: esperar renovar (ou, para uso pesado,
+          um plano maior).</span></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 3 · O CADERNINHO GANHA NOME ═══════════ -->
+    <section class="step-section" id="caderninho">
+      <div class="step-header">
+        <div class="step-number sn-yellow">📓</div>
+        <div>
+          <div class="step-title">O caderninho de regras ganha nome oficial</div>
+          <div class="step-sub">Aquele truque da Prática 08 tinha certidão de nascimento o tempo todo.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Lembra do <strong>tom-de-voz.txt</strong> da Prática 08 — o arquivo de instruções que
+        o Claude consultava para escrever no seu estilo? A versão oficial disso tem nome:
+        <strong>CLAUDE.md</strong>. A diferença é uma só, e é ótima: esse arquivo o Claude Code
+        <strong>lê sozinho, automaticamente, toda vez que abre a pasta</strong>. Você não
+        precisa nem mencionar que ele existe.
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt pronto · criando o seu CLAUDE.md</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie um arquivo CLAUDE.md nesta pasta com minhas regras:
+responda sempre em português; antes de mudar mais de 3 arquivos,
+me mostre o plano; termine tarefas grandes com um relatório
+do que mudou.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> repare que as regras são…
+          os hábitos da seção 1. Você está gravando a etiqueta profissional no papel — e
+          terceirizando a memória dela para um arquivo.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Boa ideia! Vou criar o CLAUDE.md com essas 3 regras.</span>
+          <span class="tela-linha tela-perm">Posso criar o arquivo CLAUDE.md nesta pasta? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha de sempre)</span>
+          <span class="tela-linha tela-claude">Criado! A partir de agora, toda conversa nesta pasta</span>
+          <span class="tela-linha tela-claude">começa com essas regras já carregadas.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        E é isso: a partir daí, <strong>toda conversa naquela pasta já nasce com as suas
+        regras</strong>. Conversa nova, computador reiniciado, semana que vem — tanto faz.
+        O peixe esqueceu, mas o caderninho está na mesa. Uma pasta de trabalho, um CLAUDE.md:
+        esse par resolve boa parte do limite da memória.
+      </p>
+
+      <div class="tip">
+        <div class="tip-icon">✏️</div>
+        <div class="tip-content">
+          <strong>As regras são suas.</strong> "Nunca apague nada sem me mostrar a lista",
+          "escreva datas como dia/mês/ano", "trate 'os meninos' como a equipe de vendas" —
+          o que você repetiria toda conversa, escreva uma vez no CLAUDE.md. E para mudar,
+          é só pedir: "adicione uma regra no CLAUDE.md".
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 4 · A MÁQUINA DO TEMPO ═══════════ -->
+    <section class="step-section" id="maquina-tempo">
+      <div class="step-header">
+        <div class="step-number sn-purple">⏰</div>
+        <div>
+          <div class="step-title">A máquina do tempo</div>
+          <div class="step-sub">O presente de despedida da oficina. E não, você não vai precisar estudar nada.</div>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">O ponto de restauração dos videogames</div>
+        <p>
+          Todo videogame decente tem isso: antes da fase difícil, você <strong>salva o
+          jogo</strong>. Se der errado lá na frente, ninguém chora — carrega o save e tenta
+          de novo. Existe uma ferramenta que faz exatamente isso com pastas de trabalho:
+          fotografa o estado de tudo e deixa você <strong>voltar no tempo</strong> quando quiser.
+        </p>
+        <p>
+          A parte boa: você <strong>não precisa aprender a ferramenta</strong>. Precisa saber
+          que ela existe — e pedir. Quem instala, configura e opera é o próprio Claude.
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt pronto · ligando a máquina do tempo</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>quero pontos de restauração nesta pasta. instale e configure
+o que for preciso (acho que se chama git) e crie o primeiro
+ponto agora. de hoje em diante, quando eu pedir "cria um ponto
+de restauração", você cria; quando eu pedir "volta ao último
+ponto", você volta.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você descreve o resultado
+          (pontos de restauração) e combina o vocabulário das próximas conversas. O "acho que
+          se chama git" é proposital: você não precisa ter certeza — ele completa o resto.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Ótima ideia! É o git mesmo. Deixa eu ver se já está instalado…</span>
+          <span class="tela-linha tela-claude">Não está. É uma ferramenta gratuita e muito usada no mundo todo.</span>
+          <span class="tela-linha tela-perm">Posso instalar e configurar o git neste computador? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — instalar merece um "para que serve?", e ele acabou de explicar)</span>
+          <span class="tela-linha tela-claude">Instalado e configurado. Criando o primeiro ponto de restauração…</span>
+          <span class="tela-linha tela-claude">Pronto! Ponto criado: "estado inicial da pasta".</span>
+          <span class="tela-linha tela-claude">Quando quiser, é só pedir: "cria um ponto" ou "volta ao último ponto".</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">O cinto de segurança definitivo</div>
+        <p>
+          Com pontos de restauração, <strong>o medo de errar acaba de vez</strong>. Aquela
+          reorganização ousada, aquele "apaga os duplicados", aquele experimento — tudo vira
+          reversível. É a diferença entre andar na corda bamba e andar na corda bamba
+          <strong>com rede embaixo</strong>: a coragem muda de tamanho.
+        </p>
+        <p>
+          O ritual para tarefas grandes fica assim: <strong>"cria um ponto de restauração"</strong>,
+          depois o pedido, depois a conferência. Se gostou, segue. Se não gostou:
+          <strong>"volta ao último ponto"</strong> — e é como se nada tivesse acontecido.
+        </p>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>O que a máquina do tempo NÃO faz:</strong> "volta ao último ponto" desfaz as
+          <strong>mudanças na pasta</strong> desde aquele ponto — ela não mexe no resto do
+          computador, não desinstala programas, não recupera um e-mail enviado. E os pontos
+          só existem <strong>nas pastas onde você pediu</strong>: pasta nova, pedido novo.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 5 · PARA ONDE IR AGORA ═══════════ -->
+    <section class="step-section" id="continuar">
+      <div class="step-header">
+        <div class="step-number sn-blue">🗺️</div>
+        <div>
+          <div class="step-title">Para onde ir agora</div>
+          <div class="step-sub">Quatro caminhos. Pode trilhar todos — não são excludentes.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">💼</span>
+          <span class="kw-name">Use numa pasta real</span>
+          <span class="kw-desc">Escolha uma dor verdadeira do seu trabalho, crie a pasta
+          dedicada e aplique os 5 hábitos. A primeira tarefa real vale por três práticas.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📖</span>
+          <span class="kw-name">Documentação oficial</span>
+          <span class="kw-desc">Tudo sobre o Claude Code vive em code.claude.com/docs. Está em
+          inglês — e sim, peça ao próprio Claude para traduzir e explicar. Ele adora.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔁</span>
+          <span class="kw-name">Repita com SEUS arquivos</span>
+          <span class="kw-desc">Cada prática da oficina tem a seção "levando para a vida real".
+          Refazer com a sua planilha, o seu contrato, o seu texto — aí o aprendizado gruda.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧑‍🏫</span>
+          <span class="kw-name">Ensine alguém</span>
+          <span class="kw-desc">Mostre a um colega o ciclo de permissão e o plano-antes-de-mexer.
+          Explicar em voz alta é o jeito mais rápido de descobrir o que você realmente sabe.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 6 · QUIZ FINAL DA OFICINA ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-mint">🏁</div>
+        <div>
+          <div class="step-title">Quiz final da oficina</div>
+          <div class="step-sub">Duas perguntas que resumem onze capítulos. Sem pressão. Tá bom, um pouquinho.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧩</span>
+          Você vai pedir uma reorganização grande numa pasta importante do trabalho —
+          a de verdade, não a de treino. Qual é a ordem profissional?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Mandar executar logo: quanto antes começar, antes termina</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Ponto de restauração, plano, aprovar, conferir amostra</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Nunca usar IA em pasta importante, só na de treino</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir para ele "tomar muito cuidado" e deixar rolar</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 O ciclo completo, dominado!"
+          data-wrong="😬 Quase…"
+          data-explain="A ordem que junta a oficina inteira: rede de segurança primeiro (ponto de restauração), plano antes de mexer, SUA aprovação, e conferência de amostra no final. Com esses quatro, pasta importante deixa de ser pasta assustadora.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">📊</span>
+          Ele analisou a planilha e disse: "o total do trimestre é R$ 87.450". Você vai
+          apresentar esse número para o diretor daqui a uma hora. O que você faz?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Uso direto: ele nunca errou até hoje</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pergunto "você tem certeza absoluta?"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Refaço a soma inteira na calculadora</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Confiro uma amostra na própria planilha</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Hábito 3 + hábito 4, na veia!"
+          data-wrong="😬 Cuidado: número indo para o diretor merece mais que isso…"
+          data-explain="Perguntar 'tem certeza?' não é conferência — ele pode reafirmar o erro com a mesma confiança. Refazer tudo na mão joga fora o ganho. O equilíbrio profissional: abrir a planilha e conferir uma AMOSTRA na fonte (algumas linhas, um subtotal). Número que vai para decisão importante passa pela fonte antes.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 7 · ENCERRAMENTO ═══════════ -->
+    <section class="step-section" id="encerramento">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎓</div>
+        <div>
+          <div class="step-title">Até logo</div>
+          <div class="step-sub">Curto, porque despedida boa é despedida curta.</div>
+        </div>
+      </div>
+
+      <div class="c11-final">
+        <div class="titulo">Você chegou sabendo apontar o mouse.</div>
+        <p>
+          Sai sabendo <strong>dirigir um assistente</strong>: dar contexto, exigir plano,
+          aprovar com critério, conferir com os próprios olhos. O que muda o seu dia a dia
+          não é a ferramenta — ferramenta troca de nome todo ano.
+        </p>
+        <p>
+          O que muda é o <strong>hábito de delegar com juízo</strong>. E esse, a partir de hoje,
+          é seu.
+        </p>
+      </div>
+
+      <p class="mb-md"><strong>O que você leva da oficina:</strong></p>
+
+      <ul class="checklist">
+        <li>Um assistente que trabalha <strong>nos seus arquivos, em português</strong> — e o ciclo que o governa: você pede, ele propõe, <strong>você aprova, você confere</strong>.</li>
+        <li>O movimento profissional que serve para tudo: <strong>plano antes de mexer, relatório depois</strong>.</li>
+        <li>O hábito que protege sua reputação: <strong>número e afirmação categórica se conferem na fonte</strong>, por amostra.</li>
+        <li>O <strong>CLAUDE.md</strong>: suas regras escritas uma vez, lidas em toda conversa daquela pasta.</li>
+        <li>A <strong>máquina do tempo</strong>: pontos de restauração que transformam medo de errar em vontade de tentar.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../10-mini-site/">« Prática 10: Seu cantinho na internet</a>
+        <a class="nav-proximo" href="../../">Voltar ao hub da oficina 🎓</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Capítulo 11 · E agora? Hábitos, segurança e a máquina do tempo</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<!-- sem defer, de propósito: os motores de animação precisam existir
+     antes do primeiro scroll -->
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>
