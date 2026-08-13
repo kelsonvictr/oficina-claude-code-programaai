@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 04 · NotebookLM — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do módulo 04 (prefixo .m4-) ===== */
+.m4-vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:640px){.m4-vs{grid-template-columns:1fr}}
+.m4-vs-card{background:var(--surface2);border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.06)}
+.m4-vs-card.problema{border-top:3px solid var(--accent2)}
+.m4-vs-card.solucao{border-top:3px solid var(--term)}
+.m4-vs-card .m4-vs-ic{font-size:2rem;display:block;margin-bottom:8px}
+.m4-vs-card h4{font-size:1.02rem;font-weight:900;margin-bottom:10px}
+.m4-vs-card ul{list-style:none;margin:0;padding:0}
+.m4-vs-card li{display:flex;gap:8px;align-items:flex-start;font-size:0.88rem;color:var(--text-dim);padding:5px 0}
+.m4-vs-card.problema li::before{content:'😩';flex-shrink:0}
+.m4-vs-card.solucao li::before{content:'✅';flex-shrink:0}
+.m4-vs-card li strong{color:var(--text)}
+.m4-fontes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.m4-fonte{background:var(--surface2);border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.06);text-align:center}
+.m4-fonte .m4-fi{font-size:1.6rem;display:block;margin-bottom:6px}
+.m4-fonte strong{display:block;font-size:0.9rem;margin-bottom:4px}
+.m4-fonte span{font-size:0.78rem;color:var(--text-dim);line-height:1.4}
+.m4-passos{counter-reset:m4p;list-style:none;margin:18px 0;padding:0}
+.m4-passos li{counter-increment:m4p;position:relative;padding:14px 16px 14px 58px;margin-bottom:10px;background:var(--surface2);border-radius:14px;border:1px solid rgba(255,255,255,0.06);font-size:0.92rem;color:var(--text-dim);line-height:1.5}
+.m4-passos li::before{content:counter(m4p);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(217,119,87,0.2);color:var(--claude-soft);font-size:0.75rem;font-weight:900}
+.m4-passos li strong{color:var(--text)}
+.m4-recursos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:18px 0}
+.m4-rec{background:var(--surface2);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06)}
+.m4-rec .m4-ri{font-size:1.5rem;display:block;margin-bottom:8px}
+.m4-rec h4{font-size:0.95rem;font-weight:900;margin-bottom:6px}
+.m4-rec p{font-size:0.84rem;color:var(--text-dim);margin:0;line-height:1.5}
+.m4-diff{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media (max-width:640px){.m4-diff{grid-template-columns:1fr}}
+.m4-diff-card{border-radius:14px;padding:18px;background:var(--surface2);border:1px solid rgba(255,255,255,0.06)}
+.m4-diff-card.comum{border-top:3px solid var(--accent2)}
+.m4-diff-card.notebook{border-top:3px solid var(--term)}
+.m4-diff-card h4{font-size:0.9rem;font-weight:900;margin-bottom:8px}
+.m4-diff-card p{font-size:0.86rem;color:var(--text-dim);margin:0;line-height:1.55}
+.m4-uso{margin:16px 0;padding:18px 20px;border-radius:14px;background:var(--surface2);border-left:4px solid var(--claude)}
+.m4-uso h4{font-size:0.95rem;font-weight:900;margin-bottom:6px}
+.m4-uso p{font-size:0.88rem;color:var(--text-dim);margin:0;line-height:1.55}
+.m4-uso .m4-mono{display:block;margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--code-bg);font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#f0e7e0;line-height:1.6;font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📚 Módulo 04 · NotebookLM</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste módulo</div>
+    <a class="sidebar-link" onclick="goTo('problema')"><span class="dot" style="background:var(--accent2)"></span>O problema</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e')"><span class="dot" style="background:var(--accent4)"></span>O que é</a>
+    <a class="sidebar-link" onclick="goTo('diferenca')"><span class="dot" style="background:var(--claude)"></span>Vs LLM comum</a>
+    <a class="sidebar-link" onclick="goTo('pdf')"><span class="dot" style="background:var(--accent5)"></span>Upload de PDF</a>
+    <a class="sidebar-link" onclick="goTo('youtube')"><span class="dot" style="background:var(--accent6)"></span>YouTube</a>
+    <a class="sidebar-link" onclick="goTo('audio')"><span class="dot" style="background:var(--accent3)"></span>Audio Overview</a>
+    <a class="sidebar-link" onclick="goTo('guia')"><span class="dot" style="background:var(--term)"></span>Guia de estudo</a>
+    <a class="sidebar-link" onclick="goTo('exemplos')"><span class="dot" style="background:var(--accent7)"></span>Exemplos de uso</a>
+    <a class="sidebar-link" onclick="goTo('cuidados')"><span class="dot" style="background:var(--mito)"></span>Cuidados</a>
+    <a class="sidebar-link" onclick="goTo('exercicio')"><span class="dot" style="background:var(--accent4)"></span>Exercício</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz final</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent2)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">📄</span>
+    <span data-motion="float">▶</span>
+    <span data-motion="float">🎙</span>
+  </div>
+  <div class="hero-badge">Módulo 04 · Documentos</div>
+  <h1>IA com os seus<br>documentos</h1>
+  <p class="subtitle">
+    PDFs que você baixou e nunca leu, aulas longas no YouTube, manuais internos…
+    O <strong>NotebookLM</strong> transforma isso numa base consultável — e responde
+    <strong>só com as suas fontes</strong>, sempre com citação.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">📚 suas fontes</span>
+    <span class="stack-chip term">📌 com citação</span>
+    <span class="stack-chip pratica">🎙 Audio Overview</span>
+    <span class="stack-chip conceito">🆓 Google</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ O PROBLEMA ═══════════ -->
+    <section class="step-section" id="problema">
+      <div class="step-header">
+        <div class="step-number sn-red">😩</div>
+        <div>
+          <div class="step-title">O problema que o NotebookLM resolve</div>
+          <div class="step-sub">Conteúdo demais. Tempo de menos. Memória seletiva.</div>
+        </div>
+      </div>
+
+      <div class="m4-vs">
+        <div class="m4-vs-card problema">
+          <span class="m4-vs-ic">😩</span>
+          <h4>O dia a dia sem ferramenta</h4>
+          <ul>
+            <li><strong>Pilha de PDFs</strong> baixados e nunca lidos de verdade</li>
+            <li><strong>Vídeos longos</strong> — duas horas para extrair dez minutos úteis</li>
+            <li><strong>Não acha o trecho</strong> que lembra ter lido em algum arquivo</li>
+            <li><strong>Estudar é lento</strong> — ler, sublinhar, resumir tudo na mão</li>
+          </ul>
+        </div>
+        <div class="m4-vs-card solucao">
+          <span class="m4-vs-ic">✅</span>
+          <h4>Com o NotebookLM</h4>
+          <ul>
+            <li><strong>Base pessoal:</strong> seus documentos consultáveis em segundos</li>
+            <li><strong>Resumo em um clique</strong> de PDFs e vídeos longos</li>
+            <li><strong>Busca por pergunta</strong> — “qual é o prazo?” com citação</li>
+            <li><strong>Aprendizado acelerado:</strong> converse com o conteúdo</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Imagine um arquivista paciente</div>
+        <p>
+          Alguém que leu <strong>só</strong> o que você entregou, marca a página de cada
+          resposta e não inventa cláusula que não está no contrato. É isso — com a
+          velocidade de uma conversa no chat.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE É ═══════════ -->
+    <section class="step-section" id="o-que-e">
+      <div class="step-header">
+        <div class="step-number sn-purple">📚</div>
+        <div>
+          <div class="step-title">O que é o NotebookLM</div>
+          <div class="step-sub">Ferramenta do Google: seus documentos viram base de conhecimento.</div>
+        </div>
+      </div>
+
+      <p>
+        O <strong>NotebookLM</strong> é gratuito (login com conta Google) e transforma o
+        material que você carrega numa base consultável por linguagem natural. Você pergunta
+        em português; ele responde com base nas fontes do notebook — e mostra de onde tirou
+        cada trecho.
+      </p>
+
+      <p>
+        Acesse em
+        <a href="https://notebooklm.google.com" target="_blank" rel="noopener">notebooklm.google.com</a>.
+      </p>
+
+      <div class="m4-fontes">
+        <div class="m4-fonte">
+          <span class="m4-fi">📄</span>
+          <strong>PDFs</strong>
+          <span>Contratos, artigos, apostilas, relatórios</span>
+        </div>
+        <div class="m4-fonte">
+          <span class="m4-fi">▶</span>
+          <strong>YouTube</strong>
+          <span>Cole a URL — ele transcreve</span>
+        </div>
+        <div class="m4-fonte">
+          <span class="m4-fi">🔗</span>
+          <strong>URLs</strong>
+          <span>Páginas e artigos online</span>
+        </div>
+        <div class="m4-fonte">
+          <span class="m4-fi">📝</span>
+          <strong>Texto</strong>
+          <span>Cole trechos direto no notebook</span>
+        </div>
+        <div class="m4-fonte">
+          <span class="m4-fi">📁</span>
+          <strong>Google Drive</strong>
+          <span>Docs e arquivos da sua conta</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DIFERENÇA ═══════════ -->
+    <section class="step-section" id="diferenca">
+      <div class="step-header">
+        <div class="step-number sn-claude">🔑</div>
+        <div>
+          <div class="step-title">Por que é diferente de um LLM comum?</div>
+          <div class="step-sub">O ponto mais importante deste módulo — grave isto.</div>
+        </div>
+      </div>
+
+      <div class="m4-diff">
+        <div class="m4-diff-card comum">
+          <h4>⚠ ChatGPT / Claude sem as suas fontes</h4>
+          <p>
+            Respondem com base no treinamento geral. Podem alucinar fatos, inventar
+            fontes ou misturar contextos que não são o seu documento.
+          </p>
+        </div>
+        <div class="m4-diff-card notebook">
+          <h4>✅ NotebookLM com as suas fontes</h4>
+          <p>
+            Só usa o que você carregou. Cada resposta vem com a citação do trecho
+            (e, em PDF, o caminho da página). Zero invenção fora do material.
+          </p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Resultado prático</div>
+        <p>
+          Respostas <strong>confiáveis e rastreáveis</strong> — ideais para estudo, trabalho
+          com documentos reais e qualquer situação em que “de onde veio isso?” importa.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PDF ═══════════ -->
+    <section class="step-section" id="pdf">
+      <div class="step-header">
+        <div class="step-number sn-yellow">📤</div>
+        <div>
+          <div class="step-title">Recurso 1: upload de PDF e perguntas</div>
+          <div class="step-sub">Do arquivo na pasta à resposta citada em quatro passos.</div>
+        </div>
+      </div>
+
+      <ol class="m4-passos">
+        <li><strong>Faça o upload</strong> — arraste o PDF ou conecte pelo Google Drive.</li>
+        <li><strong>Aguarde o processamento</strong> — o NotebookLM lê, indexa e “entende” o documento.</li>
+        <li><strong>Pergunte em português</strong> — “Qual é o prazo de entrega?”, “Quais são as cláusulas de rescisão?”</li>
+        <li><strong>Leia a resposta citada</strong> — cada afirmação aponta o trecho e a página da fonte.</li>
+      </ol>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">💬</span>
+          <span class="pc-titulo">Perguntas prontas para um contrato (treino)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Com base apenas nas fontes deste notebook, responda:
+1) Qual é o prazo de entrega ou de vigência?
+2) Existe cláusula de multa? Em que condições?
+3) O que o cliente pediu de revisão (se houver e-mails ou anexos)?
+Para cada resposta, cite o documento e o trecho. Se a informação não estiver nas fontes, diga explicitamente que não encontrou.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> amarra o modelo às fontes e pede citação — o hábito certo no NotebookLM.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ YOUTUBE ═══════════ -->
+    <section class="step-section" id="youtube">
+      <div class="step-header">
+        <div class="step-number sn-green">▶</div>
+        <div>
+          <div class="step-title">Recurso 2: vídeo do YouTube + resumo</div>
+          <div class="step-sub">Cole a URL. Ele transcreve, indexa e deixa consultável.</div>
+        </div>
+      </div>
+
+      <p>
+        Aula de duas horas, palestra, tutorial: em vez de assistir tudo de novo, você
+        pergunta o que precisa. O NotebookLM trata o vídeo como mais uma fonte do notebook.
+      </p>
+
+      <div class="m4-recursos">
+        <div class="m4-rec">
+          <span class="m4-ri">📋</span>
+          <h4>Resumo por tópicos</h4>
+          <p>Peça os pontos principais sem reassistir a aula inteira.</p>
+        </div>
+        <div class="m4-rec">
+          <span class="m4-ri">❓</span>
+          <h4>Perguntas sobre o conteúdo</h4>
+          <p>Tire dúvidas pontuais com citação do trecho falado.</p>
+        </div>
+        <div class="m4-rec">
+          <span class="m4-ri">📖</span>
+          <h4>Glossário</h4>
+          <p>Termos mencionados na aula, definidos a partir do vídeo.</p>
+        </div>
+        <div class="m4-rec">
+          <span class="m4-ri">✅</span>
+          <h4>Lista para revisar</h4>
+          <p>Pontos que caem em prova ou que você quer revisitar.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ AUDIO OVERVIEW ═══════════ -->
+    <section class="step-section" id="audio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎙</div>
+        <div>
+          <div class="step-title">Recurso 3: Audio Overview</div>
+          <div class="step-sub">Dois hosts de IA debatem o seu material — em formato de podcast.</div>
+        </div>
+      </div>
+
+      <p>
+        Carregue as fontes, clique em <strong>Audio Overview</strong> e ouça uma conversa
+        natural sobre o conteúdo. Disponível em português. Ideal para estudar sem ficar
+        na frente da tela — no caminho, na academia, enquanto organiza a mesa.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">Quando usar</div>
+        <p>
+          Material denso (regulamento, apostila, três PDFs do mesmo tema) que você precisa
+          absorver de forma passiva antes de aprofundar com perguntas no chat.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ GUIA DE ESTUDO ═══════════ -->
+    <section class="step-section" id="guia">
+      <div class="step-header">
+        <div class="step-number sn-term">🗺</div>
+        <div>
+          <div class="step-title">Recurso 4: guia de estudo automático</div>
+          <div class="step-sub">Um clique — quatro tipos de material a partir das suas fontes.</div>
+        </div>
+      </div>
+
+      <div class="m4-recursos">
+        <div class="m4-rec">
+          <span class="m4-ri">📋</span>
+          <h4>Resumo</h4>
+          <p>Síntese do conteúdo principal de todas as fontes carregadas.</p>
+        </div>
+        <div class="m4-rec">
+          <span class="m4-ri">❓</span>
+          <h4>Perguntas frequentes</h4>
+          <p>As dúvidas mais comuns sobre o material, com resposta.</p>
+        </div>
+        <div class="m4-rec">
+          <span class="m4-ri">📖</span>
+          <h4>Glossário</h4>
+          <p>Termos e conceitos-chave definidos com base nas suas fontes.</p>
+        </div>
+        <div class="m4-rec">
+          <span class="m4-ri">🗺</span>
+          <h4>Guia de estudo</h4>
+          <p>Roteiro estruturado para absorver o conteúdo aos poucos.</p>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">📎</div>
+        <div class="warning-content">
+          <strong>Lixo entra, lixo sai.</strong> O guia automático é tão bom quanto as fontes
+          que você carregou. PDF ilegível ou vídeo sem áudio claro gera material fraco.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXEMPLOS ═══════════ -->
+    <section class="step-section" id="exemplos">
+      <div class="step-header">
+        <div class="step-number sn-mint">💡</div>
+        <div>
+          <div class="step-title">Exemplos de uso no trabalho e no estudo</div>
+          <div class="step-sub">Três cenários — adapte ao seu dia; use só documentos autorizados.</div>
+        </div>
+      </div>
+
+      <div class="m4-uso">
+        <h4>01 · Aula longa no YouTube</h4>
+        <p>
+          Cole a URL de uma aula (por exemplo, Direito Administrativo). Peça resumo por
+          tópicos, questões no estilo da banca e glossário dos termos. Você conversa com
+          o conteúdo sem reassistir as duas horas.
+        </p>
+        <span class="m4-mono">Resuma os tópicos principais desta aula. Depois gere 10 questões no estilo de múltipla escolha e explique quais temas costumam cair mais em prova — só com base nesta fonte.</span>
+      </div>
+
+      <div class="m4-uso">
+        <h4>02 · Pasta de um projeto (contrato + e-mails)</h4>
+        <p>
+          Carregue contrato, proposta e trocas de e-mail do projeto fictício “Portal Atlas”.
+          Pergunte prazo, revisões pedidas pelo cliente e cláusulas de multa — cada resposta
+          com citação.
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">📁</span>
+          <span class="pc-titulo">Perguntas para a pasta do projeto</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Com base apenas nas fontes deste notebook (contrato, proposta e e-mails do projeto Portal Atlas — dados fictícios):
+- Qual é o prazo de entrega?
+- O que o cliente pediu de revisão?
+- Há cláusula de multa? Em que casos?
+Responda de forma direta e cite documento + trecho. Se houver conflito entre fontes, aponte as duas versões.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> elimina a caça manual em vários arquivos e deixa a resposta verificável.</div>
+      </div>
+
+      <div class="m4-uso">
+        <h4>03 · Regulamento ou manual interno</h4>
+        <p>
+          Carregue o regulamento da empresa ou a política de férias (versão pública ou
+          material de treino). Pergunte qualquer regra em linguagem natural — funciona
+          como FAQ inteligente, sem precisar ler o PDF inteiro.
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🏢</span>
+          <span class="pc-titulo">Dúvida de política interna</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Segundo as fontes deste notebook, quantos dias de férias o colaborador pode tirar de uma vez? Existe regra sobre aviso prévio ao RH? Cite o artigo ou seção. Se a regra não estiver nas fontes, diga que não encontrou.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> resposta rápida para o dia a dia, com trilha de volta ao documento oficial.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ CUIDADOS ═══════════ -->
+    <section class="step-section" id="cuidados">
+      <div class="step-header">
+        <div class="step-number sn-red">🛡️</div>
+        <div>
+          <div class="step-title">Cuidados ao usar o NotebookLM</div>
+          <div class="step-sub">A ferramenta é tão boa quanto as fontes que você carrega.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">📄</div>
+        <div class="warning-content">
+          <strong>Qualidade da fonte = qualidade da resposta.</strong> PDFs mal digitalizados,
+          vídeos sem legenda ou documentos incompletos geram respostas ruins. Prefira
+          fontes limpas e legíveis.
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">🔒</div>
+        <div class="warning-content">
+          <strong>Não carregue dados sensíveis de clientes.</strong> CPFs reais, contratos
+          confidenciais, dados bancários ou informações pessoais de terceiros não devem
+          entrar no NotebookLM. Use material público, interno autorizado ou fictício de treino.
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Verifique as citações na fonte original antes de decisões importantes</li>
+        <li>Organize um notebook por tema ou projeto — misturar confunde as respostas</li>
+        <li>Se a resposta não citar fonte, peça de novo: “cite o trecho”</li>
+        <li>Trate o Audio Overview como introdução, não como substituto da leitura crítica</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha:</strong> misturar três projetos no mesmo notebook e depois
+          perguntar “qual é o prazo?”. O modelo pode misturar prazos de contratos diferentes.
+          Um notebook, um assunto.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXERCÍCIO ═══════════ -->
+    <section class="step-section" id="exercicio">
+      <div class="step-header">
+        <div class="step-number sn-green">🧪</div>
+        <div>
+          <div class="step-title">Exercício prático — NotebookLM</div>
+          <div class="step-sub">Abra notebooklm.google.com. Reserve cerca de dez minutos.</div>
+        </div>
+      </div>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <div class="exercise-icon">📚</div>
+          <div>
+            <div class="exercise-title">Seu primeiro notebook com citação</div>
+            <div class="exercise-sub">Exercício guiado</div>
+          </div>
+        </div>
+        <ol>
+          <li>Crie um notebook novo e escolha uma fonte: PDF seu (sem dados sensíveis) ou URL de um vídeo do YouTube útil para o trabalho.</li>
+          <li>Aguarde o processamento e peça o <strong>Guia de Estudo</strong> automático.</li>
+          <li>Faça 3 perguntas em linguagem natural e observe as <strong>citações</strong> nas respostas.</li>
+          <li>Se sobrar tempo, ative o <strong>Audio Overview</strong> e ouça os primeiros 2 minutos.</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎁</div>
+        <div class="tip-content">
+          <strong>Sem PDF à mão?</strong> Use um artigo público (URL) ou uma aula aberta no
+          YouTube da sua área. O importante é ver a citação aparecer na resposta.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎮</div>
+        <div>
+          <div class="step-title">Quiz final</div>
+          <div class="step-sub">Três checagens rápidas do que importa.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span>
+          A maior diferença entre o NotebookLM e um LLM comum (sem anexos) é:
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">O NotebookLM é sempre pago</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Ele responde só com as suas fontes e cita o trecho</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ele acessa o ERP da empresa automaticamente</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ele não aceita PDF</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎯 Isso!"
+          data-wrong="Quase — pense em citação e fontes…"
+          data-explain="O NotebookLM amarra a resposta ao que você carregou e mostra a citação. LLM genérico pode inventar fora do seu material.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span>
+          Você quer estudar um PDF denso no caminho para o trabalho. Qual recurso ajuda mais?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Audio Overview — podcast gerado a partir das fontes</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir ao Manus para acessar o banco de dados</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Desligar as citações para ir mais rápido</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Misturar cinco projetos no mesmo notebook</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎙 Perfeito."
+          data-wrong="Lembre do podcast automático…"
+          data-explain="O Audio Overview gera um debate em áudio sobre as suas fontes — estudo passivo sem tela.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span>
+          Qual cuidado é essencial?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Carregar CPF e contrato confidencial do cliente para “ficar completo”</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ignorar as citações se a resposta soar convincente</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Usar fontes limpas, evitar dados sensíveis e conferir citações</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um notebook só para a vida inteira, com tudo misturado</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🛡️ Excelente."
+          data-wrong="Revise qualidade, privacidade e organização…"
+          data-explain="Qualidade da fonte, privacidade e notebooks separados por tema são a tríade de uso responsável.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">📌</div>
+        <div>
+          <div class="step-title">O que ficou deste módulo</div>
+          <div class="step-sub">Quatro ideias para o bolso.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>NotebookLM:</strong> base pessoal — só suas fontes, sempre com citação</li>
+        <li><strong>YouTube:</strong> URL vira conteúdo consultável (transcrição automática)</li>
+        <li><strong>Audio Overview:</strong> podcast de IA para estudar sem tela</li>
+        <li><strong>Guia automático:</strong> resumo, FAQ, glossário e roteiro com um clique</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">A seguir</div>
+        <p>
+          No próximo módulo entramos no <strong>universo Claude</strong>: chat avançado,
+          Artifacts, Projects e Skills — o Claude além da conversa simples.
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../03-agentes-manus/">« Módulo 03: Agentes / Manus</a>
+        <a class="nav-proximo" href="../05-universo-claude/">Módulo 05: Universo Claude »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Módulo 04 · NotebookLM</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

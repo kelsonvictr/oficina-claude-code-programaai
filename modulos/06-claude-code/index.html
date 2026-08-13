@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 06 · Claude Code — IA na Prática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do módulo 06 (prefixo .m6-) — teaser + CTA ===== */
+.m6-vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:640px){.m6-vs{grid-template-columns:1fr}}
+.m6-vs-card{background:var(--surface2);border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.06)}
+.m6-vs-card.cowork{border-top:3px solid var(--accent4)}
+.m6-vs-card.codigo{border-top:3px solid var(--claude)}
+.m6-vs-card .vs-ic{font-size:2rem;display:block;margin-bottom:8px}
+.m6-vs-card h4{font-size:1.05rem;font-weight:900;margin-bottom:10px}
+.m6-vs-card ul{list-style:none;margin:0;padding:0}
+.m6-vs-card li{display:flex;gap:8px;align-items:flex-start;font-size:0.86rem;color:var(--text-dim);padding:5px 0;line-height:1.45}
+.m6-vs-card li strong{color:var(--text)}
+.m6-regra{text-align:center;margin:18px 0 8px;font-family:'Caveat',cursive;font-size:1.55rem;color:var(--claude-soft);line-height:1.25}
+.m6-galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+@media (max-width:700px){.m6-galeria{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.m6-galeria{grid-template-columns:1fr}}
+.m6-gal-item{background:var(--surface2);border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.06);text-align:center}
+.m6-gal-item .emoji{font-size:1.7rem;display:block;margin-bottom:6px}
+.m6-gal-item .kw-name{font-weight:800;font-size:0.9rem;margin-bottom:4px}
+.m6-gal-item .kw-desc{font-size:0.76rem;color:var(--text-dim);line-height:1.35}
+.m6-cta-bloco{margin:28px 0;padding:32px 28px;border-radius:22px;text-align:center;background:linear-gradient(145deg,rgba(217,119,87,0.22),rgba(74,222,128,0.10));border:2px solid rgba(217,119,87,0.45);box-shadow:0 0 40px var(--glow-claude)}
+.m6-cta-bloco .eyebrow{font-size:0.72rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--claude-soft);margin-bottom:10px}
+.m6-cta-bloco h3{font-size:1.55rem;font-weight:900;margin:0 0 12px;line-height:1.25}
+.m6-cta-bloco p{font-size:0.95rem;color:var(--text-dim);max-width:520px;margin:0 auto 22px;line-height:1.55}
+.m6-cta-bloco p strong{color:var(--text)}
+.m6-cta-botoes{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.m6-btn{display:inline-block;text-decoration:none;padding:14px 22px;border-radius:14px;font-weight:900;font-size:0.95rem;transition:transform 0.2s,box-shadow 0.2s}
+.m6-btn:hover{transform:translateY(-3px)}
+.m6-btn.principal{background:var(--claude);color:#1a0e08;box-shadow:0 8px 28px var(--glow-claude)}
+.m6-btn.principal:hover{box-shadow:0 12px 36px var(--glow-claude)}
+.m6-btn.secundario{background:var(--surface2);color:var(--term);border:1px solid rgba(74,222,128,0.35)}
+.m6-btn.secundario:hover{border-color:var(--term)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>💻 Módulo 06 · Claude Code</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste módulo</div>
+    <a class="sidebar-link" onclick="goTo('conceito')"><span class="dot" style="background:var(--claude)"></span>O que é</a>
+    <a class="sidebar-link" onclick="goTo('vs-cowork')"><span class="dot" style="background:var(--accent4)"></span>vs Cowork</a>
+    <a class="sidebar-link" onclick="goTo('por-que')"><span class="dot" style="background:var(--term)"></span>Por que importa</a>
+    <a class="sidebar-link" onclick="goTo('galeria')"><span class="dot" style="background:var(--accent5)"></span>O que dá para criar</a>
+    <a class="sidebar-link" onclick="goTo('oficina')"><span class="dot" style="background:var(--accent2)"></span>Oficina prática</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent7)"></span>Quiz rápido</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent6)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">💻</span>
+    <span data-motion="float">🛠️</span>
+    <span data-motion="float">🚀</span>
+  </div>
+  <div class="hero-badge">Módulo 06 · Ponte para a oficina</div>
+  <h1>Claude Code</h1>
+  <p class="subtitle">
+    Uma janela para o futuro do trabalho — e a porta de entrada da
+    <strong>oficina prática completa</strong> que já está neste material.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 português, não código</span>
+    <span class="stack-chip term">🖥️ nos seus arquivos</span>
+    <span class="stack-chip pratica">🛠️ 11 capítulos</span>
+    <span class="stack-chip conceito">🎯 teaser + CTA</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section class="step-section" id="conceito">
+      <div class="step-header">
+        <div class="step-number sn-claude">🧠</div>
+        <div>
+          <div class="step-title">Um conceito só</div>
+          <div class="step-sub">Guarde esta frase. O resto da oficina só aprofunda.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Claude Code em uma linha</div>
+        <p>
+          É um assistente de IA que <strong>mora no seu computador</strong> e
+          <strong>mexe nos seus arquivos</strong> — você descreve o que quer em português;
+          ele planeja, cria, executa e mostra o resultado na pasta.
+        </p>
+        <p>
+          Não é “mais um chat no navegador”. É alguém sentado na sua mesa, trabalhando
+          no disco que você já usa todo dia.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>O que ele entrega:</strong> scripts, automações, relatórios, planilhas,
+          páginas e ferramentas funcionando — não só a ideia, o arquivo pronto.
+          Planos pagos existem (Pro, Max…); detalhes em
+          <a href="https://claude.com/pricing" target="_blank" rel="noopener" style="color:var(--accent3)">claude.com/pricing</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <section class="step-section" id="vs-cowork">
+      <div class="step-header">
+        <div class="step-number sn-blue">⚖️</div>
+        <div>
+          <div class="step-title">Claude Code vs Cowork</div>
+          <div class="step-sub">Os dois automatizam. Os propósitos são diferentes.</div>
+        </div>
+      </div>
+
+      <div class="m6-vs">
+        <div class="m6-vs-card cowork">
+          <span class="vs-ic">🤝</span>
+          <h4>Cowork</h4>
+          <ul>
+            <li><strong>Faz:</strong> clica, navega, move arquivos, preenche formulários</li>
+            <li><strong>Interface:</strong> visual — você vê o Claude usando o computador</li>
+            <li><strong>Resultado:</strong> tarefa concluída (pasta organizada, formulário ok)</li>
+            <li><strong>Analogia:</strong> contratar alguém para uma tarefa manual</li>
+            <li><strong>Ideal:</strong> organizar, copiar, pesquisar, preencher</li>
+          </ul>
+        </div>
+        <div class="m6-vs-card codigo">
+          <span class="vs-ic">💻</span>
+          <h4>Claude Code</h4>
+          <ul>
+            <li><strong>Faz:</strong> cria ferramentas, automações e transformação de dados</li>
+            <li><strong>Interface:</strong> terminal / app — você descreve, ele executa</li>
+            <li><strong>Resultado:</strong> ferramenta criada (script, site, relatório automático)</li>
+            <li><strong>Analogia:</strong> contratar quem cria algo que roda sempre</li>
+            <li><strong>Ideal:</strong> automações permanentes, sob medida</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="m6-regra">Cowork resolve hoje. Claude Code cria o que resolve todos os dias.</p>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <section class="step-section" id="por-que">
+      <div class="step-header">
+        <div class="step-number sn-term">🚀</div>
+        <div>
+          <div class="step-title">Por que importa para quem não programa</div>
+          <div class="step-sub">A barreira “não sei código” deixa de ser o fim da linha.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">⏱</span>
+          <span class="kw-name">Elimina tarefas de horas</span>
+          <span class="kw-desc">Relatório mensal na mão? Ele cria um fluxo que gera o arquivo em segundos.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔄</span>
+          <span class="kw-name">Sem esperar o TI</span>
+          <span class="kw-desc">Ferramenta simples: você descreve. Não precisa freela para cada planilha nova.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📊</span>
+          <span class="kw-name">Dados viram valor</span>
+          <span class="kw-desc">Planilhas e PDFs bagunçados viram resumos, totais e gráficos — em português.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛠</span>
+          <span class="kw-name">Sob medida para você</span>
+          <span class="kw-desc">Calculadora do seu negócio, formulário do seu fluxo, script do seu e-mail.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <section class="step-section" id="galeria">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🖼️</div>
+        <div>
+          <div class="step-title">Galeria rápida: o que dá para criar</div>
+          <div class="step-sub">Exemplos para quem nunca abriu um editor de código.</div>
+        </div>
+      </div>
+
+      <div class="m6-galeria">
+        <div class="m6-gal-item">
+          <span class="emoji">📧</span>
+          <div class="kw-name">E-mails em lote</div>
+          <div class="kw-desc">Lê planilha de clientes e envia mensagem personalizada</div>
+        </div>
+        <div class="m6-gal-item">
+          <span class="emoji">📊</span>
+          <div class="kw-name">Relatório mensal</div>
+          <div class="kw-desc">Calcula totais, gera PDF e salva na pasta certa</div>
+        </div>
+        <div class="m6-gal-item">
+          <span class="emoji">🔁</span>
+          <div class="kw-name">Organização de arquivos</div>
+          <div class="kw-desc">Downloads da semana separados por tipo e data</div>
+        </div>
+        <div class="m6-gal-item">
+          <span class="emoji">🌐</span>
+          <div class="kw-name">Página simples</div>
+          <div class="kw-desc">Site do escritório ou formulário de captação</div>
+        </div>
+        <div class="m6-gal-item">
+          <span class="emoji">📋</span>
+          <div class="kw-name">Integração leve</div>
+          <div class="kw-desc">Copia dados entre planilhas e pastas</div>
+        </div>
+        <div class="m6-gal-item">
+          <span class="emoji">📈</span>
+          <div class="kw-name">Dashboard</div>
+          <div class="kw-desc">Gráficos atualizados sempre que você rodar de novo</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <section class="step-section" id="oficina">
+      <div class="step-header">
+        <div class="step-number sn-red">🛠️</div>
+        <div>
+          <div class="step-title">A oficina prática já está aqui</div>
+          <div class="step-sub">Não é “em breve”. São 11 capítulos, kit e práticas — neste material.</div>
+        </div>
+      </div>
+
+      <div class="m6-cta-bloco">
+        <div class="eyebrow">Próximo passo</div>
+        <h3>Entre na Oficina Claude Code</h3>
+        <p>
+          Instalação guiada, primeira conversa, sete práticas (pasta bagunçada, planilha,
+          PDF, marketing…) e hábitos de segurança. Tudo para
+          <strong>quem nunca programou</strong> — você escreve português; o Claude mexe nos arquivos.
+        </p>
+        <div class="m6-cta-botoes">
+          <a class="m6-btn principal" href="../../oficina/">Abrir o hub da oficina</a>
+          <a class="m6-btn secundario" href="../../oficina/01-o-que-e/">Começar pelo Cap 01</a>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🗺️</div>
+        <div class="tip-content">
+          <strong>Como usar este teaser:</strong> conceito + diferença com Cowork + motivação.
+          A mão na massa vive na oficina. Veio do Módulo 05? Abra o hub e siga o Cap 01.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-mint">🏁</div>
+        <div>
+          <div class="step-title">Quiz rápido (opcional)</div>
+          <div class="step-sub">Duas perguntas para travar o conceito.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">💻</span>
+          Claude Code, em essência, é…
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Só um site de chat igual ao claude.ai</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Um assistente que mora no seu computador e mexe nos seus arquivos</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um substituto obrigatório do Cowork</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um curso de programação Python</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Exato!"
+          data-wrong="😬 Quase…"
+          data-explain="A frase-âncora: mora no SEU computador, mexe nos SEUS arquivos. A oficina ensina o ciclo completo.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🤝</span>
+          Regra prática Cowork × Claude Code:
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">São a mesma ferramenta com nomes diferentes</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Cowork resolve hoje; Claude Code cria o que resolve todos os dias</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Claude Code só organiza Downloads</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Cowork escreve scripts permanentes</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Mandou bem!"
+          data-wrong="😬 Releia a comparação…"
+          data-explain="Cowork = tarefa pontual no computador. Claude Code = ferramenta/automação que você reutiliza.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-purple">✅</div>
+        <div>
+          <div class="step-title">O que ficou</div>
+          <div class="step-sub">Teaser cumprido. Agora é mão na massa.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Claude Code</strong> = assistente no seu computador, nos seus arquivos, em português.</li>
+        <li><strong>Cowork</strong> resolve a tarefa de hoje; <strong>Claude Code</strong> cria o que resolve sempre.</li>
+        <li>Importa para quem não programa: automação sem esperar TI, ferramentas sob medida.</li>
+        <li>A <strong>oficina completa</strong> (11 caps + kit + práticas) já está neste material.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../05-universo-claude/">« Módulo 05: Universo Claude</a>
+        <a class="nav-proximo" href="../../oficina/">Oficina Claude Code »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>IA na Prática — Módulo 06 · Claude Code</p>
+  <p>Feito com <span class="heart">❤</span> — a oficina prática te espera no hub.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

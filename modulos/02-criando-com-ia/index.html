@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 02 · Criando com IA — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do módulo 02 (prefixo .m2-) ===== */
+.m2-formula{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  align-items:center;margin:18px 0 8px;
+}
+.m2-formula-piece{
+  background:var(--surface2);border-radius:12px;padding:12px 16px;
+  border:1px solid rgba(255,255,255,0.08);
+  font-weight:800;font-size:0.9rem;
+}
+.m2-formula-plus{
+  color:var(--claude-soft);font-weight:900;font-size:1.1rem;
+}
+.m2-porques{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;
+}
+@media (max-width:720px){.m2-porques{grid-template-columns:1fr}}
+.m2-porque{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);text-align:center;
+}
+.m2-porque .m2-ic{font-size:1.8rem;display:block;margin-bottom:8px}
+.m2-porque h4{font-size:1rem;font-weight:900;margin-bottom:8px}
+.m2-porque p{font-size:0.86rem;color:var(--text-dim);margin:0}
+.m2-esperado{
+  background:var(--surface2);border-radius:14px;padding:16px 20px;
+  border-left:4px solid var(--term);margin:12px 0 20px;
+  font-size:0.9rem;color:var(--text-dim);
+}
+.m2-esperado strong{color:var(--text)}
+.m2-esperado ul{margin:8px 0 0;padding-left:18px}
+.m2-esperado li{margin:4px 0}
+.m2-video-status{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;
+}
+@media (max-width:640px){.m2-video-status{grid-template-columns:1fr}}
+.m2-vs-card{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m2-vs-card.ok{border-top:3px solid var(--term)}
+.m2-vs-card.lim{border-top:3px solid var(--accent5)}
+.m2-vs-card h4{font-size:1.02rem;font-weight:900;margin-bottom:10px}
+.m2-vs-card ul{list-style:none;margin:0;padding:0}
+.m2-vs-card li{
+  font-size:0.88rem;color:var(--text-dim);padding:5px 0;
+  padding-left:16px;position:relative;
+}
+.m2-vs-card li::before{content:'•';position:absolute;left:0;color:var(--claude-soft)}
+.m2-passos{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0;
+}
+.m2-passo{
+  flex:1 1 140px;max-width:180px;
+  background:var(--surface2);border-radius:14px;padding:14px;
+  border:1px solid rgba(255,255,255,0.06);text-align:center;
+}
+.m2-passo .m2-n{
+  display:inline-flex;width:24px;height:24px;border-radius:50%;
+  align-items:center;justify-content:center;
+  background:var(--claude);color:#1a0e08;
+  font-size:0.72rem;font-weight:900;margin-bottom:8px;
+}
+.m2-passo strong{display:block;font-size:0.88rem;margin-bottom:4px}
+.m2-passo span{font-size:0.78rem;color:var(--text-dim)}
+.m2-criar{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;
+}
+@media (max-width:720px){.m2-criar{grid-template-columns:1fr}}
+.m2-criar-card{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m2-criar-card h4{font-size:1.05rem;font-weight:900;margin-bottom:10px}
+.m2-criar-card ul{list-style:none;margin:0;padding:0}
+.m2-criar-card li{
+  font-size:0.86rem;color:var(--text-dim);padding:4px 0;
+  padding-left:14px;position:relative;
+}
+.m2-criar-card li::before{content:'–';position:absolute;left:0}
+.m2-teaser{
+  background:linear-gradient(135deg,rgba(217,119,87,0.12),rgba(217,119,87,0.04));
+  border:1px solid rgba(217,119,87,0.35);
+  border-radius:18px;padding:24px;margin:20px 0;
+}
+.m2-teaser h4{font-size:1.1rem;font-weight:900;margin-bottom:10px;color:var(--claude-soft)}
+.m2-teaser p{font-size:0.92rem;color:var(--text-dim);margin:0 0 10px}
+.m2-teaser p:last-child{margin:0}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>✨ Módulo 02 · Criando com IA</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste módulo</div>
+    <a class="sidebar-link" onclick="goTo('por-que')"><span class="dot" style="background:var(--accent5)"></span>Por que criar com IA</a>
+    <a class="sidebar-link" onclick="goTo('formula-texto')"><span class="dot" style="background:var(--accent4)"></span>Fórmula de texto</a>
+    <a class="sidebar-link" onclick="goTo('prompts-texto')"><span class="dot" style="background:var(--claude)"></span>Prompts de texto</a>
+    <a class="sidebar-link" onclick="goTo('cuidados-texto')"><span class="dot" style="background:var(--mito)"></span>Cuidados com texto</a>
+    <a class="sidebar-link" onclick="goTo('exercicio-texto')"><span class="dot" style="background:var(--accent6)"></span>Exercício de texto</a>
+    <a class="sidebar-link" onclick="goTo('imagens')"><span class="dot" style="background:var(--accent3)"></span>Imagens com Gemini</a>
+    <a class="sidebar-link" onclick="goTo('prompts-imagem')"><span class="dot" style="background:var(--term)"></span>Prompts de imagem</a>
+    <a class="sidebar-link" onclick="goTo('exercicio-imagem')"><span class="dot" style="background:var(--accent7)"></span>Exercício de imagem</a>
+    <a class="sidebar-link" onclick="goTo('video')"><span class="dot" style="background:var(--accent2)"></span>Vídeo e roteiros</a>
+    <a class="sidebar-link" onclick="goTo('o-que-criar')"><span class="dot" style="background:var(--accent5)"></span>O que dá pra criar</a>
+    <a class="sidebar-link" onclick="goTo('teaser-claude')"><span class="dot" style="background:var(--claude)"></span>Teaser Claude</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent7)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent2)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">📝</span>
+    <span data-motion="float">🖼️</span>
+    <span data-motion="float">🎬</span>
+  </div>
+  <div class="hero-badge">Módulo 02 · Criação</div>
+  <h1>Criando com IA</h1>
+  <p class="subtitle">
+    Textos, imagens e roteiros de vídeo com fórmulas claras e prompts prontos —
+    para você adaptar ao seu trabalho ainda hoje.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">✍️ fórmula de texto</span>
+    <span class="stack-chip term">🍌 imagens no Gemini</span>
+    <span class="stack-chip pratica">🎬 roteiros prontos</span>
+    <span class="stack-chip conceito">📋 copiar e adaptar</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ POR QUE ═══════════ -->
+    <section class="step-section" id="por-que">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🚀</div>
+        <div>
+          <div class="step-title">Por que criar com IA?</div>
+          <div class="step-sub">Não é “substituir o talento”. É acelerar o rascunho.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        A IA entrega o primeiro rascunho em segundos. Você aplica julgamento, contexto
+        local e experiência. O resultado final continua sendo seu — só chega mais rápido.
+      </p>
+
+      <div class="m2-porques">
+        <div class="m2-porque">
+          <span class="m2-ic">⚡</span>
+          <h4>Velocidade</h4>
+          <p>O que levava horas vira minutos. Você gasta energia em refinar, não em começar do zero.</p>
+        </div>
+        <div class="m2-porque">
+          <span class="m2-ic">🎯</span>
+          <h4>Consistência</h4>
+          <p>Tom de voz mais estável entre e-mails, posts e respostas — sem depender do humor do dia.</p>
+        </div>
+        <div class="m2-porque">
+          <span class="m2-ic">📈</span>
+          <h4>Escala</h4>
+          <p>Um prompt bem feito gera variações para públicos e formatos diferentes.</p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Mentalidade útil:</strong> trate a IA como estagiário rápido. Ela rascunha;
+          você edita, aprova e assume a responsabilidade.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ FÓRMULA TEXTO ═══════════ -->
+    <section class="step-section" id="formula-texto">
+      <div class="step-header">
+        <div class="step-number sn-mint">📐</div>
+        <div>
+          <div class="step-title">Como pedir textos de qualidade</div>
+          <div class="step-sub">Uma fórmula. Quatro peças. Resultado acionável.</div>
+        </div>
+      </div>
+
+      <div class="m2-formula">
+        <span class="m2-formula-piece">Contexto</span>
+        <span class="m2-formula-plus">+</span>
+        <span class="m2-formula-piece">Público</span>
+        <span class="m2-formula-plus">+</span>
+        <span class="m2-formula-piece">Formato</span>
+        <span class="m2-formula-plus">+</span>
+        <span class="m2-formula-piece">Tom</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">O que cada peça faz</div>
+        <p>
+          <strong>Contexto</strong> — quem você é e a situação.
+          <strong>Público</strong> — para quem é o texto.
+          <strong>Formato</strong> — e-mail, post, lista, documento.
+          <strong>Tom</strong> — formal, tranquilizador, direto, leve.
+          Sem essas peças, a IA preenche as lacunas com genérico.
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">❌</span>
+          <span class="pc-titulo">Prompt fraco (só para comparar)</span>
+        </div>
+        <pre>Escreve um e-mail para cliente</pre>
+        <div class="pc-por-que"><strong>Por que falha:</strong> sem contexto, sem público,
+          sem formato detalhado, sem tom. Resultado: texto genérico.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt forte — contador e MEI</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou contador. Escreva um e-mail para um cliente MEI explicando por que
+ele precisa fazer o ajuste anual do Simples. Tom: claro e tranquilizador.
+Máx. 150 palavras. Não invente valores nem prazos que eu não informei.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> as quatro peças estão lá —
+          e ainda há um freio contra invenção de números.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PROMPTS TEXTO ═══════════ -->
+    <section class="step-section" id="prompts-texto">
+      <div class="step-header">
+        <div class="step-number sn-purple">📝</div>
+        <div>
+          <div class="step-title">Três prompts de texto do mundo real</div>
+          <div class="step-sub">Contabilidade, hotelaria e advocacia — adapte à sua área.</div>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Análise de balanço para cliente (contador)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou contador e preciso explicar o balanço patrimonial do último exercício
+para um cliente dono de restaurante, sem formação financeira. Destaque
+3 pontos positivos e 1 alerta. Tom acessível. Máx. 200 palavras.
+Use apenas os números que eu fornecer na próxima mensagem.</pre>
+      </div>
+      <div class="m2-esperado">
+        <strong>O que esperar:</strong>
+        <ul>
+          <li>Introdução amigável contextualizando o período</li>
+          <li>Três pontos positivos em linguagem simples</li>
+          <li>Um alerta claro, sem gerar pânico</li>
+          <li>Fechamento com próximo passo sugerido</li>
+        </ul>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Resposta a avaliação negativa (hotel)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou gerente do Hotel Aurora Mar, 3 estrelas em João Pessoa (dados fictícios
+para treino). Um hóspede deixou avaliação 2 estrelas no Google reclamando
+do ar-condicionado barulhento e demora no check-in. Escreva uma resposta
+pública, profissional e empática. Máx. 120 palavras.</pre>
+      </div>
+      <div class="m2-esperado">
+        <strong>O que esperar:</strong>
+        <ul>
+          <li>Agradecimento pela avaliação (mesmo negativa)</li>
+          <li>Reconhecimento dos problemas sem defensividade</li>
+          <li>Ação concreta já tomada ou prometida</li>
+          <li>Convite para nova estadia com contato direto</li>
+        </ul>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Notificação extrajudicial acessível (advogado)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou advogado. Preciso de uma notificação extrajudicial para um locatário
+com 3 meses de aluguel atrasado. O documento deve ser formal e juridicamente
+cuidado, mas com linguagem que o destinatário leigo entenda. Prazo para
+regularização: 10 dias. Deixe campos [NOME], [ENDEREÇO] e [VALOR] para eu
+preencher. Não invente artigos de lei — cite apenas se eu fornecer a base.</pre>
+      </div>
+      <div class="m2-esperado">
+        <strong>O que esperar:</strong>
+        <ul>
+          <li>Cabeçalho com qualificação das partes (com placeholders)</li>
+          <li>Descrição do inadimplemento com espaço para datas e valores</li>
+          <li>Prazo claro e consequências em caso de descumprimento</li>
+          <li>Linguagem acessível sem perder o peso formal</li>
+        </ul>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚖️</div>
+        <div class="warning-content">
+          <strong>Importante:</strong> documentos jurídicos e contábeis gerados por IA
+          são rascunho. A revisão especializada é obrigatória antes de qualquer uso real.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ CUIDADOS TEXTO ═══════════ -->
+    <section class="step-section" id="cuidados-texto">
+      <div class="step-header">
+        <div class="step-number sn-red">⚠️</div>
+        <div>
+          <div class="step-title">Cuidados ao usar IA para texto</div>
+          <div class="step-sub">IA gera rascunhos. A responsabilidade técnica e legal é sempre sua.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🔎</span>
+          <span class="kw-name">Revisão humana</span>
+          <span class="kw-desc">Erros técnicos silenciosos passam se ninguém ler com atenção.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔢</span>
+          <span class="kw-name">Números e datas</span>
+          <span class="kw-desc">LLMs inventam valores e prazos. Confira na fonte original.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🎙️</span>
+          <span class="kw-name">Tom da marca</span>
+          <span class="kw-desc">A voz da IA é genérica. Adicione personalidade e exemplos locais.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔒</span>
+          <span class="kw-name">Dados sensíveis</span>
+          <span class="kw-desc">CPF, contratos e dados de clientes não entram em chats públicos.</span>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha:</strong> colar o contrato inteiro do cliente no chat “só para
+          resumir”. Use dados fictícios no treino. No trabalho real, anonimize ou use
+          ferramentas com política clara de privacidade — e só o necessário.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXERCÍCIO TEXTO ═══════════ -->
+    <section class="step-section" id="exercicio-texto">
+      <div class="step-header">
+        <div class="step-number sn-term">🧪</div>
+        <div>
+          <div class="step-title">Exercício prático — texto</div>
+          <div class="step-sub">Cinco minutos no Claude ou no ChatGPT.</div>
+        </div>
+      </div>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <span class="exercise-icon">✋</span>
+          <div>
+            <div class="exercise-title">Um texto que você já precisa escrever</div>
+            <div class="exercise-sub">prática guiada · fórmula completa</div>
+          </div>
+        </div>
+        <ol>
+          <li>Escolha uma área do seu trabalho (ou a sua profissão).</li>
+          <li>Identifique um texto que você escreve com frequência.</li>
+          <li>Monte o prompt com <strong>Contexto + Público + Formato + Tom</strong>.</li>
+          <li>Envie, leia e refine com uma segunda mensagem.</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔁</div>
+        <div class="tip-content">
+          <strong>Segunda mensagem típica:</strong> “deixe mais curto”, “troque o tom para
+          mais formal”, “remova jargão”, “adicione um próximo passo claro”.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ IMAGENS ═══════════ -->
+    <section class="step-section" id="imagens">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🍌</div>
+        <div>
+          <div class="step-title">Imagens: Nano Banana no Gemini</div>
+          <div class="step-sub">Geração nativa de imagens — direto no chat do Google.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        No Gemini, a geração de imagens aparece como ferramenta de criação (frequentemente
+        chamada de <strong>Nano Banana</strong> na interface). Você descreve o que quer;
+        o modelo gera a arte.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">Como acessar (visão geral)</div>
+        <p>
+          Abra <strong>gemini.google.com</strong>, entre na conta Google e use a opção de
+          criar imagens no menu de ferramentas. O acesso gratuito costuma ter limite diário;
+          planos pagos liberam mais qualidade e recursos. Confira os detalhes na própria
+          interface — eles mudam com frequência.
+        </p>
+      </div>
+
+      <div class="m2-formula">
+        <span class="m2-formula-piece">Sujeito</span>
+        <span class="m2-formula-plus">+</span>
+        <span class="m2-formula-piece">Estilo</span>
+        <span class="m2-formula-plus">+</span>
+        <span class="m2-formula-piece">Ambiente</span>
+        <span class="m2-formula-plus">+</span>
+        <span class="m2-formula-piece">Detalhes</span>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">❌</span>
+          <span class="pc-titulo">Prompt fraco de imagem</span>
+        </div>
+        <pre>Foto de escritório</pre>
+        <div class="pc-por-que"><strong>Por que falha:</strong> resultado imprevisível e genérico.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt forte — escritório</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Foto profissional de escritório de advocacia moderno, tons de azul escuro
+e madeira, iluminação natural, estilo corporativo clean, sem pessoas,
+horizontal 16:9</pre>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PROMPTS IMAGEM ═══════════ -->
+    <section class="step-section" id="prompts-imagem">
+      <div class="step-header">
+        <div class="step-number sn-green">🖼️</div>
+        <div>
+          <div class="step-title">Prompts de imagem para copiar</div>
+          <div class="step-sub">Infográfico financeiro e post de hotel — dados fictícios.</div>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Infográfico financeiro (treino)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Crie um infográfico financeiro moderno mostrando: receita mensal de
+R$42.000, despesas de R$28.000 e lucro de R$14.000 (números fictícios
+de treino). Use gráfico de barras, paleta azul e verde, fundo branco,
+estilo clean e profissional.</pre>
+        <div class="pc-por-que"><strong>Usos:</strong> anexo em relatório, post de resultado,
+          slide de abertura de reunião.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Quarto de hotel para Instagram</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Foto promocional de quarto de hotel boutique em João Pessoa à beira-mar.
+Cama arrumada com travesseiros brancos, vista para o mar ao fundo, luz
+suave de entardecer, estilo editorial de viagem, formato quadrado para
+Instagram.</pre>
+        <div class="pc-por-que"><strong>Usos:</strong> post de diária, cardápio visual,
+          banner de pacote de fim de semana.</div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎨</div>
+        <div class="tip-content">
+          <strong>Itere:</strong> a primeira imagem quase nunca é a final. Peça “mais limpo”,
+          “sem texto na arte”, “mais claro”, “troque a paleta para azul-marinho”.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXERCÍCIO IMAGEM ═══════════ -->
+    <section class="step-section" id="exercicio-imagem">
+      <div class="step-header">
+        <div class="step-number sn-mint">🧪</div>
+        <div>
+          <div class="step-title">Exercício prático — imagens</div>
+          <div class="step-sub">Abra o Gemini e use a criação de imagens.</div>
+        </div>
+      </div>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <span class="exercise-icon">🍌</span>
+          <div>
+            <div class="exercise-title">Uma imagem do seu dia a dia</div>
+            <div class="exercise-sub">prática guiada · 5 minutos</div>
+          </div>
+        </div>
+        <ol>
+          <li>Pense em uma imagem que você precisaria: post, banner ou capa.</li>
+          <li>Escreva o prompt com <strong>Sujeito + Estilo + Ambiente + Detalhes</strong>.</li>
+          <li>Gere e observe: o que ficou fora do esperado?</li>
+          <li>Refine e gere uma segunda versão.</li>
+        </ol>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ VÍDEO ═══════════ -->
+    <section class="step-section" id="video">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎬</div>
+        <div>
+          <div class="step-title">Vídeo: onde estamos e como começar</div>
+          <div class="step-sub">Roteiro primeiro. Geração de cenas depois — com revisão humana.</div>
+        </div>
+      </div>
+
+      <div class="m2-video-status">
+        <div class="m2-vs-card ok">
+          <h4>Já é possível</h4>
+          <ul>
+            <li>Gerar vídeos curtos a partir de texto</li>
+            <li>Criar roteiros completos em segundos</li>
+            <li>Legendar, traduzir e dobrar com IA</li>
+            <li>Editar com instruções em linguagem natural</li>
+          </ul>
+        </div>
+        <div class="m2-vs-card lim">
+          <h4>Ainda limitado</h4>
+          <ul>
+            <li>Consistência de personagens em cenas longas</li>
+            <li>Controle preciso de câmera</li>
+            <li>Resultados sempre pedem revisão</li>
+            <li>Alta qualidade pode exigir plano pago</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="m2-passos">
+        <div class="m2-passo">
+          <span class="m2-n">1</span>
+          <strong>Roteiro</strong>
+          <span>Peça cena a cena</span>
+        </div>
+        <div class="m2-passo">
+          <span class="m2-n">2</span>
+          <strong>Geração</strong>
+          <span>Ferramenta de vídeo</span>
+        </div>
+        <div class="m2-passo">
+          <span class="m2-n">3</span>
+          <strong>Edição</strong>
+          <span>Junte e legende</span>
+        </div>
+        <div class="m2-passo">
+          <span class="m2-n">4</span>
+          <strong>Exportação</strong>
+          <span>Vertical ou horizontal</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📱</div>
+        <div class="tip-content">
+          <strong>Comece pelo roteiro.</strong> Mesmo sem gerar o vídeo ainda, um roteiro
+          bom já serve para Stories, Reels e gravação com o celular.
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Roteiro 60s — IR para pessoa física</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Crie um roteiro de vídeo de 60 segundos para um contador explicar para
+pessoa física como declarar imposto de renda pela primeira vez.
+Linguagem simples, sem jargão. Formato: narração + 4 dicas visuais
+numeradas. Tom tranquilizador. Estruture com tempos aproximados
+(abertura, dicas, fechamento com CTA).</pre>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Roteiro 15s — Stories de hotel</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Crie roteiro de vídeo de 15 segundos para Stories do Instagram promovendo
+pacote de fim de semana de hotel em João Pessoa. Inclua: visual de praia,
+café da manhã incluso e preço especial (deixe [PREÇO] como placeholder).
+Tom: descontraído e convidativo. Formato vertical 9:16. Divida em 3 cenas.</pre>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Bônus: direitos do consumidor</div>
+        <p>
+          Outro roteiro útil: 45 segundos explicando o direito de arrependimento em
+          compras online — estrutura problema + lei + solução prática + CTA.
+          Peça linguagem acessível para leigo e tom educativo.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE CRIAR ═══════════ -->
+    <section class="step-section" id="o-que-criar">
+      <div class="step-header">
+        <div class="step-number sn-green">🧰</div>
+        <div>
+          <div class="step-title">O que você pode criar com IA agora</div>
+          <div class="step-sub">Um mapa rápido do que já cabe no seu dia a dia.</div>
+        </div>
+      </div>
+
+      <div class="m2-criar">
+        <div class="m2-criar-card">
+          <h4>📝 Textos</h4>
+          <ul>
+            <li>Relatórios e análises</li>
+            <li>Respostas a clientes</li>
+            <li>Documentos (sempre com revisão)</li>
+          </ul>
+        </div>
+        <div class="m2-criar-card">
+          <h4>🍌 Imagens</h4>
+          <ul>
+            <li>Capas e identidade visual</li>
+            <li>Conteúdo para redes</li>
+            <li>Materiais promocionais</li>
+          </ul>
+        </div>
+        <div class="m2-criar-card">
+          <h4>🎬 Vídeos</h4>
+          <ul>
+            <li>Roteiros em segundos</li>
+            <li>Educativos e promocionais</li>
+            <li>Stories e Reels</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">A divisão de trabalho</div>
+        <p>
+          A IA produz o rascunho. Você aplica o julgamento, o contexto e a experiência
+          profissional. Sem essa segunda parte, sobra conteúdo genérico.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ TEASER CLAUDE ═══════════ -->
+    <section class="step-section" id="teaser-claude">
+      <div class="step-header">
+        <div class="step-number sn-term">🔷</div>
+        <div>
+          <div class="step-title">Teaser: por que o Claude entra forte daqui pra frente</div>
+          <div class="step-sub">Sem instalar nada agora. Só o mapa do que vem.</div>
+        </div>
+      </div>
+
+      <div class="m2-teaser">
+        <h4>Claude no uso profissional</h4>
+        <p>
+          Entre os modelos que vimos, o Claude se destaca em análise profunda, honestidade
+          quando não sabe e recursos como Projects e Artifacts. Mais à frente no curso,
+          você conhece o universo Claude com calma — incluindo o Claude Code, que age
+          nos seus arquivos a partir de pedidos em português.
+        </p>
+        <p>
+          Por enquanto: continue criando textos e imagens. O hábito do bom prompt é a
+          base de tudo que vem depois.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">⏭️</div>
+        <div class="tip-content">
+          <strong>Próximo módulo:</strong> agentes com Manus — IA que executa tarefas
+          mais longas por você. Instalação e Claude Code ficam para módulos específicos,
+          sem pressa.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎮</div>
+        <div>
+          <div class="step-title">Quiz final</div>
+          <div class="step-sub">Três perguntas para fixar as fórmulas.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">✍️</span>
+          Qual é a fórmula de texto deste módulo?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Título + emoji + hashtag</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Contexto + Público + Formato + Tom</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Senha + login + captcha</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Só o assunto, sem detalhes</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="As quatro peças reduzem o genérico. Sem elas, a IA inventa o briefing.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🖼️</span>
+          Qual fórmula ajuda a descrever imagens?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Só o nome do arquivo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Sujeito + Estilo + Ambiente + Detalhes técnicos</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Qualquer frase com a palavra 'bonito'</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Enviar só um emoji</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Perfeito!"
+          data-wrong="😬 Quase…"
+          data-explain="Quanto mais concreto o visual (luz, enquadramento, estilo, formato), mais controlável o resultado.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">⚖️</span>
+          Você gerou uma notificação extrajudicial com IA. O próximo passo correto é:
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Enviar direto ao destinatário</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Publicar nas redes como modelo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Revisar com critério profissional antes de qualquer uso</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Assumir que a IA já validou juridicamente</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Responsabilidade em dia!"
+          data-wrong="😬 Cuidado…"
+          data-explain="IA entrega rascunho. Em direito e contabilidade, revisão humana não é opcional.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">📦</div>
+        <div>
+          <div class="step-title">O que ficou</div>
+          <div class="step-sub">Leve as fórmulas no bolso.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Texto: <strong>Contexto + Público + Formato + Tom</strong>.</li>
+        <li>Imagem: <strong>Sujeito + Estilo + Ambiente + Detalhes</strong>.</li>
+        <li>Vídeo: comece pelo <strong>roteiro</strong>; geração de cenas é o passo seguinte.</li>
+        <li>IA rascunha; <strong>você revisa</strong> — sobretudo números, leis e dados sensíveis.</li>
+        <li>Claude segue como destaque do curso; instalação avançada vem depois.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">Próximo passo</div>
+        <p>
+          No módulo 3 você conhece agentes com Manus: IA que encadeia tarefas mais longas
+          por você. O músculo do prompt que você treinou aqui continua sendo a base.
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../01-ia-na-pratica/">« Módulo 01: IA na Prática</a>
+        <a class="nav-proximo" href="../03-agentes-manus/">Módulo 03: Agentes com Manus »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 02 · Criando com IA</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

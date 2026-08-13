@@ -53,9 +53,10 @@ caixa de permissão pisca no quadro 4, arquivos "se organizam" no quadro 5.
 1º disparo automático na viewport; botão só para repetir. Fallback sem Motion.
 
 ## Estrutura de arquivos
-`index.html` (hub) · `capitulos/NN-slug/index.html` (auto-contido) · `shared/` · `assets/`
+`index.html` (hub do curso IA na Prática) · `modulos/NN-slug/index.html` (6 módulos) ·
+`oficina/` (hub + caps 01–11 da oficina Claude Code) · `shared/` · `assets/`
 (+ `assets/kit/` com os arquivos de exercício e `kit-oficina.zip`) · `context/` · `tools/`.
-Repo git independente (init na primeira entrega).
+Branch `feat/ia-na-pratica`; merge em `master` só sob pedido explícito.
 
 ## Tom
 PT-BR caloroso, "você", frases curtas. O leitor é ADULTO e INTELIGENTE, só não é técnico —

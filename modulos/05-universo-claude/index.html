@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 05 · O Universo Claude — IA na Prática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do módulo 05 (prefixo .m5-) ===== */
+
+.m5-vs{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;
+}
+@media (max-width:640px){.m5-vs{grid-template-columns:1fr}}
+.m5-vs-card{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m5-vs-card.empresa{border-top:3px solid var(--accent6)}
+.m5-vs-card.modelo{border-top:3px solid var(--claude)}
+.m5-vs-card .vs-ic{font-size:2rem;display:block;margin-bottom:8px}
+.m5-vs-card h4{font-size:1.02rem;font-weight:900;margin-bottom:10px}
+.m5-vs-card p{font-size:0.9rem;color:var(--text-dim);margin:0;line-height:1.55}
+.m5-vs-card p strong{color:var(--text)}
+
+.m5-familia{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;
+}
+@media (max-width:760px){.m5-familia{grid-template-columns:1fr}}
+.m5-modelo{
+  background:var(--surface2);border-radius:16px;padding:22px 20px;
+  border:1px solid rgba(255,255,255,0.06);
+  position:relative;
+}
+.m5-modelo.foco{
+  border-color:rgba(217,119,87,0.45);
+  box-shadow:0 0 28px var(--glow-claude);
+}
+.m5-modelo .selo{
+  position:absolute;top:12px;right:12px;
+  font-size:0.62rem;font-weight:900;letter-spacing:1px;
+  text-transform:uppercase;
+  background:rgba(217,119,87,0.18);color:var(--claude-soft);
+  padding:3px 8px;border-radius:20px;
+  border:1px solid rgba(217,119,87,0.35);
+}
+.m5-modelo .ic{font-size:1.8rem;display:block;margin-bottom:8px}
+.m5-modelo h4{font-size:1.05rem;font-weight:900;margin-bottom:6px}
+.m5-modelo .papel{
+  font-size:0.78rem;font-weight:800;letter-spacing:0.5px;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;
+}
+.m5-modelo ul{list-style:none;margin:0;padding:0}
+.m5-modelo li{
+  font-size:0.86rem;color:var(--text-dim);padding:4px 0;
+  padding-left:14px;position:relative;
+}
+.m5-modelo li::before{
+  content:'·';position:absolute;left:0;color:var(--claude-soft);font-weight:900;
+}
+
+.m5-tecnicas{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;
+}
+@media (max-width:640px){.m5-tecnicas{grid-template-columns:1fr}}
+.m5-tec{
+  background:var(--surface2);border-radius:14px;padding:16px 18px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m5-tec .n{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--claude);color:#1a0e08;
+  font-size:0.7rem;font-weight:900;margin-right:8px;
+}
+.m5-tec h4{display:inline;font-size:0.95rem;font-weight:900}
+.m5-tec p{font-size:0.84rem;color:var(--text-dim);margin:8px 0 0;line-height:1.5}
+
+.m5-artifact-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0;
+}
+@media (max-width:700px){.m5-artifact-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.m5-artifact-grid{grid-template-columns:1fr}}
+.m5-art-chip{
+  background:var(--surface2);border-radius:14px;padding:16px;
+  border:1px solid rgba(255,255,255,0.06);text-align:center;
+}
+.m5-art-chip .emoji{font-size:1.6rem;display:block;margin-bottom:6px}
+.m5-art-chip .kw-name{font-weight:800;font-size:0.9rem;margin-bottom:2px}
+.m5-art-chip .kw-desc{font-size:0.76rem;color:var(--text-dim);line-height:1.35}
+
+.m5-passos{margin:18px 0;padding-left:0;list-style:none;counter-reset:m5p}
+.m5-passos li{
+  counter-increment:m5p;
+  position:relative;
+  padding:12px 14px 12px 52px;
+  margin-bottom:10px;
+  background:var(--surface2);border-radius:12px;
+  border:1px solid rgba(255,255,255,0.05);
+  color:var(--text-dim);font-size:0.9rem;line-height:1.5;
+}
+.m5-passos li::before{
+  content:counter(m5p);
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;
+  background:var(--claude);color:#1a0e08;
+  font-weight:900;font-size:0.78rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.m5-passos li strong{color:var(--text)}
+
+.m5-cta-oficina{
+  display:block;text-align:center;text-decoration:none;
+  margin:22px 0;padding:22px 28px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(217,119,87,0.18),rgba(74,222,128,0.08));
+  border:1px solid rgba(217,119,87,0.35);
+  transition:transform 0.25s, box-shadow 0.25s;
+}
+.m5-cta-oficina:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 36px var(--glow-claude);
+}
+.m5-cta-oficina .cta-t{
+  display:block;font-size:1.15rem;font-weight:900;color:var(--text);margin-bottom:4px;
+}
+.m5-cta-oficina .cta-s{
+  display:block;font-size:0.88rem;color:var(--text-dim);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🔷 Módulo 05 · Universo Claude</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste módulo</div>
+    <a class="sidebar-link" onclick="goTo('anthropic')"><span class="dot" style="background:var(--accent6)"></span>Anthropic e Claude</a>
+    <a class="sidebar-link" onclick="goTo('familia')"><span class="dot" style="background:var(--claude)"></span>Família de modelos</a>
+    <a class="sidebar-link" onclick="goTo('chat')"><span class="dot" style="background:var(--accent4)"></span>Chat avançado</a>
+    <a class="sidebar-link" onclick="goTo('artifacts')"><span class="dot" style="background:var(--accent5)"></span>Artifacts</a>
+    <a class="sidebar-link" onclick="goTo('projects')"><span class="dot" style="background:var(--accent3)"></span>Projects</a>
+    <a class="sidebar-link" onclick="goTo('skills')"><span class="dot" style="background:var(--accent7)"></span>Skills</a>
+    <a class="sidebar-link" onclick="goTo('cowork')"><span class="dot" style="background:var(--term)"></span>Cowork</a>
+    <a class="sidebar-link" onclick="goTo('exercicio')"><span class="dot" style="background:var(--accent2)"></span>Exercício</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--claude)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">💬</span>
+    <span data-motion="float">🎨</span>
+    <span data-motion="float">🤝</span>
+  </div>
+  <div class="hero-badge">Módulo 05 · Universo Claude</div>
+  <h1>O Universo<br>Claude</h1>
+  <p class="subtitle">
+    Chat, Artifacts, Projects, Skills e Cowork — o Claude como
+    <strong>parceiro de trabalho</strong>, não só como caixa de perguntas.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 chat avançado</span>
+    <span class="stack-chip term">🎨 artifacts</span>
+    <span class="stack-chip pratica">📁 projects + skills</span>
+    <span class="stack-chip conceito">🤝 cowork</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ 1 · ANTHROPIC × CLAUDE ═══════════ -->
+    <section class="step-section" id="anthropic">
+      <div class="step-header">
+        <div class="step-number sn-purple">🏢</div>
+        <div>
+          <div class="step-title">Anthropic e Claude: duas coisas diferentes</div>
+          <div class="step-sub">Empresa atrás. Assistente na frente. Não misture os nomes.</div>
+        </div>
+      </div>
+
+      <div class="m5-vs">
+        <div class="m5-vs-card empresa">
+          <span class="vs-ic">🏢</span>
+          <h4>Anthropic</h4>
+          <p>
+            É a <strong>empresa</strong> que cria o Claude. Nasceu com uma missão explícita:
+            construir IA <strong>segura, honesta e útil</strong> — segurança como parte do
+            produto, não como adesivo no final.
+          </p>
+        </div>
+        <div class="m5-vs-card modelo">
+          <span class="vs-ic">🧠</span>
+          <h4>Claude</h4>
+          <p>
+            É o <strong>assistente</strong> com quem você conversa em
+            <a href="https://claude.ai" target="_blank" rel="noopener" style="color:var(--claude-soft)">claude.ai</a>.
+            Lê textos longos, escreve, analisa e — com as ferramentas deste módulo —
+            gera arquivos e ajuda a organizar o computador.
+          </p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Por que o Claude costuma se sentir diferente</div>
+        <p>
+          Três hábitos que o material valoriza: <strong>raciocínio em documentos longos</strong>
+          (contratos, relatórios, históricos), <strong>honestidade</strong> (dizer quando não sabe
+          ou quando está incerto) e <strong>alinhamento</strong> — valores de segurança
+          incorporados no jeito de responder, não só num filtro depois.
+        </p>
+        <p>
+          Isso não torna o Claude infalível. Torna o uso mais previsível: você pede,
+          confere e decide.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Analogia rápida:</strong> Anthropic é a montadora; Claude é o carro.
+          Você dirige o carro. A montadora importa quando fala de confiança e planos —
+          no dia a dia, o que importa é o volante.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 2 · FAMÍLIA ═══════════ -->
+    <section class="step-section" id="familia">
+      <div class="step-header">
+        <div class="step-number sn-claude">👨‍👩‍👧‍👦</div>
+        <div>
+          <div class="step-title">A família Claude</div>
+          <div class="step-sub">Três perfis. Neste curso, o equilíbrio é o Sonnet.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        A Anthropic oferece modelos com propósitos distintos. Você não precisa decorar
+        números de versão: basta saber o <strong>papel</strong> de cada um.
+      </p>
+
+      <div class="m5-familia">
+        <div class="m5-modelo">
+          <span class="ic">⚡</span>
+          <h4>Haiku</h4>
+          <div class="papel">O mais rápido e leve</div>
+          <ul>
+            <li>Respostas curtas do dia a dia</li>
+            <li>Triagem e classificação de textos</li>
+            <li>Tarefas simples e repetitivas</li>
+          </ul>
+        </div>
+        <div class="m5-modelo foco">
+          <span class="selo">nosso foco</span>
+          <span class="ic">⭐</span>
+          <h4>Sonnet</h4>
+          <div class="papel">Equilíbrio — potência + velocidade</div>
+          <ul>
+            <li>Análise de documentos e contratos</li>
+            <li>Relatórios e propostas</li>
+            <li>Projetos profissionais completos</li>
+          </ul>
+        </div>
+        <div class="m5-modelo">
+          <span class="ic">🔮</span>
+          <h4>Opus</h4>
+          <div class="papel">O mais poderoso</div>
+          <ul>
+            <li>Raciocínio jurídico ou financeiro profundo</li>
+            <li>Pesquisa e síntese extensas</li>
+            <li>Desafios complexos de várias etapas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Regra de bolso</div>
+        <p>
+          Comece no <strong>Sonnet</strong> — é o intermediário e o modelo deste curso.
+          Se a tarefa for trivial e você quiser velocidade, Haiku basta. Se travar em
+          algo muito denso, aí sim experimente o Opus (quando o seu plano permitir).
+        </p>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Sobre custo:</strong> o Claude no navegador tem limites no plano gratuito
+          e opções pagas (Pro, Max e afins). Valores mudam — confira sempre em
+          <a href="https://claude.com/pricing" target="_blank" rel="noopener" style="color:var(--accent5)">claude.com/pricing</a>
+          e acesse em
+          <a href="https://claude.ai" target="_blank" rel="noopener" style="color:var(--accent5)">claude.ai</a>.
+          Neste módulo não inventamos preço: o importante é saber que plano pago existe
+          e que o Sonnet costuma estar no centro da experiência profissional.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 3 · CHAT AVANÇADO ═══════════ -->
+    <section class="step-section" id="chat">
+      <div class="step-header">
+        <div class="step-number sn-blue">💬</div>
+        <div>
+          <div class="step-title">Chat avançado: além do básico</div>
+          <div class="step-sub">Quatro técnicas. A maioria das pessoas usa só a primeira frase.</div>
+        </div>
+      </div>
+
+      <div class="m5-tecnicas">
+        <div class="m5-tec">
+          <span class="n">1</span><h4>Dar persona</h4>
+          <p>
+            “Você é um contador sênior…” define o nível de profundidade. Sem persona,
+            o Claude responde genérico; com persona, responde no registro certo.
+          </p>
+        </div>
+        <div class="m5-tec">
+          <span class="n">2</span><h4>Pedir passo a passo</h4>
+          <p>
+            “Antes de responder, liste o que precisa considerar.” Força o raciocínio
+            a aparecer — e reduz o risco de um salto confiante para o lugar errado.
+          </p>
+        </div>
+        <div class="m5-tec">
+          <span class="n">3</span><h4>Iterar, não refazer</h4>
+          <p>
+            “Reescreva só o segundo parágrafo com tom mais formal.” O contexto fica.
+            Abrir conversa nova a cada ajuste é jogar memória fora.
+          </p>
+        </div>
+        <div class="m5-tec">
+          <span class="n">4</span><h4>Definir o formato</h4>
+          <p>
+            “Responda em tabela: Item | Valor | Observação.” O Claude adapta ao que
+            você vai colar no Word, no e-mail ou na planilha.
+          </p>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Assistente contábil — extrato do mês</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Você é um contador sênior. Vou colar um extrato bancário do mês. Quero que você:
+1) Classifique cada lançamento por categoria (alimentação, transporte, fornecedores, impostos, outros);
+2) Some o total de cada categoria;
+3) Identifique qualquer lançamento suspeito ou fora do padrão;
+4) Sugira 3 cortes de despesa possíveis.
+
+Formato: tabela + parágrafo de análise.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> persona + itens numerados + formato.
+          Reproduzível todo mês com um extrato novo.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Advogado — levantamento de caso</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Analise o caso a seguir e levante: fundamentos legais aplicáveis,
+jurisprudência favorável e contrária, pontos de risco e estratégia
+de defesa recomendada.
+
+[Cole o resumo do caso]</pre>
+        <div class="pc-por-que"><strong>Atenção:</strong> o Claude ajuda a organizar o raciocínio —
+          a responsabilidade da peça e da conferência jurídica continua sendo sua.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">RH — parecer de desligamento</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Com base nos fatos abaixo, redija um parecer de desligamento formal,
+com linguagem jurídica adequada, mencionando os artigos da CLT aplicáveis.
+Tom: objetivo e profissional.
+
+[Cole os fatos]</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> tom + estrutura + pedido de base legal.
+          Sempre revise artigos e fatos antes de assinar.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 4 · ARTIFACTS ═══════════ -->
+    <section class="step-section" id="artifacts">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎨</div>
+        <div>
+          <div class="step-title">Artifacts: o Claude entrega arquivo, não só texto</div>
+          <div class="step-sub">Dashboards, calculadoras, propostas — prontos para abrir no navegador.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Um <strong>Artifact</strong> é um arquivo gerado ao vivo: HTML, documento formatado,
+        formulário. Você vê o preview ao lado da conversa, testa e — se quiser —
+        baixa para usar offline.
+      </p>
+
+      <div class="m5-artifact-grid">
+        <div class="m5-art-chip">
+          <span class="emoji">📊</span>
+          <div class="kw-name">Dashboards</div>
+          <div class="kw-desc">Gráficos interativos no navegador</div>
+        </div>
+        <div class="m5-art-chip">
+          <span class="emoji">🧮</span>
+          <div class="kw-name">Calculadoras</div>
+          <div class="kw-desc">Ferramentas sob medida para o seu negócio</div>
+        </div>
+        <div class="m5-art-chip">
+          <span class="emoji">📄</span>
+          <div class="kw-name">Documentos</div>
+          <div class="kw-desc">Propostas, relatórios, pareceres</div>
+        </div>
+        <div class="m5-art-chip">
+          <span class="emoji">📋</span>
+          <div class="kw-name">Formulários</div>
+          <div class="kw-desc">Coleta de dados funcional</div>
+        </div>
+        <div class="m5-art-chip">
+          <span class="emoji">📈</span>
+          <div class="kw-name">Gráficos</div>
+          <div class="kw-desc">Visualização a partir dos seus números</div>
+        </div>
+        <div class="m5-art-chip">
+          <span class="emoji">⚙</span>
+          <div class="kw-name">Automações leves</div>
+          <div class="kw-desc">Scripts e utilitários gerados sob pedido</div>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Artifact 01 — Calculadora de imposto</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Crie uma calculadora de imposto de renda interativa em HTML.
+Campos: renda bruta mensal, tipo (CLT ou MEI), despesas dedutíveis.
+Calcule INSS, IRRF e líquido final. Mostre a alíquota efetiva.
+Visual limpo e profissional.</pre>
+        <div class="pc-por-que"><strong>O que chega:</strong> página com campos editáveis, cálculo em tempo real
+          e resumo do líquido. Confira as regras fiscais antes de usar com cliente real.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Artifact 02 — Dashboard de fluxo de caixa</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Crie um dashboard HTML interativo de fluxo de caixa mensal com estes dados:
+Receitas [cole os valores] e Despesas [cole os valores].
+
+Inclua: gráfico de barras receita vs despesa, gráfico de pizza por categoria
+de despesa, saldo final e indicador de saúde financeira (verde / amarelo / vermelho).</pre>
+        <div class="pc-por-que"><strong>Dica:</strong> prepare os números numa planilha simples antes.
+          O preview vira apresentação em segundos.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Artifact 03 — Proposta comercial</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Crie um documento de proposta comercial de serviços contábeis para o cliente abaixo.
+Inclua: apresentação do escritório, escopo dos serviços, honorários mensais,
+prazo, forma de pagamento e assinatura.
+Tom: profissional e confiante.
+
+Cliente: [Nome], [Tipo de empresa], [Serviço solicitado].</pre>
+        <div class="pc-por-que"><strong>Fluxo:</strong> cole os dados do cliente, revise em poucos minutos
+          e envie no mesmo dia.</div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🖱️</div>
+        <div class="tip-content">
+          <strong>Como reproduzir ao vivo:</strong> abra
+          <a href="https://claude.ai" target="_blank" rel="noopener" style="color:var(--accent3)">claude.ai</a>,
+          cole o prompt, espere o Artifact, clique em Preview, teste com números reais
+          e baixe o HTML se quiser usar offline. Depois ajuste em português:
+          “mude a cor para azul” ou “adicione campo de horas extras”.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 5 · PROJECTS ═══════════ -->
+    <section class="step-section" id="projects">
+      <div class="step-header">
+        <div class="step-number sn-green">📁</div>
+        <div>
+          <div class="step-title">Projects: memória que não some</div>
+          <div class="step-sub">Configure uma vez. Toda conversa do projeto já nasce contextualizada.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Projects</strong> é a memória persistente do Claude no navegador.
+        Você guarda perfil do escritório, documentos de referência e preferências —
+        e ele lembra em todas as conversas daquele projeto.
+      </p>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🏷️</span>
+          <span class="kw-name">Nome e perfil</span>
+          <span class="kw-desc">“Escritório Silva &amp; Associados, foco em MEI e ME.”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">👥</span>
+          <span class="kw-name">Tipo de cliente</span>
+          <span class="kw-desc">“Pequenos empresários do comércio varejista.”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📝</span>
+          <span class="kw-name">Padrão de relatório</span>
+          <span class="kw-desc">“Linguagem acessível, sem jargão desnecessário.”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⚖️</span>
+          <span class="kw-name">Referências</span>
+          <span class="kw-desc">Regras e documentos que o projeto deve consultar.</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">O que muda na prática</div>
+        <p>
+          Você para de repetir o contexto do escritório em toda conversa.
+          As análises já chegam no tom do seu cliente. Documentos do projeto
+          ficam à mão. O histórico de decisões fica organizado por projeto —
+          não espalhado em dezenas de chats soltos.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 6 · SKILLS ═══════════ -->
+    <section class="step-section" id="skills">
+      <div class="step-header">
+        <div class="step-number sn-mint">⚙</div>
+        <div>
+          <div class="step-title">Skills: Claude treinado no seu jeito</div>
+          <div class="step-sub">Instruções reutilizáveis para uma tarefa específica.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Uma <strong>Skill</strong> é um conjunto de instruções que molda o Claude para
+        um tipo de trabalho — como treinar um assistente uma vez e chamá-lo sempre
+        que precisar.
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Skill — Análise de contrato</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Você é um advogado especialista em contratos. Ao receber um contrato:
+1) Liste as cláusulas de risco;
+2) Identifique prazo, valor e rescisão;
+3) Aponte o que falta incluir;
+4) Formate o parecer no padrão do escritório.
+
+Ative com: [Skill: Análise de Contrato] + cole o contrato.</pre>
+        <div class="pc-por-que"><strong>Entrega típica:</strong> riscos com sugestão de alteração,
+          resumo executivo, lista do que falta e parecer formatado para revisão humana.</div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Projects + Skills:</strong> o Project guarda o “quem somos”.
+          A Skill guarda o “como fazemos esta tarefa”. Juntos, o Claude para de
+          improvisar do zero a cada pedido.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 7 · COWORK ═══════════ -->
+    <section class="step-section" id="cowork">
+      <div class="step-header">
+        <div class="step-number sn-term">🤝</div>
+        <div>
+          <div class="step-title">Cowork: Claude no seu computador</div>
+          <div class="step-sub">Ele opera a máquina — com o seu ok — e entrega o resultado na pasta.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          <strong>Cowork</strong> é o Claude operando o computador: lendo arquivos,
+          organizando pastas, navegando e preenchendo formulários — você descreve
+          a tarefa em português e acompanha o plano antes de confirmar.
+        </p>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📊</span>
+          <span class="kw-name">Ler planilhas</span>
+          <span class="kw-desc">Organizar e extrair dados automaticamente</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌐</span>
+          <span class="kw-name">Navegar</span>
+          <span class="kw-desc">Buscar informações em sites com seu ok</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📁</span>
+          <span class="kw-name">Mover arquivos</span>
+          <span class="kw-desc">Renomear, separar por pasta, limpar bagunça</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧾</span>
+          <span class="kw-name">Salvar relatórios</span>
+          <span class="kw-desc">Gerar e guardar na pasta certa</span>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Exemplo: organizar arquivos fiscais</div>
+        <p>
+          Cenário: pasta Downloads com dezenas de documentos fiscais misturados.
+          Você pede ao Cowork para organizar por cliente e, dentro de cada cliente,
+          por mês no formato AAAA-MM — sem mover um arquivo na mão.
+        </p>
+      </div>
+
+      <ol class="m5-passos">
+        <li><strong>Abra o Cowork</strong> em claude.ai (menu lateral) e autorize o acesso necessário no navegador.</li>
+        <li><strong>Descreva a tarefa</strong> em linguagem natural: pasta, critério (cliente + mês) e o que fazer com nomes estranhos.</li>
+        <li><strong>Confirme o plano</strong> antes de executar — ele mostra o que encontrou e o que vai criar.</li>
+        <li><strong>Acompanhe</strong> o progresso; você não precisa clicar arquivo por arquivo.</li>
+        <li><strong>Revise</strong> o resultado na pasta. O que não encaixar no padrão fica à parte para ajuste manual.</li>
+        <li><strong>Repita</strong> na próxima leva: o pedido fica pronto; novos arquivos seguem a mesma lógica.</li>
+      </ol>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Pedido pronto — Downloads fiscais</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Na pasta Downloads, encontre os arquivos fiscais.
+Organize em subpastas por cliente e, dentro de cada uma,
+subpastas por mês no formato AAAA-MM.
+Arquivos sem padrão claro de nome deixe na raiz para eu revisar.
+Antes de mover, mostre o plano.</pre>
+        <div class="pc-por-que"><strong>Bônus:</strong> depois, peça um relatório em TXT com a lista
+          de documentos por cliente.</div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Cowork não é Claude Code.</strong> Cowork automatiza ações no computador
+          (organizar, clicar, preencher). Claude Code cria ferramentas permanentes
+          (scripts, sites, automações que rodam de novo). O próximo módulo explica
+          a diferença — e abre a oficina prática.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 8 · EXERCÍCIO ═══════════ -->
+    <section class="step-section" id="exercicio">
+      <div class="step-header">
+        <div class="step-number sn-red">🧪</div>
+        <div>
+          <div class="step-title">Exercício — escolha seu perfil</div>
+          <div class="step-sub">Abra o claude.ai, escolha um caminho e execute. Poucos minutos bastam.</div>
+        </div>
+      </div>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <div class="exercise-icon">🎯</div>
+          <div>
+            <div class="exercise-title">Três portas, um mesmo hábito</div>
+            <div class="exercise-sub">Exercício guiado · claude.ai</div>
+          </div>
+        </div>
+        <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:14px">
+          Use dados <strong>fictícios</strong> se preferir (CPF inventado, contrato de uma página,
+          caso inventado). O objetivo é sentir o fluxo: pedir bem, ver o Artifact ou o texto,
+          conferir o resultado.
+        </p>
+        <ul class="checklist">
+          <li><strong>Contador:</strong> rode o prompt da Calculadora de Imposto com valores de um MEI fictício.</li>
+          <li><strong>Advogado:</strong> use a Skill / prompt de Análise de Contrato com um contrato curto (real ou inventado).</li>
+          <li><strong>RH / Admin:</strong> rode o Parecer de Desligamento com um caso fictício que você inventa agora.</li>
+        </ul>
+        <div class="tip" style="margin-bottom:0">
+          <div class="tip-icon">🏆</div>
+          <div class="tip-content">
+            <strong>Depois:</strong> anote (ou compartilhe) o resultado que mais te surpreendeu —
+            o formato, a velocidade ou o detalhe que você não tinha pedido e veio de brinde.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 9 · QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🏁</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Três perguntas. Sem pegadinha infantil — só conferência de conceito.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🏢</span>
+          Qual a diferença correta entre Anthropic e Claude?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">São o mesmo nome para a mesma coisa</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Anthropic é a empresa; Claude é o assistente</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Claude é a empresa; Anthropic é o chat</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Anthropic é só o plano pago</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="Anthropic fabrica; Claude é o produto com quem você conversa. Misturar os nomes confunde quando alguém pergunta 'qual ferramenta você usa?'.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🎨</span>
+          O que um Artifact entrega de diferente de uma resposta de chat comum?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Só um resumo mais curto</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Um arquivo/utilitário com preview (calculadora, dashboard, documento…)</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Acesso direto ao código-fonte da Anthropic</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Uma pasta no seu Disco C: sem pedir nada</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Perfeito!"
+          data-wrong="😬 Não era essa…"
+          data-explain="Artifact = entrega utilizável (HTML, documento, formulário) com preview. Ainda assim, você confere e decide se baixa.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🤝</span>
+          Cowork serve principalmente para…
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Substituir o Claude Code em qualquer cenário</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Treinar um modelo novo do zero no seu notebook</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Automatizar ações no computador (organizar arquivos, navegar, preencher) com seu ok</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Só gerar imagens promocionais</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Mandou bem!"
+          data-wrong="😬 Releia a seção Cowork…"
+          data-explain="Cowork age no computador sob plano confirmado. Claude Code (próximo módulo) cria ferramentas que você reutiliza — propósitos diferentes.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 10 · RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-claude">✅</div>
+        <div>
+          <div class="step-title">O que ficou deste módulo</div>
+          <div class="step-sub">Se levar só isto, já dá para trabalhar melhor no claude.ai.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Anthropic</strong> é a empresa; <strong>Claude</strong> é o assistente.</li>
+        <li>Na família de modelos, o <strong>Sonnet</strong> é o equilíbrio — e o foco deste curso.</li>
+        <li><strong>Chat avançado</strong> = persona + passo a passo + iteração + formato de saída.</li>
+        <li><strong>Artifacts</strong> entregam ferramentas e documentos com preview, não só parágrafo.</li>
+        <li><strong>Projects</strong> guardam memória; <strong>Skills</strong> guardam o jeito de fazer a tarefa.</li>
+        <li><strong>Cowork</strong> opera o computador com o seu ok — ideal para organizar e executar rotinas.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">No próximo módulo…</div>
+        <p>
+          Chega o <strong>Claude Code</strong>: o assistente que mora no seu computador
+          e mexe nos seus arquivos. É a ponte para a <strong>oficina prática completa</strong>
+          que já está neste material — 11 capítulos, kit e práticas.
+        </p>
+      </div>
+
+      <a class="m5-cta-oficina" href="../06-claude-code/">
+        <span class="cta-t">Seguir para o Módulo 06 · Claude Code »</span>
+        <span class="cta-s">Teaser curto + porta de entrada da oficina</span>
+      </a>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../04-notebooklm/">« Módulo 04: NotebookLM</a>
+        <a class="nav-proximo" href="../06-claude-code/">Módulo 06: Claude Code »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>IA na Prática — Módulo 05 · O Universo Claude</p>
+  <p>Feito com <span class="heart">❤</span> para quem quer usar o Claude de verdade no trabalho.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 03 · Agentes com Manus AI — Oficina Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do módulo 03 (prefixo .m3-) ===== */
+.m3-vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:640px){.m3-vs{grid-template-columns:1fr}}
+.m3-vs-card{background:var(--surface2);border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.06)}
+.m3-vs-card.llm{border-top:3px solid var(--accent4)}
+.m3-vs-card.agente{border-top:3px solid var(--claude)}
+.m3-vs-card .m3-vs-ic{font-size:2rem;display:block;margin-bottom:8px}
+.m3-vs-card h4{font-size:1.02rem;font-weight:900;margin-bottom:10px}
+.m3-vs-card ul{list-style:none;margin:0;padding:0}
+.m3-vs-card li{display:flex;gap:8px;align-items:flex-start;font-size:0.88rem;color:var(--text-dim);padding:5px 0}
+.m3-vs-card.llm li::before{content:'💬';flex-shrink:0}
+.m3-vs-card.agente li::before{content:'🤖';flex-shrink:0}
+.m3-vs-card li strong{color:var(--text)}
+.m3-loop{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:22px 0 8px}
+.m3-loop-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:96px;padding:14px 12px;border-radius:14px;background:var(--surface2);border:1px solid rgba(255,255,255,0.08);text-align:center}
+.m3-loop-step .m3-n{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(217,119,87,0.2);color:var(--claude-soft);font-size:0.72rem;font-weight:900}
+.m3-loop-step .m3-ic{font-size:1.35rem}
+.m3-loop-step .m3-label{font-size:0.72rem;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:var(--text)}
+.m3-loop-step .m3-desc{font-size:0.72rem;color:var(--text-dim);line-height:1.35;max-width:110px}
+.m3-tabela-wrap{overflow-x:auto;margin:18px 0}
+.m3-tabela{width:100%;border-collapse:collapse;font-size:0.88rem;background:var(--surface2);border-radius:14px;overflow:hidden}
+.m3-tabela th,.m3-tabela td{padding:12px 14px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06)}
+.m3-tabela th{background:rgba(217,119,87,0.12);color:var(--claude-soft);font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;font-weight:900}
+.m3-tabela td{color:var(--text-dim)}
+.m3-ok{color:var(--term);font-weight:800}
+.m3-parcial{color:var(--accent5);font-weight:800}
+.m3-acesso{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}
+.m3-acesso-item{background:var(--surface2);border-radius:14px;padding:16px 18px;border:1px solid rgba(255,255,255,0.06)}
+.m3-acesso-item .m3-ai{font-size:1.5rem;display:block;margin-bottom:6px}
+.m3-acesso-item strong{display:block;font-size:0.92rem;margin-bottom:4px}
+.m3-acesso-item span{font-size:0.82rem;color:var(--text-dim);line-height:1.45}
+.m3-formula{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:20px 0;font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0}
+.m3-formula .m3-pill{padding:8px 14px;border-radius:10px;background:rgba(217,119,87,0.14);border:1px solid rgba(217,119,87,0.35);color:var(--claude-soft)}
+.m3-formula .m3-mais{color:var(--text-dim);font-weight:900}
+.m3-fraco-forte{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media (max-width:640px){.m3-fraco-forte{grid-template-columns:1fr}}
+.m3-ex{border-radius:14px;padding:16px 18px;background:var(--surface2);border:1px solid rgba(255,255,255,0.06)}
+.m3-ex.fraco{border-top:3px solid #ff6b6b}
+.m3-ex.forte{border-top:3px solid var(--term)}
+.m3-ex h4{font-size:0.85rem;font-weight:900;margin-bottom:8px}
+.m3-ex p{font-size:0.86rem;color:var(--text-dim);margin:0;line-height:1.55}
+.m3-ex .m3-mono{display:block;margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--code-bg);font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#f0e7e0;line-height:1.6;font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🤖 Módulo 03 · Agentes</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste módulo</div>
+    <a class="sidebar-link" onclick="goTo('llm-vs-agente')"><span class="dot" style="background:var(--accent4)"></span>LLM vs agente</a>
+    <a class="sidebar-link" onclick="goTo('como-pensa')"><span class="dot" style="background:var(--claude)"></span>Como o agente pensa</a>
+    <a class="sidebar-link" onclick="goTo('quando-usar')"><span class="dot" style="background:var(--accent5)"></span>Quando usar cada</a>
+    <a class="sidebar-link" onclick="goTo('manus')"><span class="dot" style="background:var(--accent6)"></span>O que é o Manus</a>
+    <a class="sidebar-link" onclick="goTo('limitacoes')"><span class="dot" style="background:var(--accent2)"></span>Limitações honestas</a>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--term)"></span>Bom objetivo</a>
+    <a class="sidebar-link" onclick="goTo('exemplos')"><span class="dot" style="background:var(--accent3)"></span>Exemplos prontos</a>
+    <a class="sidebar-link" onclick="goTo('cuidados')"><span class="dot" style="background:var(--mito)"></span>Cuidados</a>
+    <a class="sidebar-link" onclick="goTo('exercicio')"><span class="dot" style="background:var(--accent7)"></span>Exercício prático</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent2)"></span>O que ficou</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz final</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🤖</span>
+    <span data-motion="float">⚙️</span>
+    <span data-motion="float">📋</span>
+  </div>
+  <div class="hero-badge">Módulo 03 · Agentes</div>
+  <h1>IA que trabalha<br>por você</h1>
+  <p class="subtitle">
+    Até agora a IA <strong>responde</strong>. Neste módulo ela <strong>executa</strong>:
+    recebe um objetivo, planeja as etapas e entrega o arquivo pronto — relatório,
+    planilha, contrato. O nome da ferramenta: <strong>Manus AI</strong>.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 português puro</span>
+    <span class="stack-chip term">🎯 objetivos prontos</span>
+    <span class="stack-chip pratica">🧪 1 exercício ao vivo</span>
+    <span class="stack-chip conceito">⚖️ LLM × agente</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ LLM VS AGENTE ═══════════ -->
+    <section class="step-section" id="llm-vs-agente">
+      <div class="step-header">
+        <div class="step-number sn-purple">⚖️</div>
+        <div>
+          <div class="step-title">LLM vs agente de IA</div>
+          <div class="step-sub">Mesma inteligência por baixo. Trabalho bem diferente na prática.</div>
+        </div>
+      </div>
+
+      <p>
+        Um <strong>LLM</strong> (o ChatGPT, o Claude no navegador, o Gemini) é ótimo para
+        conversar: você pergunta, ele responde em texto, você decide o próximo passo.
+        Um <strong>agente</strong> recebe um <em>objetivo</em> e tenta cumprir a jornada
+        inteira — pesquisar, ler, organizar, gerar o arquivo — sem você precisar
+        aprovar cada microtarefa.
+      </p>
+
+      <div class="m3-vs">
+        <div class="m3-vs-card llm">
+          <span class="m3-vs-ic">💬</span>
+          <h4>LLM — você pergunta</h4>
+          <ul>
+            <li><strong>Resposta única:</strong> entrega texto; o resto é com você</li>
+            <li><strong>Sem execução:</strong> não navega nem salva arquivos sozinho</li>
+            <li><strong>Ideal para:</strong> rascunhos, dúvidas, análises, ideias</li>
+          </ul>
+        </div>
+        <div class="m3-vs-card agente">
+          <span class="m3-vs-ic">🤖</span>
+          <h4>Agente — você define o alvo</h4>
+          <ul>
+            <li><strong>Planeja e executa:</strong> pesquisa, lê, escreve em sequência</li>
+            <li><strong>Entrega resultado:</strong> relatório, planilha, documento pronto</li>
+            <li><strong>Ideal para:</strong> tarefas de várias etapas que tomariam horas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Uma analogia de escritório</div>
+        <p>
+          O LLM é o colega esperto no chat: você manda uma dúvida, ele devolve um
+          parágrafo brilhante. O agente é o estagiário que recebe a pasta do projeto,
+          monta o plano sozinho e volta com o relatório impresso — ainda assim, <strong>você
+          revisa antes de enviar ao cliente</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ COMO PENSA ═══════════ -->
+    <section class="step-section" id="como-pensa">
+      <div class="step-header">
+        <div class="step-number sn-claude">🔄</div>
+        <div>
+          <div class="step-title">Como um agente pensa e age</div>
+          <div class="step-sub">Seis passos em loop — até o resultado bater com o pedido.</div>
+        </div>
+      </div>
+
+      <p>
+        Por baixo do capô, o agente não “adivinha” o arquivo final de uma vez. Ele
+        trabalha em ciclo: entende o alvo, quebra em etapas, age, olha o que saiu,
+        corrige se precisar e só então entrega.
+      </p>
+
+      <div class="m3-loop">
+        <div class="m3-loop-step">
+          <span class="m3-n">01</span>
+          <span class="m3-ic">🎯</span>
+          <span class="m3-label">Objetivo</span>
+          <span class="m3-desc">Você descreve o que quer, em português</span>
+        </div>
+        <div class="m3-loop-step">
+          <span class="m3-n">02</span>
+          <span class="m3-ic">📋</span>
+          <span class="m3-label">Planejamento</span>
+          <span class="m3-desc">Divide em etapas executáveis</span>
+        </div>
+        <div class="m3-loop-step">
+          <span class="m3-n">03</span>
+          <span class="m3-ic">⚙️</span>
+          <span class="m3-label">Ação</span>
+          <span class="m3-desc">Pesquisa, lê, escreve, organiza</span>
+        </div>
+        <div class="m3-loop-step">
+          <span class="m3-n">04</span>
+          <span class="m3-ic">👁</span>
+          <span class="m3-label">Observação</span>
+          <span class="m3-desc">Analisa o resultado de cada passo</span>
+        </div>
+        <div class="m3-loop-step">
+          <span class="m3-n">05</span>
+          <span class="m3-ic">🔧</span>
+          <span class="m3-label">Correção</span>
+          <span class="m3-desc">Ajusta o plano se algo falhou</span>
+        </div>
+        <div class="m3-loop-step">
+          <span class="m3-n">06</span>
+          <span class="m3-ic">✅</span>
+          <span class="m3-label">Entrega</span>
+          <span class="m3-desc">Arquivo no formato que você pediu</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUANDO USAR ═══════════ -->
+    <section class="step-section" id="quando-usar">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🧭</div>
+        <div>
+          <div class="step-title">Quando usar cada um?</div>
+          <div class="step-sub">A escolha certa depende de quantas etapas a tarefa tem.</div>
+        </div>
+      </div>
+
+      <div class="m3-tabela-wrap">
+        <table class="m3-tabela">
+          <thead>
+            <tr><th>Tarefa</th><th>LLM</th><th>Agente</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Redigir um e-mail para cliente</td><td class="m3-ok">sim</td><td>—</td></tr>
+            <tr><td>Criar legenda para post</td><td class="m3-ok">sim</td><td>—</td></tr>
+            <tr><td>Dúvida jurídica simples</td><td class="m3-ok">sim</td><td>—</td></tr>
+            <tr><td>Pesquisar e resumir vários artigos</td><td class="m3-parcial">parcial</td><td class="m3-ok">sim</td></tr>
+            <tr><td>Elaborar contrato e salvar em DOCX</td><td>—</td><td class="m3-ok">sim</td></tr>
+            <tr><td>Analisar planilha e gerar relatório</td><td>—</td><td class="m3-ok">sim</td></tr>
+            <tr><td>Pesquisar preços de fornecedores online</td><td>—</td><td class="m3-ok">sim</td></tr>
+            <tr><td>Triagem de e-mails e resumo do dia</td><td>—</td><td class="m3-ok">sim</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Regra de bolso</div>
+        <p>
+          Se a tarefa cabe em <strong>uma mensagem e uma resposta</strong>, use o LLM.
+          Se ela parece uma <strong>manhã de trabalho</strong> (abrir dez abas, cruzar dados,
+          montar um arquivo), pense em agente.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE É MANUS ═══════════ -->
+    <section class="step-section" id="manus">
+      <div class="step-header">
+        <div class="step-number sn-green">🌐</div>
+        <div>
+          <div class="step-title">O que é o Manus AI</div>
+          <div class="step-sub">Agente autônomo: você descreve o alvo; ele planeja e executa.</div>
+        </div>
+      </div>
+
+      <p>
+        O <strong>Manus AI</strong> é um agente que recebe um objetivo em linguagem natural,
+        monta as etapas e segue executando — pesquisar na web, ler documentos, organizar
+        dados, gerar relatório — sem pedir confirmação a cada clique. Você acompanha o
+        processo e recebe o arquivo no final.
+      </p>
+
+      <div class="m3-acesso">
+        <div class="m3-acesso-item">
+          <span class="m3-ai">🌐</span>
+          <strong>Como acessar</strong>
+          <span><a href="https://manus.im" target="_blank" rel="noopener">manus.im</a> — abra no navegador e crie a conta para começar.</span>
+        </div>
+        <div class="m3-acesso-item">
+          <span class="m3-ai">🆓</span>
+          <strong>Para começar</strong>
+          <span>Há conta gratuita com créditos para tarefas simples e médias. Planos pagos ampliam créditos e prioridade — confira os detalhes no próprio site.</span>
+        </div>
+        <div class="m3-acesso-item">
+          <span class="m3-ai">🗣</span>
+          <strong>Como usar</strong>
+          <span>Escreva o objetivo em português. Sem comando técnico, sem código.</span>
+        </div>
+        <div class="m3-acesso-item">
+          <span class="m3-ai">📁</span>
+          <strong>O que entrega</strong>
+          <span>Documentos, planilhas, relatórios e pesquisas — em PDF, DOCX e afins.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔍</div>
+        <div class="tip-content">
+          <strong>O que ele costuma fazer bem:</strong> pesquisa na web, leitura de PDF/Word/planilha,
+          geração de relatório, redação de e-mails formais, organização de dados dispersos e
+          criação de documentos (contratos, atas, FAQs) no formato pedido.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ LIMITAÇÕES ═══════════ -->
+    <section class="step-section" id="limitacoes">
+      <div class="step-header">
+        <div class="step-number sn-red">⚠️</div>
+        <div>
+          <div class="step-title">Limitações honestas</div>
+          <div class="step-sub">Expectativa realista antes de abrir o site — poderoso, não infalível.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">🔐</div>
+        <div class="warning-content">
+          <strong>Sem acesso a sistemas internos.</strong> O Manus não entra no seu ERP, no
+          sistema de gestão da empresa nem no banco de dados interno sem integração específica.
+          Trabalho com o que está na web ou no que você envia.
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">🎯</div>
+        <div class="warning-content">
+          <strong>Objetivo vago gera resultado vago.</strong> “Pesquisa fornecedores” sem
+          contexto, formato ou restrição tende a virar um texto genérico. A qualidade da
+          entrega acompanha a qualidade do pedido.
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">👁</div>
+        <div class="warning-content">
+          <strong>Revisão humana é obrigatória.</strong> O agente pode errar fatos, datas ou
+          interpretação. Nunca envie o arquivo ao cliente sem ler. A responsabilidade
+          profissional continua sendo sua.
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha:</strong> tratar o agente como “botão mágico” e colar o resultado
+          direto no e-mail. Use como acelerador — não como assinatura automática.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ BOM OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-term">✍️</div>
+        <div>
+          <div class="step-title">Como escrever um bom objetivo</div>
+          <div class="step-sub">Uma fórmula simples que muda o resultado.</div>
+        </div>
+      </div>
+
+      <p>
+        Em vez de “manda ver”, descreva o cenário. A fórmula que funciona:
+      </p>
+
+      <div class="m3-formula">
+        <span class="m3-pill">Contexto</span>
+        <span class="m3-mais">+</span>
+        <span class="m3-pill">Tarefa completa</span>
+        <span class="m3-mais">+</span>
+        <span class="m3-pill">Formato de entrega</span>
+        <span class="m3-mais">+</span>
+        <span class="m3-pill">Restrições</span>
+      </div>
+
+      <div class="m3-fraco-forte">
+        <div class="m3-ex fraco">
+          <h4>❌ Objetivo fraco</h4>
+          <p>Sem contexto, sem formato, sem restrições. O agente improvisa — e o improvável
+            raramente serve na reunião das 15h.</p>
+          <span class="m3-mono">Pesquisa fornecedores</span>
+        </div>
+        <div class="m3-ex forte">
+          <h4>✅ Objetivo forte</h4>
+          <p>Alvo claro, comparação pedida, formato definido, filtro de qualidade.</p>
+          <span class="m3-mono">Pesquise os 5 maiores fornecedores de descartáveis para hotéis no Brasil. Compare preço, prazo e avaliações. Entregue tabela em PDF. Só fontes confiáveis.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXEMPLOS ═══════════ -->
+    <section class="step-section" id="exemplos">
+      <div class="step-header">
+        <div class="step-number sn-purple">📦</div>
+        <div>
+          <div class="step-title">Exemplos de objetivos prontos</div>
+          <div class="step-sub">Copie, adapte aos seus dados fictícios de treino e envie no Manus.</div>
+        </div>
+      </div>
+
+      <p>
+        Os cenários abaixo usam <strong>dados inventados</strong> (empresa fictícia, nomes
+        inventados). São para treinar a fórmula — não para colar com informação real de cliente.
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🛒</span>
+          <span class="pc-titulo">Fornecedores — relatório comparativo</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Pesquise os 5 principais fornecedores de material de escritório no Brasil (cenário fictício da empresa Atlas Papelaria Ltda.). Compare preço médio, prazo de entrega e reputação pública. Entregue um relatório em PDF com tabela comparativa, links das fontes e uma recomendação final justificada em até 5 linhas. Use apenas fontes públicas e confiáveis.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> várias etapas (navegar, comparar, tabular, recomendar) e formato explícito — típico de agente, não de um chat único.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">📧</span>
+          <span class="pc-titulo">E-mails — triagem do dia (treino)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Imagine a caixa de entrada fictícia da secretária Marina Costa (empresa Horizonte Serviços). Com base na lista de e-mails que vou colar abaixo, organize um resumo do dia por urgência: (1) precisa de resposta agora, (2) pode esperar até amanhã, (3) só informativo. Para cada item urgente, sugira um rascunho de resposta em tom profissional e cordial. Entregue em um documento curto, em português.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> triagem + priorização + rascunhos — o tipo de manhã que some duas horas do seu tempo.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">📄</span>
+          <span class="pc-titulo">Contrato — prestação de serviços (fictício)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Elabore um contrato de prestação de serviços com cláusulas padrão (objeto, prazo, pagamento, rescisão, confidencialidade genérica). Dados fictícios: contratante "Lívia Andrade ME", CPF 000.000.000-00 (inválido de propósito); contratada "Norte Digital Soluções"; serviço de redesign de site institucional; valor R$ 4.800,00 em 2 parcelas; prazo de 45 dias. Salve em DOCX formatado e profissional. Deixe claro no rodapé que o texto é modelo para revisão humana, não aconselhamento jurídico.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> estrutura o documento do zero com dados preenchidos — e ainda assim exige revisão profissional antes de qualquer uso real.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">📊</span>
+          <span class="pc-titulo">Planilha — resumo executivo</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Analise a planilha fictícia de receitas e despesas do mês da empresa "Café do Cais" (vou anexar o arquivo). Identifique os 3 maiores centros de custo, a variação em relação ao mês anterior e escreva um resumo executivo de uma página, em linguagem clara para quem não é da área financeira. Entregue em PDF.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> lê números, calcula e devolve narrativa — pronto para reunião, sem você montar fórmula na mão.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ CUIDADOS ═══════════ -->
+    <section class="step-section" id="cuidados">
+      <div class="step-header">
+        <div class="step-number sn-red">🛡️</div>
+        <div>
+          <div class="step-title">Cuidados ao usar agentes</div>
+          <div class="step-sub">O agente é poderoso — a responsabilidade pelo resultado final é sua.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">🔐</div>
+        <div class="warning-content">
+          <strong>Não compartilhe dados sensíveis.</strong> CPF real, senhas, dados bancários,
+          contratos confidenciais e informações de clientes <strong>não</strong> devem entrar
+          nos prompts. Para treinar, use dados fictícios — como nos exemplos acima.
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Revise sempre o resultado antes de usar ou encaminhar</li>
+        <li>Comece com tarefas internas e de baixo risco até ganhar confiança</li>
+        <li>Lembre: agente acelera — não substitui julgamento profissional</li>
+        <li>Se o pedido envolve pessoa real, anonimize ou invente um cenário de treino</li>
+      </ul>
+
+      <div class="concept">
+        <div class="concept-title">Privacidade em uma frase</div>
+        <p>
+          Se você não colocaria aquele dado num e-mail aberto para a empresa toda, também
+          não coloque no objetivo do agente.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXERCÍCIO ═══════════ -->
+    <section class="step-section" id="exercicio">
+      <div class="step-header">
+        <div class="step-number sn-green">🧪</div>
+        <div>
+          <div class="step-title">Exercício prático — Manus AI</div>
+          <div class="step-sub">Abra manus.im. Reserve cerca de dez minutos e envie um objetivo real (sem dados sensíveis).</div>
+        </div>
+      </div>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <div class="exercise-icon">🤖</div>
+          <div>
+            <div class="exercise-title">Seu primeiro objetivo completo</div>
+            <div class="exercise-sub">Exercício guiado</div>
+          </div>
+        </div>
+        <ol>
+          <li>Pense em uma tarefa administrativa do seu trabalho que toma tempo demais.</li>
+          <li>Escreva o objetivo com a fórmula: <strong>Contexto + Tarefa + Formato + Restrições</strong>.</li>
+          <li>Envie no <a href="https://manus.im" target="_blank" rel="noopener">manus.im</a> e acompanhe a execução.</li>
+          <li>Quando entregar, leia o resultado: está pronto para usar? O que ajustaria?</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎁</div>
+        <div class="tip-content">
+          <strong>Travou no tema?</strong> Use um dos quatro prompt-cards desta página,
+          só trocando o nome da empresa fictícia pelo seu cenário (ainda sem dados reais
+          de cliente).
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">📌</div>
+        <div>
+          <div class="step-title">O que ficou deste módulo</div>
+          <div class="step-sub">Quatro ideias para levar no bolso.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Agente != LLM:</strong> o agente executa tarefas de várias etapas; o LLM responde</li>
+        <li><strong>Loop:</strong> objetivo -&gt; planejamento -&gt; ação -&gt; observação -&gt; correção -&gt; entrega</li>
+        <li><strong>Objetivo forte:</strong> contexto + tarefa + formato + restrições</li>
+        <li><strong>Uso responsável:</strong> sem dados sensíveis, sempre revisar, começar pelo baixo risco</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">A seguir</div>
+        <p>
+          No próximo módulo, a IA deixa de “sair ao mundo” e passa a trabalhar
+          <strong>só com os seus documentos</strong> — NotebookLM, citações e estudo sem
+          alucinação fora da fonte.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎮</div>
+        <div>
+          <div class="step-title">Quiz final</div>
+          <div class="step-sub">Três perguntas rápidas — sem pegadinha cruel.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span>
+          Você precisa de um rascunho curto de e-mail para remarcar uma reunião. O caminho
+          mais adequado é…
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Um LLM no chat — tarefa de uma resposta</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um agente — sempre é melhor automatizar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Mandar o cliente escrever o e-mail</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Abrir o ERP da empresa pelo Manus</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="Hmm, quase…"
+          data-explain="E-mail curto = uma mensagem, uma resposta. Agente brilha quando há várias etapas (pesquisar, cruzar, gerar arquivo).">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span>
+          Qual objetivo está mais completo segundo a fórmula do módulo?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Faz um relatório de concorrentes"</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">"Pesquise 4 concorrentes em João Pessoa, compare preço e avaliações, entregue tabela em PDF, só fontes públicas"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Concorrência urgente!!!"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Você que sabe o que eu preciso"</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎯 Perfeito."
+          data-wrong="Olha de novo a fórmula…"
+          data-explain="Contexto (João Pessoa) + tarefa (comparar) + formato (PDF) + restrição (fontes públicas) = objetivo forte.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span>
+          Qual atitude está correta ao usar o Manus?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Colar CPF e senha do cliente para “ficar mais preciso”</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Enviar o PDF gerado sem ler, porque IA não erra</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Treinar com dados fictícios, revisar o resultado e só então usar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir acesso ao banco de dados interno da empresa</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🛡️ Excelente hábito."
+          data-wrong="Cuidado com privacidade e revisão…"
+          data-explain="Sem dados sensíveis, revisão humana obrigatória, e o agente não acessa sistemas internos sozinho.">
+        </div>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../02-criando-com-ia/">« Módulo 02: Criando com IA</a>
+        <a class="nav-proximo" href="../04-notebooklm/">Módulo 04: NotebookLM »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Oficina Claude Code — Módulo 03 · Agentes com Manus AI</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>
