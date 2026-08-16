@@ -108,6 +108,8 @@ dizer "pode exigir plano pago" e linkar o site oficial. Revalidar antes de revis
 | NotebookLM | https://notebooklm.google.com | Gratuito no discurso do material do PDF; revalidar |
 | Manus AI | https://manus.im | Agente; limites e preços: só genérico até verificar |
 | Docs Anthropic | https://docs.anthropic.com | Referência; não catalogar no curso leigo |
+| Conectores (MCP) | https://claude.com/docs/connectors/overview | Conector = integração; MCP = protocolo por baixo |
+| Plugins | https://claude.com/docs/plugins/overview | Pacote Skills + Conectores + comandos (Code/Cowork) |
 
 Se um módulo precisar citar um preço concreto de terceiro, **primeiro** acrescentar o
 fato aqui com data de verificação e só então colocar no HTML.

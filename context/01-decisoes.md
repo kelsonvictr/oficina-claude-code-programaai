@@ -83,3 +83,10 @@
 - Sem "Junho 2026" / datas no conteúdo HTML (regra da casa).
 - Merge futuro: promove o curso a `master`; oficina permanece em `oficina/` (nada se perde).
   Hub secundário `oficina/index.html` já criado para porta direta "só Claude Code".
+
+## 2026-08-16 — Módulo 05: Skills, MCP, Conectores e Plugins
+- Expandido o Módulo 05 com: Skills (3 exemplos reais), o que é MCP (tomada padrão),
+  Conectores (face do MCP no Claude + exemplos Drive/Gmail/Slack), Plugins (kit instalável),
+  e quadro final Skill × Conector × Plugin.
+- Fonte de nomes/papéis: docs oficiais de Connectors (claude.com/docs/connectors/overview).
+  Sem inventar preços; lista de conectores dita como exemplos oficiais que podem mudar.
