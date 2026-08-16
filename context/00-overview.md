@@ -1,45 +1,55 @@
-# Oficina Claude Code — para quem nunca programou
+# IA na Prática — Programa AI (branch feat/ia-na-pratica)
 
-Material didático em HTML para uma **oficina prática de Claude Code voltada a NÃO-programadores**:
-gente de administração, direito, marketing, educação, saúde, secretaria — qualquer pessoa que
-convive com arquivos, planilhas, PDFs e textos e quer que o computador trabalhe por ela.
+Material didático em HTML: curso prático de **Inteligência Artificial na Prática**
+para não-programadores, com a **oficina Claude Code** embutida como aprofundamento
+do Módulo 6.
 
 ## O que este material É
 
 - Um **site estático** no padrão da família `super-html` (hub + capítulos autocontidos,
   tema dark, animações Motion com fallback CSS, quizzes, fluxos animados).
-- Uma **oficina mão-na-massa**: o coração são as PRÁTICAS — situações reais do dia a dia
-  de diferentes áreas, cada uma com cenário, "o que você vai precisar", arquivos de
-  exercício (Kit da Oficina), prompts prontos para copiar e "o que vai aparecer na tela".
-- **Zero pré-requisito de programação.** O participante nunca escreve código; ele escreve
-  PORTUGUÊS. Quando código aparece na tela (porque o Claude gerou), o material ensina a
-  NÃO entrar em pânico e a olhar só para o resultado.
-- O terminal é desmistificado logo no início: "uma janela de conversa, só que sem botões".
+- Um **curso de 6 módulos** (`modulos/`): fundação de IA/LLM, criação (texto/imagem/vídeo),
+  agentes (Manus), NotebookLM, Universo Claude, teaser Claude Code.
+- Uma **oficina mão-na-massa** (`oficina/`): os 11 capítulos originais de Claude Code
+  (base + 7 práticas + fechamento), acessível pelo Módulo 6 e pelo cartão do hub.
+- **Zero pré-requisito de programação.** O participante escreve PORTUGUÊS.
 
 ## O que este material NÃO é
 
-- Não é curso de programação, nem de Git, nem de Python. Essas ferramentas aparecem
-  apenas como coadjuvantes opcionais (git = "máquina do tempo", no capítulo final).
-- Não é documentação do Claude Code: não cataloga flags, MCP, hooks, SDK. Se o recurso
-  não serve ao público leigo nas primeiras semanas, não entra.
-- Não é material de venda da Anthropic — custos e limites de plano são ditos com clareza.
+- Não é curso de programação, nem de Git, nem de Python (coadjuvantes na oficina).
+- Não é documentação completa de cada produto (ChatGPT, Gemini, Manus…): só o que
+  serve ao leigo nas primeiras semanas.
+- Não é material de venda — custos e limites são ditos com clareza quando conhecidos.
 
 ## Público
 
-Adultos iniciantes absolutos, de áreas diversas, com notebook próprio (Windows na maioria,
-alguns macOS). Podem nunca ter aberto um terminal. Sabem usar navegador, WhatsApp, Word.
+Adultos iniciantes, áreas diversas, notebook próprio (Windows na maioria, alguns macOS).
+Sabem usar navegador, WhatsApp, Word.
 
-## Formato da oficina
+## Formato
 
-Pensado para funcionar dos dois jeitos:
-- **Presencial guiada** (~3–4h): caps 0–2 juntos (~1h) + 2–3 práticas à escolha + fechamento.
-- **Autoestudo**: o site é autossuficiente; cada prática é independente das outras.
+- **Presencial / imersão**: módulos 1–5 do curso + teaser 6; oficina Claude Code em
+  bloco separado ou segundo dia.
+- **Autoestudo**: hub autossuficiente; oficina independente após o Módulo 6.
 
-## Arquivos desta pasta
+## Estrutura de pastas (neste branch)
+
+| Pasta / arquivo | Papel |
+|---|---|
+| `index.html` | Hub do curso (6 módulos + link da oficina) |
+| `modulos/01`…`06` | Capítulos do curso IA na Prática |
+| `oficina/` | Oficina Claude Code (hub próprio + caps 01–11) |
+| `shared/` | CSS/JS compartilhados |
+| `assets/kit/` | Kit de treino da oficina |
+| `context/` | Memória viva |
+| `tools/` | `checar.py`, `gerar_kit.py` |
+
+## Arquivos desta pasta (`context/`)
 
 | Arquivo | Conteúdo |
 |---|---|
-| `01-decisoes.md` | Log cronológico de decisões (append-only, nunca apagar) |
-| `02-plano-capitulos.md` | O arco completo: 3 caps de base + práticas + fechamento |
-| `03-fatos-instalacao.md` | Fatos verificados sobre instalação/planos (atualizar quando mudar) |
-| `04-design-system.md` | Identidade visual "terminal amigável" + herança dos irmãos |
+| `01-decisoes.md` | Log cronológico de decisões (append-only) |
+| `02-plano-capitulos.md` | Arco da oficina Claude Code (sob `oficina/`) |
+| `02b-plano-modulos.md` | Arco dos 6 módulos do curso |
+| `03-fatos-instalacao.md` | Fatos verificados (atualizar quando mudar) |
+| `04-design-system.md` | Identidade visual "terminal amigável" |

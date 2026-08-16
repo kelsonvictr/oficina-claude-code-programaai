@@ -70,3 +70,16 @@
 - Ajustes de coerência: hero do cap 02 não promete mais "sem pré-requisitos escondidos";
   teaser do cap 01 fala em "um ou dois programas ajudantes"; `.precisa` das práticas 05, 06
   e 07 linkam para `../02-preparando/#vacina`.
+
+## 2026-08-13 — Curso IA na Prática no branch (opção 3)
+- Pedido: transformar o PDF Keynote `IA_na_Pratica_COMPLETO_3.pdf` (121 slides,
+  6 módulos) no padrão HTML deste repo **sem atrapalhar a oficina Claude Code**.
+- **Decisão de arquitetura (opção 3):** branch `feat/ia-na-pratica`; no branch o hub
+  vira o curso de 6 módulos; a oficina atual move para `oficina/` como aprofundamento
+  do Módulo 6. `master` permanece oficina pura até merge explícito.
+- Estrutura: `index.html` (hub curso) · `modulos/01`…`06` · `oficina/` (hub + caps 01–11).
+- Módulo 6 é teaser + CTA para `oficina/`; não duplica os 11 capítulos.
+- Conteúdo dos módulos reescrito em prosa a partir do PDF (não slide-a-slide).
+- Sem "Junho 2026" / datas no conteúdo HTML (regra da casa).
+- Merge futuro: promove o curso a `master`; oficina permanece em `oficina/` (nada se perde).
+  Hub secundário `oficina/index.html` já criado para porta direta "só Claude Code".

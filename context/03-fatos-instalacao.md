@@ -92,3 +92,23 @@ código de 6 caracteres para colar. Depois disso fica logado; `/login` para troc
 - **Git entra como pré-requisito APENAS no caminho app+Windows** (ver quadro acima) — e é
   apresentado como ajudante de bastidores, não como ferramenta a aprender. No cap 11 ele
   reaparece como "máquina do tempo", já instalado para a maioria.
+
+## Ferramentas do curso IA na Prática (além do Claude Code)
+
+Verificado de forma **mínima** para o material dos módulos 01–05: só URLs oficiais e
+linguagem genérica. **NÃO inventar preços, quotas ou nomes de planos** no HTML —
+dizer "pode exigir plano pago" e linkar o site oficial. Revalidar antes de revisar.
+
+| Ferramenta | URL oficial | Nota para o material |
+|---|---|---|
+| Claude (chat web) | https://claude.ai | Destaque do curso; Pro etc. ver pricing |
+| Preços Claude | https://claude.com/pricing | Única fonte de preço citada |
+| ChatGPT | https://chatgpt.com | Alternativa; planos mudam — sem valor fixo no texto |
+| Gemini | https://gemini.google.com | Imagens / "Nano Banana" / vídeo: UI muda — não prometer tela |
+| NotebookLM | https://notebooklm.google.com | Gratuito no discurso do material do PDF; revalidar |
+| Manus AI | https://manus.im | Agente; limites e preços: só genérico até verificar |
+| Docs Anthropic | https://docs.anthropic.com | Referência; não catalogar no curso leigo |
+
+Se um módulo precisar citar um preço concreto de terceiro, **primeiro** acrescentar o
+fato aqui com data de verificação e só então colocar no HTML.
+

@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 01 · IA na Prática — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local do módulo 01 (prefixo .m1-) ===== */
+.m1-fluxo{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  margin:20px 0;
+}
+.m1-fluxo-item{
+  flex:1 1 110px;max-width:140px;
+  background:var(--surface2);border-radius:14px;padding:14px 12px;
+  border:1px solid rgba(255,255,255,0.06);text-align:center;
+}
+.m1-fluxo-item .m1-n{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--claude);color:#1a0e08;
+  font-size:0.72rem;font-weight:900;margin-bottom:8px;
+}
+.m1-fluxo-item strong{
+  display:block;font-size:0.88rem;margin-bottom:4px;
+}
+.m1-fluxo-item span{
+  font-size:0.78rem;color:var(--text-dim);
+}
+.m1-vs{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;
+}
+@media (max-width:640px){.m1-vs{grid-template-columns:1fr}}
+.m1-vs-card{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m1-vs-card.ctx{border-top:3px solid var(--accent4)}
+.m1-vs-card.mem{border-top:3px solid var(--claude)}
+.m1-vs-card h4{font-size:1.02rem;font-weight:900;margin-bottom:10px}
+.m1-vs-card p{font-size:0.9rem;color:var(--text-dim);margin:0}
+.m1-tools{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;
+}
+@media (max-width:800px){.m1-tools{grid-template-columns:1fr}}
+.m1-tool{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m1-tool.destaque{
+  border-color:rgba(217,119,87,0.45);
+  box-shadow:0 0 28px var(--glow-claude);
+}
+.m1-tool .m1-marca{
+  font-size:0.72rem;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;
+}
+.m1-tool h4{font-size:1.1rem;font-weight:900;margin-bottom:10px}
+.m1-tool ul{list-style:none;margin:0;padding:0}
+.m1-tool li{
+  font-size:0.86rem;color:var(--text-dim);padding:4px 0;
+  padding-left:14px;position:relative;
+}
+.m1-tool li::before{
+  content:'•';position:absolute;left:0;color:var(--claude-soft);
+}
+.m1-tool .m1-selo{
+  display:inline-block;margin-top:12px;
+  font-size:0.68rem;font-weight:900;letter-spacing:1px;
+  text-transform:uppercase;padding:4px 10px;border-radius:20px;
+  background:rgba(217,119,87,0.18);color:var(--claude-soft);
+  border:1px solid rgba(217,119,87,0.35);
+}
+.m1-alavancas{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;
+}
+@media (max-width:720px){.m1-alavancas{grid-template-columns:1fr}}
+.m1-alavanca{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);text-align:center;
+}
+.m1-alavanca .m1-ic{font-size:1.8rem;display:block;margin-bottom:8px}
+.m1-alavanca h4{font-size:1rem;font-weight:900;margin-bottom:8px}
+.m1-alavanca p{font-size:0.86rem;color:var(--text-dim);margin:0}
+.m1-gratis-pago{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;
+}
+@media (max-width:640px){.m1-gratis-pago{grid-template-columns:1fr}}
+.m1-gp{
+  background:var(--surface2);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m1-gp.pago{border-top:3px solid var(--accent5)}
+.m1-gp.gratis{border-top:3px solid var(--term)}
+.m1-gp h4{font-size:1.05rem;font-weight:900;margin-bottom:12px}
+.m1-gp ul{list-style:none;margin:0;padding:0}
+.m1-gp li{
+  font-size:0.88rem;color:var(--text-dim);padding:5px 0;
+  padding-left:16px;position:relative;
+}
+.m1-gp li::before{content:'–';position:absolute;left:0;color:var(--text-dim)}
+.m1-mono{
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🧠 Módulo 01 · IA na Prática</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Neste módulo</div>
+    <a class="sidebar-link" onclick="goTo('aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e-ia')"><span class="dot" style="background:var(--accent6)"></span>O que é IA</a>
+    <a class="sidebar-link" onclick="goTo('llm')"><span class="dot" style="background:var(--accent4)"></span>O que é uma LLM</a>
+    <a class="sidebar-link" onclick="goTo('como-funciona')"><span class="dot" style="background:var(--claude)"></span>Como funciona</a>
+    <a class="sidebar-link" onclick="goTo('mitos')"><span class="dot" style="background:var(--mito)"></span>Mitos × realidade</a>
+    <a class="sidebar-link" onclick="goTo('contexto')"><span class="dot" style="background:var(--term)"></span>Contexto e memória</a>
+    <a class="sidebar-link" onclick="goTo('alucinacao')"><span class="dot" style="background:var(--accent2)"></span>Alucinação</a>
+    <a class="sidebar-link" onclick="goTo('prompt')"><span class="dot" style="background:var(--accent3)"></span>O que é um prompt</a>
+    <a class="sidebar-link" onclick="goTo('ferramentas')"><span class="dot" style="background:var(--accent7)"></span>ChatGPT, Gemini, Claude</a>
+    <a class="sidebar-link" onclick="goTo('exercicio')"><span class="dot" style="background:var(--accent4)"></span>Exercício prático</a>
+    <a class="sidebar-link" onclick="goTo('alavancas')"><span class="dot" style="background:var(--accent5)"></span>Três alavancas</a>
+    <a class="sidebar-link" onclick="goTo('gratis-pago')"><span class="dot" style="background:var(--term)"></span>Gratuito e pago</a>
+    <a class="sidebar-link" onclick="goTo('etica')"><span class="dot" style="background:var(--mito)"></span>Ética e guardrails</a>
+    <a class="sidebar-link" onclick="goTo('recursos')"><span class="dot" style="background:var(--accent6)"></span>Recursos</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent7)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent2)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🧠</span>
+    <span data-motion="float">💬</span>
+    <span data-motion="float">✨</span>
+  </div>
+  <div class="hero-badge">Módulo 01 · Fundação</div>
+  <h1>IA na Prática</h1>
+  <p class="subtitle">
+    Entenda o que é inteligência artificial generativa, como ela responde em português
+    e por que um bom pedido muda o resultado — sem precisar programar.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 zero jargão pesado</span>
+    <span class="stack-chip term">🎯 prompt de qualidade</span>
+    <span class="stack-chip pratica">🧪 exercício curto</span>
+    <span class="stack-chip conceito">🔷 Claude em destaque</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ AQUECIMENTO ═══════════ -->
+    <section class="step-section" id="aquecimento">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🔥</div>
+        <div>
+          <div class="step-title">Aquecimento: um palpite honesto</div>
+          <div class="step-sub">Não existe resposta “errada” aqui — existe o ponto de partida.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Você já usa IA sem perceber: recomendações de streaming, tradutor do celular,
+        filtros de foto, assistente de voz. Neste curso, o foco é outra coisa:
+        <strong>IA generativa</strong> — a que escreve, resume, explica e cria com você.
+      </p>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🤔</span>
+          Quando você pede “escreve um e-mail profissional” no chat, o que a ferramenta
+          está fazendo, na prática?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Buscando o e-mail perfeito na internet</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Prevendo, palavra a palavra, um texto que combine com o pedido</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Lendo sua mente e suas intenções</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Copiando um modelo fixo de e-mail</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="Ela não 'pensa' como gente nem busca um arquivo pronto. Monta a resposta prevendo a sequência de palavras mais plausível para o seu pedido. Por isso o prompt importa tanto.">
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📌</div>
+        <div class="tip-content">
+          <strong>Como este curso funciona:</strong> você lê, pratica e aplica no seu trabalho.
+          Ouvir sozinho quase não gruda. Fazer o exercício — mesmo curto — muda o jogo.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ O QUE É IA ═══════════ -->
+    <section class="step-section" id="o-que-e-ia">
+      <div class="step-header">
+        <div class="step-number sn-purple">🤖</div>
+        <div>
+          <div class="step-title">O que é inteligência artificial?</div>
+          <div class="step-sub">Uma definição útil, sem romantizar nem assustar.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          IA é um sistema que <strong>aprende padrões a partir de muitos exemplos</strong>
+          e usa esses padrões para ajudar em tarefas: classificar, prever, gerar texto,
+          sugerir o próximo passo.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Como ensinar por exemplos</div>
+        <p>
+          Imagine mostrar milhares de fotos de gatos a alguém que nunca viu um gato.
+          Depois de muitos acertos e erros, a pessoa reconhece “gato” em fotos novas.
+          A IA moderna faz algo parecido — só que com textos, imagens e dados, em escala enorme.
+        </p>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🎬</span>
+          <span class="kw-name">Recomendação</span>
+          <span class="kw-desc">Streaming sugere o próximo filme com base no que você assistiu.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗣️</span>
+          <span class="kw-name">Assistentes de voz</span>
+          <span class="kw-desc">Entendem o pedido falado e buscam a ação correspondente.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌍</span>
+          <span class="kw-name">Tradução</span>
+          <span class="kw-desc">Convertem idioma preservando o sentido aproximado.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛒</span>
+          <span class="kw-name">Previsão</span>
+          <span class="kw-desc">Varejo estima demanda; redes filtram spam e conteúdo.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ LLM ═══════════ -->
+    <section class="step-section" id="llm">
+      <div class="step-header">
+        <div class="step-number sn-mint">📚</div>
+        <div>
+          <div class="step-title">O que é uma LLM?</div>
+          <div class="step-sub">O “cérebro” por trás do ChatGPT, do Gemini e do Claude.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        LLM significa <strong>Large Language Model</strong> — modelo de linguagem grande.
+        Em português claro: um assistente treinado em quantidades enormes de texto,
+        que aprendeu padrões de linguagem e consegue <strong>continuar a conversa</strong>
+        de forma coerente.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">Quatro ideias que bastam</div>
+        <p>
+          <strong>Dados massivos</strong> — leu (no treinamento) bilhões de trechos de texto.
+          <strong>Padrões</strong> — reconhece como frases e argumentos costumam se encaixar.
+          <strong>Geração</strong> — monta a resposta palavra por palavra.
+          <strong>Conversa</strong> — usa o que você já escreveu nesta janela como contexto.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">O assistente que “leu a biblioteca”</div>
+        <p>
+          Imagine alguém que leu uma biblioteca inteira e, a partir disso, aprendeu a
+          responder perguntas. Ele não “sente” o que diz. Ele monta frases que
+          <em>parecem</em> as respostas certas — e muitas vezes são. Por isso você
+          revisa o que importa.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ COMO FUNCIONA ═══════════ -->
+    <section class="step-section" id="como-funciona">
+      <div class="step-header">
+        <div class="step-number sn-term">⚙️</div>
+        <div>
+          <div class="step-title">Como funciona, em alto nível</div>
+          <div class="step-sub">Sem matemática. Só o fluxo que importa para você usar bem.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Você digita. O modelo parte o texto em pedacinhos, calcula relações entre eles
+        e escolhe, a cada passo, a próxima palavra mais provável. No fim, você lê uma
+        resposta fluida — mas por baixo dos panos é predição estatística, não magia.
+      </p>
+
+      <div class="m1-fluxo">
+        <div class="m1-fluxo-item">
+          <span class="m1-n">1</span>
+          <strong>Entrada</strong>
+          <span>Seu pedido</span>
+        </div>
+        <div class="m1-fluxo-item">
+          <span class="m1-n">2</span>
+          <strong>Pedaços</strong>
+          <span>Divide o texto</span>
+        </div>
+        <div class="m1-fluxo-item">
+          <span class="m1-n">3</span>
+          <strong>Números</strong>
+          <span>Vira sinais internos</span>
+        </div>
+        <div class="m1-fluxo-item">
+          <span class="m1-n">4</span>
+          <strong>Padrões</strong>
+          <span>Relaciona o contexto</span>
+        </div>
+        <div class="m1-fluxo-item">
+          <span class="m1-n">5</span>
+          <strong>Predição</strong>
+          <span>Próxima palavra</span>
+        </div>
+        <div class="m1-fluxo-item">
+          <span class="m1-n">6</span>
+          <strong>Resposta</strong>
+          <span>Texto gerado</span>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>O modelo não “pensa”.</strong> Ele calcula qual combinação de palavras
+          tem maior chance de ser a resposta certa para aquele pedido. Parece opinião;
+          por dentro é probabilidade.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎛️</div>
+        <div class="tip-content">
+          <strong>Os “pesos”:</strong> pense numa mesa de som com bilhões de controles.
+          O treinamento ajusta esses controles até as respostas ficarem úteis com frequência.
+          No uso diário, esses números não mudam com a sua conversa — por isso o modelo
+          não “aprende” de verdade só porque você conversou hoje.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Por que humanos entram na história</div>
+        <p>
+          Prever palavras não basta para ser útil, seguro e honesto. Especialistas avaliam
+          respostas; o modelo é ajustado para preferir o que as pessoas consideram melhor.
+          E o seu polegar para cima/baixo nas ferramentas? Também alimenta versões futuras —
+          não é só decoração.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ MITOS ═══════════ -->
+    <section class="step-section" id="mitos">
+      <div class="step-header">
+        <div class="step-number sn-red">🪞</div>
+        <div>
+          <div class="step-title">Mitos × realidade</div>
+          <div class="step-sub">Seis ideias que atrapalham quem está começando.</div>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"A IA vai me substituir."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            IA substitui <strong>tarefas</strong>, não pessoas inteiras. Quem usa bem a
+            ferramenta costuma render mais do que quem ignora. O diferencial continua sendo
+            julgamento, relacionamento e responsabilidade.
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"A IA é sempre certa."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Ela <strong>alucina</strong>: inventa com cara de certeza. Em informação crítica,
+            você confere na fonte. Sempre.
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"A IA pensa como gente."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Ela prediz tokens. Não há consciência, intenção nem “vontade”. O tom humano
+            é estilo de resposta — não mente.
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Preciso saber programar."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Para a maior parte do uso no trabalho, <strong>português claro</strong> basta.
+            Programar ajuda em casos avançados; não é pré-requisito deste curso.
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"IA é só para grandes empresas."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Claude, ChatGPT e Gemini têm acesso pelo navegador. Você abre, cria conta e
+            começa. O plano gratuito já serve para aprender.
+          </p>
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"A IA resolve tudo."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Ela amplifica o que você já sabe fazer. Estratégia, ética e decisão final
+            continuam sendo suas.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ CONTEXTO VS MEMÓRIA ═══════════ -->
+    <section class="step-section" id="contexto">
+      <div class="step-header">
+        <div class="step-number sn-green">🧵</div>
+        <div>
+          <div class="step-title">Contexto versus memória</div>
+          <div class="step-sub">Duas ideias parecidas — e o erro mais comum de quem começa.</div>
+        </div>
+      </div>
+
+      <div class="m1-vs">
+        <div class="m1-vs-card ctx">
+          <h4>Contexto</h4>
+          <p>
+            Tudo o que está na <strong>conversa atual</strong>. Enquanto a janela estiver
+            aberta e o histórico couber, a IA “lembra” o que você falou. Feche a conversa
+            ou comece outra: esse fio pode sumir.
+          </p>
+        </div>
+        <div class="m1-vs-card mem">
+          <h4>Memória</h4>
+          <p>
+            Informações que <strong>persistem entre sessões</strong>. Por padrão, a maioria
+            dos chats não “guarda você” de verdade. Recursos como Projects no Claude
+            adicionam essa camada — e você controla o que entra.
+          </p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Dica prática:</strong> em conversas importantes, cole o contexto relevante
+          no início (quem você é, o que precisa, restrições). Não assuma que a IA “já sabe”
+          da conversa de ontem.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ALUCINAÇÃO ═══════════ -->
+    <section class="step-section" id="alucinacao">
+      <div class="step-header">
+        <div class="step-number sn-red">🎭</div>
+        <div>
+          <div class="step-title">Alucinação: o texto convincente e errado</div>
+          <div class="step-sub">Se você lembrar só de uma coisa deste módulo, que seja esta.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">O que é</div>
+        <p>
+          Alucinação é quando o modelo gera texto <strong>plausível, mas factualmente
+          incorreto</strong> — com total confiança. Citações inventadas, leis que não existem,
+          datas erradas, nomes trocados.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Por que acontece</div>
+        <p>
+          O modelo otimiza para texto que “soa certo”, não para verdade verificada.
+          Quando falta informação, ele preenche a lacuna com o que estatisticamente
+          parece encaixar. É o preço da fluência.
+        </p>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Detectar:</strong> confira fatos críticos em fontes primárias. Pergunte
+          “como você sabe disso?” — às vezes ele admite incerteza.</li>
+        <li><strong>Minimizar:</strong> forneça documentos reais no contexto. Em módulos
+          seguintes, ferramentas como NotebookLM ajudam a citar fontes verificáveis.</li>
+        <li><strong>Regra de ouro:</strong> nunca publique, assine ou envie ao cliente sem
+          revisão humana do que importa.</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha:</strong> perguntar à própria IA “tem certeza?” não é conferência.
+          Ela pode só reforçar o erro com mais confiança. Confira na fonte.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PROMPT ═══════════ -->
+    <section class="step-section" id="prompt">
+      <div class="step-header">
+        <div class="step-number sn-yellow">✍️</div>
+        <div>
+          <div class="step-title">O que é um prompt — e a fórmula</div>
+          <div class="step-sub">Qualidade do pedido = qualidade da resposta.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Prompt é o texto que você envia. Pode ser uma frase solta ou um briefing completo.
+        A diferença entre “me ajuda com marketing” e um pedido claro é a diferença entre
+        lixo genérico e algo que você usa no mesmo dia.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">Fórmula do módulo</div>
+        <p>
+          <strong>Contexto</strong> (quem você é / situação) +
+          <strong>objetivo</strong> (o que precisa) +
+          <strong>formato</strong> (como entregar) +
+          <strong>restrições</strong> (tom, tamanho, o que evitar).
+        </p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">❌</span>
+          <span class="pc-titulo">Prompt fraco (não copie — só para comparar)</span>
+        </div>
+        <pre>Me ajuda com marketing</pre>
+        <div class="pc-por-que"><strong>Por que falha:</strong> sem contexto, sem objetivo,
+          sem formato. A resposta será genérica e difícil de usar.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Prompt forte — padaria (exemplo)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou dono de uma padaria em João Pessoa. Crie 3 posts para Instagram
+anunciando croissant de chocolate. Tom descontraído, máx. 150 palavras
+cada. Inclua uma chamada para ação no final de cada post.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> quem você é, o que precisa,
+          formato, tom e limite de tamanho. A IA tem pouco espaço para “inventar o briefing”.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ FERRAMENTAS ═══════════ -->
+    <section class="step-section" id="ferramentas">
+      <div class="step-header">
+        <div class="step-number sn-purple">🗺️</div>
+        <div>
+          <div class="step-title">ChatGPT, Gemini e Claude</div>
+          <div class="step-sub">Três portas grandes. Uma delas é o fio condutor deste curso.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        As três fazem conversa em português e geram texto. Cada uma tem temperamento e
+        ecossistema diferentes. Você não precisa “casar” com uma só — mas
+        <strong>consistência</strong> ajuda a aprender.
+      </p>
+
+      <div class="m1-tools">
+        <div class="m1-tool">
+          <div class="m1-marca">OpenAI</div>
+          <h4>🟢 ChatGPT</h4>
+          <ul>
+            <li>Versátil e rápido para redação geral</li>
+            <li>Bom para brainstorm e rascunhos</li>
+            <li>Ecossistema de GPTs customizados</li>
+            <li>Como toda LLM: confira fatos críticos</li>
+          </ul>
+        </div>
+        <div class="m1-tool">
+          <div class="m1-marca">Google</div>
+          <h4>🔵 Gemini</h4>
+          <ul>
+            <li>Multimodal (texto, imagem, vídeo)</li>
+            <li>Integração com o mundo Google</li>
+            <li>Contexto longo em documentos</li>
+            <li>Útil quando você já vive no Drive/Gmail</li>
+          </ul>
+        </div>
+        <div class="m1-tool destaque">
+          <div class="m1-marca">Anthropic</div>
+          <h4>🔷 Claude</h4>
+          <ul>
+            <li>Foco em precisão e alinhamento</li>
+            <li>Forte em análise e documentos longos</li>
+            <li>Projects, Artifacts e, mais à frente, Claude Code</li>
+            <li>Tom profissional sem enrolação</li>
+          </ul>
+          <span class="m1-selo">Foco do curso</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>Regra prática:</strong> a melhor ferramenta é a que você usa com consistência.
+          Neste curso, priorizamos o Claude — sem demonizar as outras.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ EXERCÍCIO ═══════════ -->
+    <section class="step-section" id="exercicio">
+      <div class="step-header">
+        <div class="step-number sn-mint">🧪</div>
+        <div>
+          <div class="step-title">Mão na massa: exercício curto</div>
+          <div class="step-sub">Cinco minutos. Uma conta. Dois prompts. Uma comparação.</div>
+        </div>
+      </div>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <span class="exercise-icon">✋</span>
+          <div>
+            <div class="exercise-title">Ruim × bom no mesmo assunto</div>
+            <div class="exercise-sub">prática guiada · navegador</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Abra <strong>claude.ai</strong>, <strong>chatgpt.com</strong> ou
+          <strong>gemini.google.com</strong> e crie uma conta gratuita se ainda não tiver.
+        </p>
+        <ol>
+          <li>Envie um prompt ruim: <em>“Me ajuda com trabalho”</em>. Observe o genérico.</li>
+          <li>Reescreva com contexto real: quem você é, o que precisa, formato esperado.</li>
+          <li>Compare as duas respostas. Anote o que mudou em precisão e utilidade.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Modelo pronto — adapte ao seu trabalho</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou [sua área] e preciso [tarefa concreta] para [público].
+Entregue no formato [lista / e-mail / post]. Tom [claro / formal / leve].
+Máximo [N] palavras. Não invente dados que eu não informei.</pre>
+        <div class="pc-por-que"><strong>Como usar:</strong> troque os colchetes pelo seu caso.
+          O último pedido (“não invente dados”) reduz alucinação no que for factual.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ALAVANCAS ═══════════ -->
+    <section class="step-section" id="alavancas">
+      <div class="step-header">
+        <div class="step-number sn-term">🎚️</div>
+        <div>
+          <div class="step-title">As três alavancas da IA prática</div>
+          <div class="step-sub">Se você dominar só isto, já sobe de nível.</div>
+        </div>
+      </div>
+
+      <div class="m1-alavancas">
+        <div class="m1-alavanca">
+          <span class="m1-ic">🎯</span>
+          <h4>1. Prompt certo</h4>
+          <p>Contexto + objetivo + formato. Um briefing claro resolve a maior parte dos casos.</p>
+        </div>
+        <div class="m1-alavanca">
+          <span class="m1-ic">🔄</span>
+          <h4>2. Iteração</h4>
+          <p>A primeira resposta raramente é a final. Peça ajuste, corte, outro tom, mais exemplo.</p>
+        </div>
+        <div class="m1-alavanca">
+          <span class="m1-ic">🔗</span>
+          <h4>3. Ferramenta certa</h4>
+          <p>Claude para análise profunda; Gemini quando o mundo Google pesa; ChatGPT para versatilidade.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ GRÁTIS VS PAGO ═══════════ -->
+    <section class="step-section" id="gratis-pago">
+      <div class="step-header">
+        <div class="step-number sn-yellow">💳</div>
+        <div>
+          <div class="step-title">Gratuito versus pago</div>
+          <div class="step-sub">Transparência sem drama — e sem inventar valor de tabela.</div>
+        </div>
+      </div>
+
+      <div class="m1-gratis-pago">
+        <div class="m1-gp gratis">
+          <h4>Plano gratuito</h4>
+          <ul>
+            <li>Acesso a modelos base, com limites diários</li>
+            <li>Ótimo para aprender e experimentar</li>
+            <li>Recursos avançados podem ficar restritos</li>
+            <li>Suficiente para os exercícios deste módulo</li>
+          </ul>
+        </div>
+        <div class="m1-gp pago">
+          <h4>Plano pago</h4>
+          <ul>
+            <li>Modelos mais potentes e limites maiores</li>
+            <li>Recursos extras (memória, projetos, arquivos…)</li>
+            <li>Faz sentido no uso profissional contínuo</li>
+            <li>Valores mudam — confira no site oficial</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">💬</div>
+        <div class="warning-content">
+          <strong>Recomendação do curso:</strong> comece no gratuito. Assine só quando
+          sentir o limite no seu fluxo real. Em etapas posteriores (como Claude Code),
+          um plano pago pode ser necessário — veremos isso com calma no momento certo.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ ÉTICA ═══════════ -->
+    <section class="step-section" id="etica">
+      <div class="step-header">
+        <div class="step-number sn-red">⚖️</div>
+        <div>
+          <div class="step-title">Ética, limites e guardrails</div>
+          <div class="step-sub">A ferramenta é poderosa. O julgamento continua sendo seu.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🎭</span>
+          <span class="kw-name">Alucinações</span>
+          <span class="kw-desc">Nunca use saída crítica sem revisar.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔒</span>
+          <span class="kw-name">Privacidade</span>
+          <span class="kw-desc">Não cole senhas, CPF, contratos sigilosos em chats públicos.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🪞</span>
+          <span class="kw-name">Viés</span>
+          <span class="kw-desc">Modelos refletem vieses dos dados. Questione saídas sensíveis.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">©️</span>
+          <span class="kw-name">Direitos</span>
+          <span class="kw-desc">Regras de conteúdo gerado por IA ainda evoluem. Use com cuidado comercial.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧑‍⚖️</span>
+          <span class="kw-name">Responsabilidade</span>
+          <span class="kw-desc">A decisão final é sempre sua. IA não assina no seu lugar.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌱</span>
+          <span class="kw-name">Propósito</span>
+          <span class="kw-desc">Use com intenção. Evite desperdiçar pedidos sem foco.</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">O que são guardrails</div>
+        <p>
+          São barreiras técnicas e éticas nos modelos para evitar saídas prejudiciais —
+          mesmo que alguém peça algo inadequado. Filtros de conteúdo, limites de uso e,
+          no Claude, valores embutidos no treinamento (às vezes chamado de Constitutional AI).
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🛡️</div>
+        <div class="tip-content">
+          <strong>Na prática:</strong> se o pedido violar guardrails, o Claude tende a recusar
+          com explicação e sugerir alternativa segura. Isso não substitui seu julgamento
+          profissional — especialmente em direito, saúde e finanças.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RECURSOS ═══════════ -->
+    <section class="step-section" id="recursos">
+      <div class="step-header">
+        <div class="step-number sn-green">🔗</div>
+        <div>
+          <div class="step-title">Recursos para começar</div>
+          <div class="step-sub">Links oficiais. Sem atalho mirabolante.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Claude</strong> — <span class="m1-mono">claude.ai</span> (ferramenta principal do curso)</li>
+        <li><strong>ChatGPT</strong> — <span class="m1-mono">chatgpt.com</span></li>
+        <li><strong>Gemini</strong> — <span class="m1-mono">gemini.google.com</span></li>
+        <li><strong>NotebookLM</strong> — <span class="m1-mono">notebooklm.google.com</span> (documentos com citações)</li>
+        <li><strong>Docs Anthropic</strong> — <span class="m1-mono">docs.anthropic.com</span></li>
+      </ul>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎮</div>
+        <div>
+          <div class="step-title">Quiz final</div>
+          <div class="step-sub">Três perguntas para cravar o essencial.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧠</span>
+          Em alto nível, o que uma LLM faz ao responder você?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Consulta um banco de e-mails prontos</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Prevê a próxima palavra com base em padrões e no seu pedido</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Liga para um especialista humano em tempo real</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Baixa a resposta da Wikipedia automaticamente</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Fechado!"
+          data-wrong="😬 Quase…"
+          data-explain="É predição estatística de tokens. Por isso o contexto do prompt muda tanto o resultado — e por isso alucinação existe.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🎭</span>
+          A IA inventou uma lei com número e redação convincentes. O que você faz?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Usa: se está detalhado, é verdade</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pede para ela confirmar que está certa</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Confere em fonte oficial antes de usar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ignora a IA para sempre</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Cuidado…"
+          data-explain="Alucinação vem embalada em confiança. Pedir 'tem certeza?' à própria IA não valida. Fonte primária resolve.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">✍️</span>
+          Qual pedido tende a gerar resposta mais útil?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Me ajuda"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Faz um texto bom"</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">"Sou contador. Escreva e-mail a cliente MEI sobre ajuste anual do Simples, tom claro, máx. 150 palavras."</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Seja criativo"</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Prompt de qualidade!"
+          data-wrong="😬 Quase…"
+          data-explain="Contexto + público + formato + tom + limite. Quanto menos a IA tiver que adivinhar o briefing, melhor o texto.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">📦</div>
+        <div>
+          <div class="step-title">O que ficou</div>
+          <div class="step-sub">Leve isto para o próximo módulo.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>IA generativa <strong>prediz texto</strong>; não pensa como gente.</li>
+        <li><strong>Prompt de qualidade</strong> = contexto + objetivo + formato + restrições.</li>
+        <li><strong>Alucinação existe</strong> — revise o que for crítico.</li>
+        <li><strong>Contexto</strong> é a conversa atual; <strong>memória</strong> persistente é recurso extra.</li>
+        <li>Claude é o <strong>fio condutor</strong> do curso; ChatGPT e Gemini continuam úteis.</li>
+        <li>Comece no <strong>gratuito</strong>; pague quando o limite atrapalhar de verdade.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">Próximo passo</div>
+        <p>
+          No módulo 2 você cria de verdade: textos, imagens e roteiros de vídeo —
+          com fórmulas prontas e prompts para copiar.
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../../">« Voltar ao curso</a>
+        <a class="nav-proximo" href="../02-criando-com-ia/">Módulo 02: Criando com IA »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 01 · IA na Prática</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

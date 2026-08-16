@@ -1,5 +1,9 @@
 # Plano de capítulos — Oficina Claude Code
 
+> **Localização neste branch:** os capítulos abaixo vivem em `oficina/` (não mais em
+> `capitulos/`). O hub da oficina é `oficina/index.html`. O arco do **curso** de 6
+> módulos está em `02b-plano-modulos.md`.
+
 Arco em 3 atos: **entender → preparar → praticar** (+ fechamento). As práticas são
 independentes entre si — o participante escolhe pelas suas dores/área. Numeração fixa;
 práticas novas entram como 10b, 10c... antes do fechamento.
