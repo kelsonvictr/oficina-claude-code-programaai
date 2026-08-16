@@ -114,6 +114,44 @@
 }
 .m5-passos li strong{color:var(--text)}
 
+.m5-tres{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;
+}
+@media (max-width:760px){.m5-tres{grid-template-columns:1fr}}
+.m5-tres-card{
+  background:var(--surface2);border-radius:16px;padding:20px 18px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.m5-tres-card.skill{border-top:3px solid var(--accent7)}
+.m5-tres-card.conector{border-top:3px solid var(--accent4)}
+.m5-tres-card.plugin{border-top:3px solid var(--claude)}
+.m5-tres-card .ic{font-size:1.7rem;display:block;margin-bottom:8px}
+.m5-tres-card h4{font-size:1rem;font-weight:900;margin-bottom:8px}
+.m5-tres-card p{font-size:0.86rem;color:var(--text-dim);margin:0;line-height:1.5}
+.m5-tres-card p strong{color:var(--text)}
+.m5-tres-card .tag{
+  display:inline-block;margin-top:12px;
+  font-size:0.68rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;
+  background:rgba(255,255,255,0.06);color:var(--text-dim);
+}
+
+.m5-cmp{
+  width:100%;border-collapse:collapse;margin:18px 0;font-size:0.88rem;
+}
+.m5-cmp th,.m5-cmp td{
+  padding:12px 14px;text-align:left;vertical-align:top;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.m5-cmp th{
+  color:var(--claude-soft);font-weight:900;font-size:0.78rem;
+  letter-spacing:0.5px;text-transform:uppercase;
+  background:var(--surface2);
+}
+.m5-cmp td{color:var(--text-dim);line-height:1.45}
+.m5-cmp td strong{color:var(--text)}
+.m5-cmp tr:last-child td{border-bottom:none}
+
 .m5-cta-oficina{
   display:block;text-align:center;text-decoration:none;
   margin:22px 0;padding:22px 28px;border-radius:18px;
@@ -156,6 +194,10 @@
     <a class="sidebar-link" onclick="goTo('artifacts')"><span class="dot" style="background:var(--accent5)"></span>Artifacts</a>
     <a class="sidebar-link" onclick="goTo('projects')"><span class="dot" style="background:var(--accent3)"></span>Projects</a>
     <a class="sidebar-link" onclick="goTo('skills')"><span class="dot" style="background:var(--accent7)"></span>Skills</a>
+    <a class="sidebar-link" onclick="goTo('mcp')"><span class="dot" style="background:var(--accent6)"></span>O que é MCP</a>
+    <a class="sidebar-link" onclick="goTo('conectores')"><span class="dot" style="background:var(--accent4)"></span>Conectores</a>
+    <a class="sidebar-link" onclick="goTo('plugins')"><span class="dot" style="background:var(--claude)"></span>Plugins</a>
+    <a class="sidebar-link" onclick="goTo('tres')"><span class="dot" style="background:var(--accent5)"></span>Skill × Conector × Plugin</a>
     <a class="sidebar-link" onclick="goTo('cowork')"><span class="dot" style="background:var(--term)"></span>Cowork</a>
     <a class="sidebar-link" onclick="goTo('exercicio')"><span class="dot" style="background:var(--accent2)"></span>Exercício</a>
     <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
@@ -173,13 +215,13 @@
   <div class="hero-badge">Módulo 05 · Universo Claude</div>
   <h1>O Universo<br>Claude</h1>
   <p class="subtitle">
-    Chat, Artifacts, Projects, Skills e Cowork — o Claude como
+    Chat, Artifacts, Projects, Skills, Conectores e Plugins — o Claude como
     <strong>parceiro de trabalho</strong>, não só como caixa de perguntas.
   </p>
   <div class="hero-stack">
     <span class="stack-chip voce">💬 chat avançado</span>
     <span class="stack-chip term">🎨 artifacts</span>
-    <span class="stack-chip pratica">📁 projects + skills</span>
+    <span class="stack-chip pratica">⚙ skills + conectores</span>
     <span class="stack-chip conceito">🤝 cowork</span>
   </div>
 </header>
@@ -564,44 +606,415 @@ Cliente: [Nome], [Tipo de empresa], [Serviço solicitado].</pre>
         <div class="step-number sn-mint">⚙</div>
         <div>
           <div class="step-title">Skills: Claude treinado no seu jeito</div>
-          <div class="step-sub">Instruções reutilizáveis para uma tarefa específica.</div>
+          <div class="step-sub">Instruções reutilizáveis — o “como fazemos esta tarefa”.</div>
         </div>
       </div>
 
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          Uma <strong>Skill</strong> é um pacote de instruções que ensina o Claude
+          <strong>como</strong> fazer um tipo de trabalho — tom, passos, formato de saída.
+          Ela <strong>não</strong> liga o Claude ao Google Drive nem ao Slack: só muda o jeito
+          de trabalhar. Pense numa ficha de receita que o assistente lê quando a tarefa aparece.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Analogia do escritório</div>
+        <p>
+          O <strong>Project</strong> é a pasta do cliente (“quem somos”). A <strong>Skill</strong>
+          é o checklist interno (“quando analisar contrato, faça assim”). Sem Skill, o Claude
+          improvisaria a cada pedido; com Skill, ele segue o padrão do seu time.
+        </p>
+      </div>
+
       <p class="mb-md">
-        Uma <strong>Skill</strong> é um conjunto de instruções que molda o Claude para
-        um tipo de trabalho — como treinar um assistente uma vez e chamá-lo sempre
-        que precisar.
+        Abaixo: três Skills reais do dia a dia. Copie, cole no Claude (ou guarde no Project)
+        e troque só os dados. Use casos <strong>fictícios</strong> se estiver treinando.
       </p>
 
       <div class="prompt-card">
         <div class="pc-head"><span class="pc-ic">✨</span>
-          <span class="pc-titulo">Skill — Análise de contrato</span>
+          <span class="pc-titulo">Skill 1 — Análise de contrato (jurídico)</span>
           <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
-        <pre>Você é um advogado especialista em contratos. Ao receber um contrato:
-1) Liste as cláusulas de risco;
-2) Identifique prazo, valor e rescisão;
-3) Aponte o que falta incluir;
-4) Formate o parecer no padrão do escritório.
+        <pre>Skill: Análise de Contrato
 
-Ative com: [Skill: Análise de Contrato] + cole o contrato.</pre>
-        <div class="pc-por-que"><strong>Entrega típica:</strong> riscos com sugestão de alteração,
-          resumo executivo, lista do que falta e parecer formatado para revisão humana.</div>
+Você é um advogado especialista em contratos comerciais brasileiros.
+Quando eu colar um contrato (ou trecho), faça SEMPRE nesta ordem:
+
+1) Resumo em 5 linhas (partes, objeto, prazo, valor).
+2) Tabela: cláusula | risco (baixo/médio/alto) | por quê | sugestão de redação.
+3) Liste o que FALTA (ex.: foro, multa, confidencialidade, LGPD).
+4) Parecer final em tom profissional, pronto para revisão humana — sem inventar leis.
+
+Regras: se algo não estiver no texto, diga "não consta". Nunca invente cláusulas.
+Formato: markdown limpo, com títulos claros.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> define papel, ordem fixa, formato e
+          o freio anti-alucinação (“não consta”). Ative com: cole o contrato depois desta Skill.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Skill 2 — Posts no tom da marca (marketing)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Skill: Tom de Voz — posts
+
+Você escreve como a marca "Aurora Termo" (empresa fictícia de aquecedores):
+tom humano, claro, sem jargão técnico exagerado; pode usar humor leve;
+nunca prometer cura milagrosa; sempre terminar com um CTA curto.
+
+Quando eu pedir um post:
+1) Versão Instagram (até 1200 caracteres, 5 hashtags).
+2) Versão LinkedIn (mais séria, 3 parágrafos).
+3) Sugestão de imagem em 1 frase (o que mostrar na foto).
+
+Pergunte o tema se eu não der. Se o pedido for agressivo ou enganoso, recuse e explique.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> a Skill carrega o DNA da marca.
+          Você só manda o tema (“lançamento da linha Eco”) e as três saídas já vêm padronizadas.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Skill 3 — Triagem de despesas (financeiro / adm)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Skill: Triagem de despesas
+
+Você é um analista financeiro cuidadoso. Eu vou colar linhas de gastos
+(data, descrição, valor) ou descrever um CSV.
+
+Sempre entregue:
+1) Total geral e total por categoria (Sugestão / Alimentação / Transporte / Outros).
+2) Lista de "suspeitos": valores muito altos, duplicatas possíveis, descrições vazias.
+3) 3 perguntas que eu deveria fazer ao dono da planilha antes de fechar o mês.
+4) Um parágrafo de resumo executivo para o chefe (linguagem simples).
+
+Regra de ouro: se o dado não estiver na lista, diga que falta informação.
+Não invente categorias nem valores.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> força diagnóstico + suspeitos +
+          perguntas — o Claude não “fecha o mês” sozinho; você decide com evidência.</div>
       </div>
 
       <div class="tip">
         <div class="tip-icon">💡</div>
         <div class="tip-content">
-          <strong>Projects + Skills:</strong> o Project guarda o “quem somos”.
-          A Skill guarda o “como fazemos esta tarefa”. Juntos, o Claude para de
-          improvisar do zero a cada pedido.
+          <strong>Projects + Skills:</strong> o Project guarda documentos e contexto (“quem somos”).
+          A Skill guarda o método (“como fazemos esta tarefa”). Juntos, o Claude para de
+          improvisar do zero a cada pedido. Skill <em>sozinha</em> não lê seu Drive —
+          para isso entram Conectores (já já).
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha:</strong> confundir Skill com “acesso aos meus arquivos”.
+          Skill = jeito de trabalhar. Acesso a Gmail, Drive, Slack = <strong>Conector</strong>
+          (próximas seções).
         </div>
       </div>
     </section>
 
     <div class="section-connector"><div class="line"></div></div>
 
-    <!-- ═══════════ 7 · COWORK ═══════════ -->
+    <!-- ═══════════ 7 · MCP ═══════════ -->
+    <section class="step-section" id="mcp">
+      <div class="step-header">
+        <div class="step-number sn-purple">🔌</div>
+        <div>
+          <div class="step-title">Antes dos Conectores: o que é MCP?</div>
+          <div class="step-sub">A “tomada padrão” que permite o Claude falar com o mundo lá fora.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          <strong>MCP</strong> (Model Context Protocol) é um <strong>padrão aberto</strong>
+          criado pela Anthropic: uma forma única de aplicações de IA conversarem com
+          ferramentas e dados externos — Drive, e-mail, calendário, sistemas da empresa…
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Analogia da tomada</div>
+        <p>
+          Antes, cada ferramenta teria um “plugue diferente”. O MCP é a
+          <strong>tomada universal</strong>: quem fabrica o serviço (Google, Slack, sua empresa)
+          oferece um servidor MCP; o Claude encaixa nele. Você não precisa entender a fiação —
+          só saber que existe um padrão por trás dos Conectores.
+        </p>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📜</span>
+          <span class="kw-name">É um protocolo</span>
+          <span class="kw-desc">Regra de conversa entre IA e ferramentas — não é um app sozinho</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌍</span>
+          <span class="kw-name">Padrão aberto</span>
+          <span class="kw-desc">Outras empresas também podem usar o mesmo “formato de tomada”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛠️</span>
+          <span class="kw-name">Você quase não vê</span>
+          <span class="kw-desc">No dia a dia você liga um Conector; o MCP é o que roda por baixo</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔐</span>
+          <span class="kw-name">Com permissão</span>
+          <span class="kw-desc">Conectar = autorizar acesso; você decide o que liberar</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Para este curso:</strong> basta lembrar — MCP é a tomada; Conector é o cabo
+          que você pluga no Claude. Documentação oficial:
+          <a href="https://claude.com/docs/connectors/overview" style="color:var(--claude-soft)" target="_blank" rel="noopener">claude.com/docs/connectors</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 8 · CONECTORES ═══════════ -->
+    <section class="step-section" id="conectores">
+      <div class="step-header">
+        <div class="step-number sn-blue">🔗</div>
+        <div>
+          <div class="step-title">Conectores: o Claude acessa seus apps</div>
+          <div class="step-sub">A face amigável do MCP — Drive, Gmail, Slack, calendário…</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          Um <strong>Conector</strong> é a integração pronta (ou customizada) que você liga
+          no Claude para <strong>ler dados e agir</strong> em outro serviço — buscar arquivos,
+          ler e-mails, criar issues, etc. Por baixo, funciona com MCP.
+        </p>
+      </div>
+
+      <p class="mb-md">
+        Exemplos oficiais citados pela Anthropic (lista muda; confira no app):
+        <strong>Google Drive</strong>, <strong>Gmail</strong>, <strong>Google Calendar</strong>,
+        <strong>GitHub</strong>, <strong>Slack</strong>, <strong>Microsoft 365</strong>.
+        No claude.ai / Desktop: menu de personalização ou "+" -&gt; Conectores — autentique e pronto.
+      </p>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📁</span>
+          <span class="kw-name">Google Drive</span>
+          <span class="kw-desc">“Ache a proposta do cliente X e resuma”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✉️</span>
+          <span class="kw-name">Gmail</span>
+          <span class="kw-desc">“Liste e-mails não lidos de fornecedores hoje”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">💬</span>
+          <span class="kw-name">Slack</span>
+          <span class="kw-desc">“Resuma o canal #financeiro da última semana”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📅</span>
+          <span class="kw-name">Calendar</span>
+          <span class="kw-desc">“O que tenho amanhã de manhã?”</span>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Exemplo real — com Conector de Drive ligado</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Com acesso ao meu Google Drive (já conectado):
+1) Encontre a pasta "Clientes / Silva Comercio" (nome fictício de treino).
+2) Liste os PDFs dos últimos 30 dias.
+3) Resuma em 8 bullets o contrato mais recente — sem inventar cláusulas.
+4) Se não achar a pasta, diga exatamente o que buscou.</pre>
+        <div class="pc-por-que"><strong>Sem Conector:</strong> o Claude só vê o que você colar.
+          <strong>Com Conector:</strong> ele busca no serviço autorizado. Ainda assim: confira na fonte.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Exemplo real — Gmail + Skill de triagem</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Usando o Conector do Gmail + a Skill "Triagem de despesas":
+leia os e-mails da pasta "Notas fiscais" dos últimos 7 dias
+(use só o que estiver lá) e monte a triagem no formato da Skill.
+Não abra e-mails fora dessa pasta. Ao final, diga quantas mensagens leu.</pre>
+        <div class="pc-por-que"><strong>Combo poderoso:</strong> Conector traz o dado; Skill define
+          o método. Separados, cada um faz metade do trabalho.</div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Permissão é poder.</strong> Só conecte contas que você pode autorizar.
+          Prefira pastas/contas de treino em oficina. Revogue acesso quando não precisar.
+          O Claude pede confirmação para ações sensíveis — leia antes de aprovar.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 9 · PLUGINS ═══════════ -->
+    <section class="step-section" id="plugins">
+      <div class="step-header">
+        <div class="step-number sn-claude">📦</div>
+        <div>
+          <div class="step-title">Plugins: o kit completo instalável</div>
+          <div class="step-sub">Empacota Skills + Conectores + comandos num pacote só.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Em uma frase</div>
+        <p>
+          Um <strong>Plugin</strong> é um <strong>pacote instalável</strong> que combina
+          Conectores MCP, Skills, comandos rápidos (slash) e às vezes sub-agentes —
+          pensado para um trabalho ou time. Disponível principalmente no
+          <strong>Claude Code</strong> e no <strong>Cowork</strong> (conforme a documentação atual).
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Analogia da cozinha</div>
+        <p>
+          <strong>Skill</strong> = ficha de receita. <strong>Conector (MCP)</strong> = geladeira
+          e fogão conectados. <strong>Plugin</strong> = cozinha inteira montada: receitas +
+          tomadas + botões de atalho, pronta para a equipe instalar de uma vez.
+        </p>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">⚖️</span>
+          <span class="kw-name">Plugin jurídico (exemplo)</span>
+          <span class="kw-desc">Skill de NDA + Conector no repositório de contratos + comando /revisar-nda</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📈</span>
+          <span class="kw-name">Plugin comercial (exemplo)</span>
+          <span class="kw-desc">Skill de proposta + Conector no CRM/Drive + atalhos do time de vendas</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">👥</span>
+          <span class="kw-name">Para times</span>
+          <span class="kw-desc">Instala o mesmo padrão em várias pessoas — menos “cada um no seu jeito”</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧑‍💻</span>
+          <span class="kw-name">Solo?</span>
+          <span class="kw-desc">Muitas vezes Skill + 1 Conector bastam; Plugin é ótimo quando o kit cresce</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <strong>Você não precisa criar um Plugin agora.</strong> Entenda o conceito: quando
+          a oficina de Claude Code (e o Cowork) pedirem “instalar um plugin”, você saberá que
+          está recebendo um kit — não só uma dica de prompt. Catálogo e detalhes:
+          docs oficiais de Plugins / Conectores na Anthropic.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 10 · COMPARAÇÃO ═══════════ -->
+    <section class="step-section" id="tres">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🧭</div>
+        <div>
+          <div class="step-title">Skill × Conector × Plugin — a diferença</div>
+          <div class="step-sub">Três peças, três papéis. Guarde este quadro.</div>
+        </div>
+      </div>
+
+      <div class="m5-tres">
+        <div class="m5-tres-card skill">
+          <span class="ic">⚙</span>
+          <h4>Skill</h4>
+          <p>Ensina o Claude <strong>como</strong> fazer a tarefa (método, tom, formato). Não conecta apps sozinha.</p>
+          <span class="tag">como trabalhar</span>
+        </div>
+        <div class="m5-tres-card conector">
+          <span class="ic">🔗</span>
+          <h4>Conector</h4>
+          <p>Dá <strong>acesso</strong> a um serviço externo via MCP (Drive, Gmail, Slack…). Lê e age no app autorizado.</p>
+          <span class="tag">acesso ao mundo</span>
+        </div>
+        <div class="m5-tres-card plugin">
+          <span class="ic">📦</span>
+          <h4>Plugin</h4>
+          <p><strong>Pacote</strong> que junta Skills + Conectores + comandos para instalar de uma vez (Code / Cowork).</p>
+          <span class="tag">kit completo</span>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="m5-cmp">
+          <thead>
+            <tr>
+              <th>Pergunta</th>
+              <th>Skill</th>
+              <th>Conector</th>
+              <th>Plugin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>O que resolve?</strong></td>
+              <td>Padronizar o jeito de pedir e receber</td>
+              <td>Chegar nos seus dados / apps</td>
+              <td>Distribuir um fluxo inteiro</td>
+            </tr>
+            <tr>
+              <td><strong>Precisa de internet no app?</strong></td>
+              <td>Não (só texto/instruções)</td>
+              <td>Sim — autentica no serviço</td>
+              <td>Depende do que vem no pacote</td>
+            </tr>
+            <tr>
+              <td><strong>Exemplo rápido</strong></td>
+              <td>“Sempre analise contrato assim…”</td>
+              <td>“Ligue o Google Drive”</td>
+              <td>“Instale o kit jurídico do time”</td>
+            </tr>
+            <tr>
+              <td><strong>MCP entra onde?</strong></td>
+              <td>Não usa MCP</td>
+              <td>É a face do MCP no Claude</td>
+              <td>Pode incluir Conectores MCP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-content">
+          <strong>Regra de bolso:</strong> precisa de <em>método</em>? Skill.
+          Precisa de <em>dado no app</em>? Conector. Precisa de <em>kit para o time</em>? Plugin.
+          Os três se combinam — não competem.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ 11 · COWORK ═══════════ -->
     <section class="step-section" id="cowork">
       <div class="step-header">
         <div class="step-number sn-term">🤝</div>
@@ -712,8 +1125,9 @@ Antes de mover, mostre o plano.</pre>
         </p>
         <ul class="checklist">
           <li><strong>Contador:</strong> rode o prompt da Calculadora de Imposto com valores de um MEI fictício.</li>
-          <li><strong>Advogado:</strong> use a Skill / prompt de Análise de Contrato com um contrato curto (real ou inventado).</li>
+          <li><strong>Advogado:</strong> use a Skill de Análise de Contrato com um contrato curto (real ou inventado).</li>
           <li><strong>RH / Admin:</strong> rode o Parecer de Desligamento com um caso fictício que você inventa agora.</li>
+          <li><strong>Desafio extra:</strong> se tiver Conector de Drive/Gmail disponível na sua conta, faça UM pedido seguro de leitura (pasta ou e-mails de treino) e compare com colar o texto na mão.</li>
         </ul>
         <div class="tip" style="margin-bottom:0">
           <div class="tip-icon">🏆</div>
@@ -787,6 +1201,23 @@ Antes de mover, mostre o plano.</pre>
           data-explain="Cowork age no computador sob plano confirmado. Claude Code (próximo módulo) cria ferramentas que você reutiliza — propósitos diferentes.">
         </div>
       </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧭</span>
+          Qual a diferença correta entre Skill, Conector e Plugin?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">São três nomes para a mesma coisa</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Skill = como fazer; Conector = acesso a apps (MCP); Plugin = kit que junta os dois</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Plugin só serve no celular; Skill só no Desktop</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Conector ensina o tom de voz; Skill liga o Gmail</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Volte ao quadro Skill × Conector × Plugin…"
+          data-explain="Método (Skill), acesso via MCP (Conector), pacote instalável (Plugin). Combinam; não competem.">
+        </div>
+      </div>
     </section>
 
     <div class="section-connector"><div class="line"></div></div>
@@ -807,6 +1238,8 @@ Antes de mover, mostre o plano.</pre>
         <li><strong>Chat avançado</strong> = persona + passo a passo + iteração + formato de saída.</li>
         <li><strong>Artifacts</strong> entregam ferramentas e documentos com preview, não só parágrafo.</li>
         <li><strong>Projects</strong> guardam memória; <strong>Skills</strong> guardam o jeito de fazer a tarefa.</li>
+        <li><strong>MCP</strong> é a tomada padrão; <strong>Conector</strong> é o cabo que liga Drive, Gmail, Slack…</li>
+        <li><strong>Plugin</strong> é o kit instalável (Skills + Conectores + comandos) — Code / Cowork.</li>
         <li><strong>Cowork</strong> opera o computador com o seu ok — ideal para organizar e executar rotinas.</li>
       </ul>
 

@@ -22,8 +22,9 @@ Problema das pastas de PDF; NotebookLM só responde com suas fontes + citação;
 upload, YouTube, Audio Overview, guia de estudo; exercícios e cuidados com qualidade da fonte.
 
 ## Módulo 05 · O Universo Claude
-Anthropic e Claude; chat avançado; Artifacts; Projects; Skills; Cowork.
-Prepara o terreno para o Claude Code sem ainda instalar o app.
+Anthropic e Claude; chat avançado; Artifacts; Projects; Skills (com exemplos reais);
+MCP (o que é); Conectores (Drive, Gmail, Slack…); Plugins; quadro Skill × Conector × Plugin;
+Cowork. Prepara o terreno para o Claude Code sem ainda instalar o app.
 
 ## Módulo 06 · Claude Code (teaser)
 Conceito: assistente no SEU computador. Diferença vs Cowork. Por que importa para
