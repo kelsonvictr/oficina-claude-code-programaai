@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 06 · Sua página e o agente no dia a dia — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🌐 Noite 6 · Página e dia a dia</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta noite</div>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--accent5)"></span>Objetivo e roteiro</a>
+    <a class="sidebar-link" onclick="goTo('teoria')"><span class="dot" style="background:var(--accent6)"></span>Teoria curta</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--claude)"></span>Demonstração</a>
+    <a class="sidebar-link" onclick="goTo('pratica-a')"><span class="dot" style="background:var(--accent4)"></span>Prática A: sua página</a>
+    <a class="sidebar-link" onclick="goTo('pratica-b')"><span class="dot" style="background:var(--accent7)"></span>Prática B: o dia a dia</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio da noite</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--term)"></span>O que ficou do curso</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🌐</span>
+    <span data-motion="float">📓</span>
+    <span data-motion="float">⏰</span>
+  </div>
+  <div class="hero-badge">Módulo 06 · Noite 6</div>
+  <h1>Sua página na internet<br>e o agente no dia a dia</h1>
+  <p class="subtitle">
+    Hoje você cria algo que não existia — a sua página — e sai com os hábitos que deixam
+    o agente seguro no trabalho de verdade: <strong>plano antes de mexer, conferência na
+    fonte e cuidado com dados sensíveis</strong>.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">🌐 sua página</span>
+    <span class="stack-chip term">📓 caderninho + máquina do tempo</span>
+    <span class="stack-chip pratica">🧪 2 práticas guiadas</span>
+    <span class="stack-chip conceito">🎯 1 desafio para o trabalho</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎯</div>
+        <div>
+          <div class="step-title">O objetivo da noite</div>
+          <div class="step-sub">A última noite: criar do zero e levar o agente para o seu trabalho.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ao final desta noite, você…</h3>
+        <ul class="checklist">
+          <li>cria <strong>uma página sua</strong> do zero, descrita em português, e a abre no navegador;</li>
+          <li>usa o ciclo <strong>pedir, ver, ajustar</strong> para lapidar o resultado conversando;</li>
+          <li>grava as suas regras num <strong>CLAUDE.md</strong> e liga os <strong>pontos de restauração</strong> na sua pasta;</li>
+          <li>sabe os <strong>limites honestos</strong> da ferramenta e o que nunca colar num chat.</li>
+        </ul>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 1 · ~15 MIN</span>
+          <div class="tl-titulo">Teoria curta + demonstração</div>
+          <p>O superpoder do vai-e-vem, os limites honestos e os dados sensíveis. O instrutor lapida uma página ao vivo.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 2 · ~45 MIN</span>
+          <div class="tl-titulo">Prática A · sua página na internet</div>
+          <p>Briefing, revelação, vai-e-vem, foto e retoques — e o caminho para publicar.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 3 · ~40 MIN</span>
+          <div class="tl-titulo">Prática B · o agente no seu dia a dia</div>
+          <p>Os 5 hábitos, o caderninho de regras e a máquina do tempo na sua própria pasta.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 4 · ~20 MIN</span>
+          <div class="tl-titulo">Desafio da noite + encerramento</div>
+          <p>Uma tarefa real da sua área, com o pedido montado por você.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ TEORIA CURTA ═══════════ -->
+    <section class="step-section" id="teoria">
+      <div class="step-header">
+        <div class="step-number sn-purple">📚</div>
+        <div>
+          <div class="step-title">Teoria curta: superpoder, limites e cuidado</div>
+          <div class="step-sub">Três ideias. O resto da noite é mão na massa.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Pedir, ver, ajustar</div>
+        <p>
+          A primeira versão nunca é a final — e é exatamente assim que deve ser. Você
+          <strong>pede</strong>, <strong>olha</strong> o resultado e <strong>ajusta</strong>
+          conversando. Ninguém acerta design de primeira, nem os designers. A diferença é que
+          agora cada tentativa custa uma frase, não uma tarde.
+        </p>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Agora que aprendi a usar, posso confiar de olhos fechados."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Aprender a usar não elimina os limites — ensina a trabalhar com eles.
+            Ele <strong>alucina</strong> (inventa com cara de certeza: confira a amostra na fonte),
+            tem <strong>memória de peixe entre conversas</strong> (regras e relatórios em arquivos
+            na pasta) e <strong>custa uso</strong> (o plano tem um limite que se renova ao longo do
+            dia — é pausa para o café, não defeito).
+          </p>
+        </div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Dados sensíveis não entram no treino.</strong> Nada de CPF, senha, dados
+          bancários ou contrato sigiloso de verdade colados num chat. Para praticar, use dados
+          fictícios — como os do Kit da Oficina. No trabalho real, use só o que você pode
+          autorizar, numa pasta dedicada ao assunto.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DEMONSTRAÇÃO ═══════════ -->
+    <section class="step-section" id="demo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎬</div>
+        <div>
+          <div class="step-title">Demonstração: o vai-e-vem, ao vivo</div>
+          <div class="step-sub">Olhe o ritmo. Na Prática A, a página é a sua.</div>
+        </div>
+      </div>
+
+      <div class="chat-claude" data-seq="2300" data-seq-cumulative>
+        <div class="chat-head">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="chat-title">meu-site — claude</span>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg voce" data-seq-frame="0">
+            <span class="quem">você</span>
+            deixa o fundo escuro e as letras maiores
+          </div>
+          <div class="chat-msg claude" data-seq-frame="1">
+            <span class="quem">claude</span>
+            Feito! Fundo escuro, letras maiores. Recarregue a página no navegador para ver.
+          </div>
+          <div class="chat-msg voce" data-seq-frame="2">
+            <span class="quem">você</span>
+            hmm, muito sério isso. deixa mais alegre, com mais cor
+          </div>
+          <div class="chat-msg claude" data-seq-frame="3">
+            <span class="quem">claude</span>
+            Dei mais vida: cores mais quentes nos títulos e um toque de cor nas seções.
+          </div>
+          <div class="chat-msg voce" data-seq-frame="4">
+            <span class="quem">você</span>
+            coloquei uma foto chamada minha-foto.jpg na pasta meu-site. põe no topo, redonda.
+          </div>
+          <div class="chat-perm" data-seq-frame="5">
+            <div class="perm-title">🔐 Permissão</div>
+            Posso editar o arquivo meu-site/index.html?
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-seq-step="5,6">Sim</button>
+              <button class="perm-btn nao">Não</button>
+            </div>
+          </div>
+          <div class="chat-msg claude" data-seq-frame="6">
+            <span class="quem">claude</span>
+            Foto adicionada no topo, com moldura redonda. Recarregue a página para ver como ficou.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">👩‍🏫</div>
+        <div class="tip-content">
+          <strong>Para o instrutor:</strong> projete o navegador de um lado e o Claude Code do
+          outro. A cada pedido, aperte F5 no navegador com a turma olhando — o ritual pedir,
+          recarregar, olhar é o que fica na memória.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA A ═══════════ -->
+    <section class="step-section" id="pratica-a">
+      <div class="step-header">
+        <div class="step-number sn-blue">🌐</div>
+        <div>
+          <div class="step-title">Prática A · Sua página na internet</div>
+          <div class="step-sub">~45 min · todas as áreas · desta vez a matéria-prima é você.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como sempre)</li>
+          <li><strong>3 informações suas</strong> anotadas num papel: quem você é, o que você faz, como as pessoas te encontram (um e-mail profissional basta)</li>
+          <li class="opcional">Nenhum arquivo do kit — desta vez a história é sua</li>
+        </ul>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — o briefing.</strong> Escolha a página: currículo, cardápio, portfólio
+        ou a página do seu negócio. Troque as partes destacadas pelas suas informações:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · o briefing do seu site</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie uma pagina pessoal em meu-site/index.html sobre mim:
+<span class="pc-lacuna">[seu nome]</span>, <span class="pc-lacuna">[sua profissão ou negócio]</span>,
+e destaque <span class="pc-lacuna">[3 coisas que você faz bem]</span>.
+estilo moderno, cores <span class="pc-lacuna">[suas cores preferidas]</span>, tudo em português.
+quando terminar, me diga como abrir no navegador.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> a tarefa (criar a página), o
+          conteúdo (as suas informações) e o formato (estilo, cores, idioma). E o final pede a
+          instrução de conferência: "me diga como abrir".</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar a pasta meu-site e o arquivo index.html dentro dela? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Sua página está em meu-site/index.html.</span>
+          <span class="tela-linha tela-claude">Para abrir: entre na pasta meu-site pelo Explorador/Finder</span>
+          <span class="tela-linha tela-claude">e dê dois cliques em index.html — ela abre no navegador.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — a revelação.</strong> Abra a pasta oficina-claude no Explorador/Finder,
+        entre em <strong>meu-site</strong> e dê dois cliques em <strong>index.html</strong>. A página
+        existe — e a internet é opcional: ela mora no seu computador, e ninguém mais a vê até você
+        decidir publicá-la.
+      </p>
+
+      <p class="mb-md">
+        <strong>Passo 3 — o vai-e-vem.</strong> Navegador de um lado, Claude Code do outro. Peça,
+        aperte F5, olhe. Exemplos do que dá para pedir:
+      </p>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> pedidos de ajuste (um por vez)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-voce">deixa o fundo escuro e as letras maiores</span>
+          <span class="tela-linha tela-voce">adiciona uma seção de contato no final, com meu e-mail</span>
+          <span class="tela-linha tela-voce">hmm, muito sério isso. deixa mais alegre, com mais cor</span>
+          <span class="tela-linha tela-voce">agora sim! só aumenta um pouco o espaço entre as seções</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 4 — a foto e os retoques.</strong> Copie uma foto sua para dentro da pasta
+        meu-site (arrastar e soltar resolve), renomeie para algo simples e peça:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 4 · a foto</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>coloquei uma foto chamada minha-foto.jpg na pasta meu-site.
+usa essa foto no topo da página, redonda, num tamanho elegante.</pre>
+        <div class="pc-por-que"><strong>E se algo quebrar?</strong> Conte exatamente o que você vê
+          ("ficou um quadrado cinza com um ícone quebrado"). Quase sempre é um nome de arquivo
+          digitado diferente.</div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Armadilha: o perfeccionismo.</strong> 40 minutos dão uma página boa, não a página
+          final. Na décima vontade de "só mais um ajustezinho", peça: "crie um arquivo
+          melhorias.txt na pasta meu-site com esta lista do que quero melhorar depois".
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 5 — e para colocar NA internet de verdade?</strong> Dá, não é hoje, e você
+        já tem quem te guie. Para o mundo ver, a página precisa morar num serviço de hospedagem —
+        existem opções gratuitas e sérias para páginas simples. Fica de dever de casa:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🏠</span>
+          <span class="pc-titulo">Dever de casa · a publicação</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>me explique as opções gratuitas para publicar a pasta meu-site
+na internet e me guie na mais simples, passo a passo,
+como se eu nunca tivesse feito isso.</pre>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Antes de publicar, releia com olhos de estranho:</strong> a página fica visível
+          para o mundo inteiro. Nada de telefone pessoal, endereço de casa, documentos ou rotina
+          da família. Um e-mail profissional basta.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com telas e ideias para a vida real:</strong>
+          <a href="../../oficina/10-mini-site/" style="color:var(--accent3)">Prática 10 · Seu cantinho na internet</a>.
+          Terminou antes da turma? Faça o
+          <a href="../../oficina/10-mini-site/#desafio" style="color:var(--accent3)">desafio da página de contato</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA B ═══════════ -->
+    <section class="step-section" id="pratica-b">
+      <div class="step-header">
+        <div class="step-number sn-mint">📓</div>
+        <div>
+          <div class="step-title">Prática B · O agente no seu dia a dia</div>
+          <div class="step-sub">~40 min · a sua pasta de trabalho, com regras e rede de segurança.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Os <strong>5 hábitos</strong> de quem usa IA todo dia cabem em uma linha:
+        pasta certa, plano antes, amostra depois, número conferido, recibo no final.
+        Nesta prática você grava esses hábitos na sua própria pasta.
+      </p>
+
+      <ul class="checklist">
+        <li><strong>Uma pasta de trabalho por assunto</strong> — nunca a pasta raiz do computador; a pasta é o cercadinho.</li>
+        <li><strong>Plano antes de mexer</strong> — "me mostre o plano antes".</li>
+        <li><strong>Conferir uma amostra na fonte</strong> — dois ou três resultados abertos com os seus olhos.</li>
+        <li><strong>Desconfiar de números e certezas</strong> — totais, datas e cláusulas se conferem antes da decisão.</li>
+        <li><strong>Relatório do que mudou</strong> — o seu recibo e o mapa do desfazer.</li>
+      </ul>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Uma <strong>pasta de trabalho dedicada</strong> a um assunto (pode ser a oficina-claude, se preferir treinar nela)</li>
+          <li>O Claude Code aberto <strong>nessa pasta</strong></li>
+          <li class="opcional">Opcional: uma lista do que você repetiria em toda conversa ("responda em português", "datas como dia/mês/ano"…)</li>
+        </ul>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — o caderninho de regras.</strong> Lembra do tom-de-voz.txt da Noite 5?
+        A versão oficial se chama <strong>CLAUDE.md</strong>, e o Claude Code lê esse arquivo
+        sozinho toda vez que abre a pasta:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · criando o seu CLAUDE.md</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie um arquivo CLAUDE.md nesta pasta com minhas regras:
+responda sempre em português; antes de mudar mais de 3 arquivos,
+me mostre o plano; termine tarefas grandes com um relatório
+do que mudou.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> as regras são os hábitos da
+          lista acima. Você grava a etiqueta profissional no papel — e terceiriza a memória dela
+          para um arquivo. As regras são suas: para mudar, peça "adicione uma regra no CLAUDE.md".</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Boa ideia! Vou criar o CLAUDE.md com essas 3 regras.</span>
+          <span class="tela-linha tela-perm">Posso criar o arquivo CLAUDE.md nesta pasta? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — a caixinha de sempre)</span>
+          <span class="tela-linha tela-claude">Criado! A partir de agora, toda conversa nesta pasta</span>
+          <span class="tela-linha tela-claude">começa com essas regras já carregadas.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — a máquina do tempo.</strong> Pontos de restauração, como o "salvar"
+        do videogame antes da fase difícil. A ferramenta se chama Git, e você não precisa
+        aprendê-la: no Windows com o aplicativo ela já foi instalada na Noite 2; no Mac,
+        costuma vir de fábrica. Só falta ligar:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · ligando a máquina do tempo</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>quero pontos de restauração nesta pasta. instale e configure
+o que for preciso (acho que se chama git) e crie o primeiro
+ponto agora. de hoje em diante, quando eu pedir "cria um ponto
+de restauração", você cria; quando eu pedir "volta ao último
+ponto", você volta.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você descreve o resultado e
+          combina o vocabulário das próximas conversas. O "acho que se chama git" é proposital:
+          você não precisa ter certeza — ele completa o resto.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Ótima ideia! É o git mesmo. Deixa eu ver se já está instalado…</span>
+          <span class="tela-linha tela-perm">Posso configurar e criar o primeiro ponto nesta pasta? [confirmar]</span>
+          <span class="tela-linha tela-dim">(se ainda não estiver instalado, ele pede permissão para instalar antes — pode confirmar)</span>
+          <span class="tela-linha tela-claude">Pronto! Ponto criado: "estado inicial da pasta".</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 3 — o ritual para tarefas grandes.</strong> Teste agora, na sua pasta:
+        <em>"cria um ponto de restauração"</em>, depois um pedido qualquer, depois a conferência.
+        Gostou? Segue. Não gostou? <em>"volta ao último ponto"</em> — e é como se nada tivesse
+        acontecido.
+      </p>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>O que a máquina do tempo NÃO faz:</strong> ela desfaz as mudanças na pasta desde
+          aquele ponto — não mexe no resto do computador, não desinstala programas, não recupera
+          um e-mail enviado. E os pontos só existem nas pastas onde você pediu: pasta nova,
+          pedido novo.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo:</strong>
+          <a href="../../oficina/11-e-agora/" style="color:var(--accent3)">Cap 11 · E agora?</a> —
+          os <a href="../../oficina/11-e-agora/#habitos" style="color:var(--accent3)">5 hábitos</a>,
+          os <a href="../../oficina/11-e-agora/#limites" style="color:var(--accent3)">limites honestos</a>,
+          o <a href="../../oficina/11-e-agora/#caderninho" style="color:var(--accent3)">caderninho</a>,
+          a <a href="../../oficina/11-e-agora/#maquina-tempo" style="color:var(--accent3)">máquina do tempo</a>
+          e <a href="../../oficina/11-e-agora/#continuar" style="color:var(--accent3)">para onde ir agora</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio da noite: leve para o trabalho</div>
+          <div class="step-sub">Sem prompt pronto — a primeira tarefa real vale por três práticas.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">A tarefa repetitiva da sua semana</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Escolha uma tarefa <strong>repetitiva e real</strong> da sua área — a planilha do fim do
+          mês, os documentos em lote, a pasta que vive bagunçada, os posts da semana.
+        </p>
+        <p>
+          Escreva o pedido com as três peças: <strong>contexto</strong> (quem você é, que arquivos
+          estão na pasta), <strong>resultado</strong> (o que você quer receber, em que formato) e
+          <strong>freio</strong> (plano antes de mexer e o que você vai conferir). Treine com uma
+          cópia ou com dados fictícios — nada sensível.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um modelo de pedido (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Modelo com lacunas</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>sou <span class="pc-lacuna">[sua área]</span> e toda <span class="pc-lacuna">[semana / mês]</span> preciso <span class="pc-lacuna">[a tarefa]</span>.
+nesta pasta estão <span class="pc-lacuna">[os arquivos de entrada]</span>.
+quero receber <span class="pc-lacuna">[o resultado e o formato]</span>.
+antes de mexer em qualquer coisa, me mostre o plano.
+no final, crie um relatório do que mudou e me diga
+quais 2 ou 3 resultados eu devo conferir na fonte.</pre>
+              <div class="pc-por-que"><strong>Por que funciona:</strong> contexto, resultado e freio
+                no mesmo pedido — e a conferência já vem combinada. Com o CLAUDE.md da Prática B,
+                parte desse freio vira regra da pasta.</div>
+            </div>
+            <p>
+              Ainda sem uma tarefa real em mente? Faça o desafio da Prática 10:
+              <a href="../../oficina/10-mini-site/#desafio" style="color:var(--accent3)">a página de contato</a>,
+              uma segunda página no seu site com um formulário só visual.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎮</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Duas perguntas que resumem o curso inteiro.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧩</span>
+          Você vai pedir uma reorganização grande numa pasta importante do trabalho. Qual é a ordem profissional?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Mandar executar logo: quanto antes começar, antes termina</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Ponto de restauração, plano, aprovar, conferir amostra</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Nunca usar IA em pasta importante, só na de treino</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir para ele "tomar muito cuidado" e deixar rolar</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="O ponto de restauração é a rede embaixo da corda bamba; o plano transforma surpresa em decisão; a amostra conferida protege a sua reputação.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🔒</span>
+          Você quer treinar o pedido do desafio com a planilha de clientes da empresa. O que fazer?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Colar a planilha inteira, com CPFs, no chat</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Treinar com dados fictícios ou uma cópia sem dados sensíveis, numa pasta dedicada</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Publicar a planilha na sua página para ele acessar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir para ele prometer que não vai guardar nada</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Fechado!"
+          data-wrong="😬 Cuidado…"
+          data-explain="Treino é com dado fictício. No trabalho real, só o que você pode autorizar, numa pasta dedicada ao assunto — nunca CPF, senha ou contrato sigiloso solto num chat.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">🎓</div>
+        <div>
+          <div class="step-title">O que ficou do curso</div>
+          <div class="step-sub">Seis noites, uma linha cada. Você chegou aqui sem escrever código.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Noite 1:</strong> uma LLM prevê texto; pedido bom = contexto + objetivo + formato; cada ferramenta tem sua hora.</li>
+        <li><strong>Noite 2:</strong> do chat ao agente — o Claude Code mora no seu computador e pede permissão antes de agir.</li>
+        <li><strong>Noite 3:</strong> diagnóstico, plano, execução, conferência — nos seus arquivos e planilhas.</li>
+        <li><strong>Noite 4:</strong> piloto antes do lote e referência da cláusula — documentos com conferência na fonte.</li>
+        <li><strong>Noite 5:</strong> um texto vira dez, a prova sai com gabarito, e Skills e Conectores ensinam o seu jeito.</li>
+        <li><strong>Noite 6:</strong> pedir, ver, ajustar; CLAUDE.md, pontos de restauração e cuidado com dados sensíveis.</li>
+      </ul>
+
+      <div class="analogy">
+        <div class="analogy-title">Até logo</div>
+        <p>
+          O que muda o seu dia a dia não é a ferramenta — ferramenta troca de nome todo ano.
+          O que muda é o <strong>hábito de delegar com juízo</strong>: dar contexto, exigir plano,
+          aprovar com critério, conferir com os próprios olhos. E esse, a partir de hoje, é seu.
+        </p>
+      </div>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../05-conteudo-e-ensino/">« Noite 5: Conteúdo e ensino</a>
+        <a class="nav-proximo" href="../../oficina/">Oficina completa: continue praticando »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 06 · Noite 6 · Sua página na internet e o agente no dia a dia</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>
