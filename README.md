@@ -9,18 +9,22 @@ O participante escreve português, nunca código.
 
 Abra `index.html` no navegador (funciona direto do arquivo, sem servidor).
 
-### Curso (6 módulos)
+### Curso (6 noites — teoria curta + prática + desafio em cada uma)
 
-- **01 · IA na Prática** — LLM, mitos, prompts, ChatGPT / Gemini / Claude
-- **02 · Criando com IA** — textos, imagens, roteiros de vídeo
-- **03 · Agentes (Manus AI)** — objetivos e automação em várias etapas
-- **04 · NotebookLM** — seus documentos como base de conhecimento
-- **05 · Universo Claude** — Artifacts, Projects, Skills, Cowork
-- **06 · Claude Code** — teaser + porta para a oficina prática
+- **01 · Panorama da IA** — o que uma LLM faz, como pedir bem, ChatGPT / Gemini / Claude / NotebookLM
+- **02 · Do chat ao agente** — instalar o Claude Code e a primeira conversa
+- **03 · O agente nos seus arquivos** — a pasta bagunçada e a planilha que se analisa sozinha
+- **04 · O agente nos seus documentos** — declarações em lote e o contrato de 40 páginas
+- **05 · Conteúdo e ensino no automático** — um texto vira dez, a prova com gabarito, Skills e Conectores
+- **06 · Sua página e o agente no dia a dia** — página na internet, hábitos, segurança e próximos passos
+
+### Material de apoio (`apoio/`, fora das noites)
+
+Criando com IA · Agentes com Manus AI · NotebookLM a fundo · Universo Claude.
 
 ### Oficina Claude Code (aprofundamento)
 
-Hub em [`oficina/index.html`](oficina/index.html) — 11 capítulos: instalar, primeira
+Roteiro detalhado das Noites 2–6. Hub em [`oficina/index.html`](oficina/index.html) — 11 capítulos: instalar, primeira
 conversa, 7 práticas (pasta, planilha, PDF, marketing…) e hábitos de segurança.
 
 ## Kit da Oficina
