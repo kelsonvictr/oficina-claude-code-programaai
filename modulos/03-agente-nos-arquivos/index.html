@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 03 · O agente nos seus arquivos — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🗂️ Noite 3 · Seus arquivos</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta noite</div>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--accent5)"></span>Objetivo e roteiro</a>
+    <a class="sidebar-link" onclick="goTo('teoria')"><span class="dot" style="background:var(--accent6)"></span>Teoria curta</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--claude)"></span>Demonstração</a>
+    <a class="sidebar-link" onclick="goTo('pratica-a')"><span class="dot" style="background:var(--accent4)"></span>Prática A: a pasta bagunçada</a>
+    <a class="sidebar-link" onclick="goTo('pratica-b')"><span class="dot" style="background:var(--accent7)"></span>Prática B: a planilha</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio da noite</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--term)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">🗂️</span>
+    <span data-motion="float">📊</span>
+    <span data-motion="float">🔎</span>
+  </div>
+  <div class="hero-badge">Módulo 03 · Noite 3</div>
+  <h1>O agente nos<br>seus arquivos</h1>
+  <p class="subtitle">
+    A pasta bagunçada e a planilha que se analisa sozinha. Hoje o Claude Code mexe
+    em arquivos de verdade — e você aprende o ritmo que deixa isso seguro:
+    <strong>diagnóstico, plano, execução, conferência</strong>.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">🗂️ pasta bagunçada</span>
+    <span class="stack-chip term">📊 planilha de gastos</span>
+    <span class="stack-chip pratica">🧪 2 práticas guiadas</span>
+    <span class="stack-chip conceito">🎯 1 desafio</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎯</div>
+        <div>
+          <div class="step-title">O objetivo da noite</div>
+          <div class="step-sub">Duas horas, dois arquivos do kit, um único jeito de trabalhar.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ao final desta noite, você…</h3>
+        <ul class="checklist">
+          <li>organiza uma pasta inteira <strong>sem tocar em um arquivo</strong> com as próprias mãos;</li>
+          <li>faz perguntas em português a uma planilha de 306 linhas e recebe <strong>totais, suspeitos e gráfico</strong>;</li>
+          <li>usa o ritmo <strong>diagnóstico, plano, execução, conferência</strong> em qualquer tarefa com arquivos;</li>
+          <li>sabe <strong>conferir na fonte</strong> antes de confiar em um número.</li>
+        </ul>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 1 · ~15 MIN</span>
+          <div class="tl-titulo">Teoria curta + demonstração</div>
+          <p>O ritmo de quatro tempos e por que ele protege você. O instrutor faz a pasta ao vivo.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 2 · ~40 MIN</span>
+          <div class="tl-titulo">Prática A · a pasta bagunçada</div>
+          <p>34 arquivos mal nomeados viram 4 pastas arrumadas, com relatório do que mudou.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 3 · ~50 MIN</span>
+          <div class="tl-titulo">Prática B · a planilha de gastos</div>
+          <p>Raio-X, totais por categoria, caça aos suspeitos, gráfico e conferência.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 4 · ~15 MIN</span>
+          <div class="tl-titulo">Desafio da noite + quiz</div>
+          <p>Sem prompt pronto: você monta o pedido sozinho.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ TEORIA CURTA ═══════════ -->
+    <section class="step-section" id="teoria">
+      <div class="step-header">
+        <div class="step-number sn-purple">📚</div>
+        <div>
+          <div class="step-title">Teoria curta: o ritmo de quatro tempos</div>
+          <div class="step-sub">Cinco minutos de ideia. O resto da noite é mão na massa.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Diagnóstico, plano, execução, conferência</div>
+        <p>
+          <strong>Diagnóstico:</strong> ele só olha e conta o que encontrou.
+          <strong>Plano:</strong> ele propõe o que vai fazer — por escrito, antes de mexer.
+          <strong>Execução:</strong> você aprova e ele faz, pedindo permissão a cada passo.
+          <strong>Conferência:</strong> você abre e olha com os próprios olhos.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">O estagiário que apresenta a proposta</div>
+        <p>
+          Você não deixaria um estagiário novo reorganizar o arquivo do escritório sem antes
+          ver a proposta. Com o Claude Code é igual: <strong>"me mostre o plano antes"</strong>
+          transforma uma tarefa arriscada em uma tarefa tranquila. O chefe é você.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧮</div>
+        <div class="tip-content">
+          <strong>Ele não faz conta de cabeça.</strong> Na planilha, o Claude escreve um
+          programinha nos bastidores e o computador faz a soma, do jeito exato de sempre.
+          Se aparecer código na tela, respira: é bastidor. O que importa é o resultado — e conferir.
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Se eu deixar ele mexer, vai apagar meus arquivos."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Ele <strong>pede permissão</strong> antes de mexer, e apagar sempre começa com
+            uma lista para você ler. Com cópia de segurança, plano e relatório do que mudou,
+            o pior cenário é "voltei tudo em dois minutos".
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DEMONSTRAÇÃO ═══════════ -->
+    <section class="step-section" id="demo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎬</div>
+        <div>
+          <div class="step-title">Demonstração: os quatro tempos, ao vivo</div>
+          <div class="step-sub">Olhe o ritmo. Na Prática A, quem digita é você.</div>
+        </div>
+      </div>
+
+      <div class="chat-claude" data-seq="2300" data-seq-cumulative>
+        <div class="chat-head">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="chat-title">oficina-claude — claude code</span>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg voce" data-seq-frame="0">
+            <span class="quem">você</span>
+            analise a pasta kit/bagunca. só analise, não mude nada ainda.
+          </div>
+          <div class="chat-msg claude" data-seq-frame="1">
+            <span class="quem">claude</span>
+            Encontrei 34 arquivos: 15 imagens, 12 textos e planilhas, 7 PDFs —
+            e alguns duplicados com nomes diferentes.
+          </div>
+          <div class="chat-msg voce" data-seq-frame="2">
+            <span class="quem">você</span>
+            proponha uma organização e me mostre o plano ANTES de mexer.
+          </div>
+          <div class="chat-msg claude" data-seq-frame="3">
+            <span class="quem">claude</span>
+            Plano: criar imagens/, documentos/, planilhas/ e pdfs/, padronizar os nomes
+            e só marcar os duplicados, sem apagar. Aprova?
+          </div>
+          <div class="chat-perm" data-seq-frame="4">
+            <div class="perm-title">🔐 Permissão</div>
+            Posso criar 4 pastas e mover/renomear 34 arquivos?
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-seq-step="4,5">Sim</button>
+              <button class="perm-btn nao">Não</button>
+            </div>
+          </div>
+          <div class="chat-msg claude" data-seq-frame="5">
+            <span class="quem">claude</span>
+            Pronto! 34 arquivos em 4 pastas. A lista de tudo o que mudou está em
+            <span class="mono-mini">relatorio-organizacao.txt</span>.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">👩‍🏫</div>
+        <div class="tip-content">
+          <strong>Para o instrutor:</strong> faça a demonstração com a pasta do kit aberta no
+          Explorador/Finder ao lado do Claude Code, projetada. Ver os arquivos se mexendo
+          sozinhos é o momento que convence a turma.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA A ═══════════ -->
+    <section class="step-section" id="pratica-a">
+      <div class="step-header">
+        <div class="step-number sn-blue">🗂️</div>
+        <div>
+          <div class="step-title">Prática A · A pasta bagunçada</div>
+          <div class="step-sub">~40 min · qualquer área · a primeira prática ideal.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como na Noite 2)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (a pasta kit/bagunca deve existir)</li>
+          <li class="opcional">Opcional: a pasta aberta no Explorador/Finder do lado, para ver tudo acontecer</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — o diagnóstico.</strong> Leitura pura, sem mexer em nada:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · o diagnóstico</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>analise a pasta kit/bagunca e me diga: quantos arquivos por tipo,
+quais parecem duplicados e quais têm os piores nomes. só analise,
+não mude nada ainda.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "só analise, não mude nada
+          ainda" tira a pressa da conversa. Você conhece o terreno antes de qualquer decisão.</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — o plano.</strong> Você define as regras e exige a proposta por escrito:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · o plano antes de mexer</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>proponha uma organização para a pasta kit/bagunca: subpastas por tipo
+de arquivo e nomes padronizados (minúsculas, sem espaços nem acentos).
+me mostre o plano completo ANTES de mexer em qualquer coisa.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> não gostou de algo no plano?
+          Negocie agora ("mantém os PDFs onde estão"). Ajustar o plano custa uma frase;
+          ajustar depois custa outra rodada inteira.</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 3 — a execução.</strong> Plano aprovado? Solte o "pode ir" e peça o recibo:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · a execução com recibo</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>plano aprovado! pode executar. no final, crie um arquivo
+relatorio-organizacao.txt com a lista de tudo o que mudou
+(nome antigo e nome novo).</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar 4 pastas e mover/renomear 34 arquivos? [confirmar]</span>
+          <span class="tela-linha tela-dim">(você confirma — é a caixinha do ciclo, sempre ela)</span>
+          <span class="tela-linha tela-claude">Pronto! 34 arquivos organizados em 4 pastas.</span>
+          <span class="tela-linha tela-claude">O relatorio-organizacao.txt tem a lista completa.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 4 — a conferência.</strong> Sem perguntar "deu certo?": abra e olhe.
+      </p>
+
+      <ul class="checklist">
+        <li>Abra <strong>kit/bagunca</strong> no Explorador/Finder: as 4 subpastas estão lá?</li>
+        <li>Abra <strong>2 ou 3 arquivos</strong>: o conteúdo continua intacto?</li>
+        <li>Passe o olho no <strong>relatorio-organizacao.txt</strong>: o antes e depois faz sentido?</li>
+      </ul>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>↩️ Odiou o resultado? O prompt do desfazer</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="prompt-card">
+            <div class="pc-head"><span class="pc-ic">↩️</span>
+              <span class="pc-titulo">Prompt reserva · o desfazer</span>
+              <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+            <pre>não gostei do resultado. usando o relatorio-organizacao.txt,
+volte todos os arquivos para os nomes e lugares originais.</pre>
+            <div class="pc-por-que"><strong>Por que funciona:</strong> o recibo do Passo 3
+              registrou cada mudança — voltar tudo vira tarefa mecânica.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com telas e o bônus dos duplicados:</strong>
+          <a href="../../oficina/04-pasta-bagunca/" style="color:var(--accent3)">Prática 04 · Domando a pasta bagunçada</a>.
+          Terminou antes da turma? Faça a
+          <a href="../../oficina/04-pasta-bagunca/#bonus" style="color:var(--accent3)">caça aos duplicados</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA B ═══════════ -->
+    <section class="step-section" id="pratica-b">
+      <div class="step-header">
+        <div class="step-number sn-mint">📊</div>
+        <div>
+          <div class="step-title">Prática B · A planilha que se analisa sozinha</div>
+          <div class="step-sub">~50 min · financeiro, administrativo e qualquer um com uma planilha.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O kit traz <strong>kit/planilha/gastos-2025.csv</strong>: 306 lançamentos de um ano inteiro,
+        com sujeira proposital — a mesma categoria escrita de vários jeitos (LAZER, Lazer, lazer),
+        lançamentos sem categoria, linhas duplicadas e um valor muito fora do padrão.
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong></li>
+          <li>O arquivo <strong>kit/planilha/gastos-2025.csv</strong> no lugar</li>
+          <li>O <strong>Python instalado</strong> — a <a href="../../oficina/02-preparando/#vacina" style="color:var(--term)">"vacina" da Noite 2</a>; é com ele que o Claude faz as contas</li>
+          <li class="opcional">Opcional: a planilha aberta no Excel, LibreOffice ou bloco de notas, para conferir</li>
+        </ul>
+      </div>
+
+      <p class="mb-md"><strong>Passo 1 — o raio-X.</strong> Antes dos totais, a saúde do arquivo:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · o raio-X</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o arquivo kit/planilha/gastos-2025.csv e me diga: o que tem
+nele (colunas, período, quantos lançamentos) e que problemas de
+qualidade você enxerga nos dados. só analise, não mude nada.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> total calculado em cima de
+          dado sujo é total errado com cara de certo. Primeiro a sujeira, depois a conta.</div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 2 — a pergunta em português.</strong> Você define a regra das grafias:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · totais por categoria</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>quanto gastei no total por categoria? atenção: as categorias estão
+escritas de vários jeitos (Alimentação, alimentação, ALIMENTACAO,
+alimentacao...) — trate todas as variações como a MESMA categoria.
+me mostre uma tabela do maior para o menor, e diga o que fez com
+os lançamentos sem categoria.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Total por categoria (juntando as variações de grafia):</span>
+          <span class="tela-linha tela-claude">Mercado R$ 17.193,78 · Moradia R$ 14.162,58 · Saúde R$ 13.373,84</span>
+          <span class="tela-linha tela-claude">Educação R$ 11.696,27 · Alimentação R$ 7.830,72 · Lazer R$ 4.994,43</span>
+          <span class="tela-linha tela-claude">Transporte R$ 4.868,94 · (sem categoria) R$ 824,58</span>
+        </div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 3 — o detetive.</strong> Três critérios concretos de "suspeito":</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · a lista de suspeitos</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>agora seja detetive nesse mesmo arquivo: me mostre os lançamentos
+suspeitos — linhas duplicadas, lançamentos sem categoria e valores
+muito fora do padrão da própria categoria. liste cada um com data,
+descrição e valor. não mude nada no arquivo.</pre>
+        <div class="pc-por-que"><strong>Ele acha, você julga:</strong> o "jantar de aniversário"
+          de R$ 4.890,00 pode ser um dígito a mais — ou uma festa grande de verdade. Quem conhece
+          a história por trás do dado decide.</div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 4 — o gráfico.</strong> De arquivo de texto a relatório apresentável:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 4 · o relatório visual</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie um arquivo relatorio-gastos.html na pasta kit/planilha com:
+um gráfico de barras do total por categoria (juntando as grafias,
+como antes), o total geral do ano e a lista de pontos de atenção
+que você encontrou. visual limpo, para eu abrir no navegador e
+mostrar para outras pessoas.</pre>
+      </div>
+
+      <p class="mb-md">
+        Confirme a permissão, depois abra a pasta kit/planilha e dê dois cliques no
+        <strong>relatorio-gastos.html</strong>: ele abre no navegador, feito agora, com os seus dados.
+      </p>
+
+      <p class="mb-md"><strong>Passo 5 — a conferência.</strong> Número bonito não é número certo:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 5 · abrindo a caixa-preta</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>liste todos os lançamentos de Educação (qualquer grafia) com data,
+descrição e valor, e a soma no final.</pre>
+      </div>
+
+      <ul class="checklist">
+        <li>A soma da lista (<strong>R$ 11.696,27</strong>) bate com a linha de Educação do Passo 2?</li>
+        <li>Escolha <strong>2 ou 3 linhas</strong> e ache cada uma no gastos-2025.csv (buscar do Excel ou do bloco de notas).</li>
+        <li>A quantidade faz sentido? <strong>46 lançamentos</strong> de Educação em 306 é plausível.</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Perguntar "tem certeza?" não é conferência.</strong> Número de IA só vai para
+          relatório oficial depois de conferir uma amostra na fonte.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com as telas de cada passo:</strong>
+          <a href="../../oficina/05-planilha-gastos/" style="color:var(--accent3)">Prática 05 · A planilha que se analisa sozinha</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio da noite</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">O mês do estouro</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Descubra no <strong>gastos-2025.csv</strong> em qual mês se gastou mais — e qual
+          categoria puxou esse resultado para cima.
+        </p>
+        <p>
+          Monte o pedido você mesmo: as grafias das categorias precisam de uma regra, e um
+          resultado estranho merece um "por quê?".
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>no gastos-2025.csv, some o total gasto em cada mês (juntando as
+grafias de categoria como antes) e me diga qual mês foi o mais
+caro. depois mostre os totais por categoria só desse mês, para
+eu entender qual categoria puxou o resultado.</pre>
+            </div>
+            <p>
+              Se tudo correu bem, ele aponta <strong>agosto</strong>, puxado por
+              <strong>Alimentação</strong> — por causa do velho conhecido do Passo 3: o jantar
+              de R$ 4.890,00 do dia 17/08. Um único lançamento suspeito distorceu um mês
+              inteiro. É por isso que o detetive trabalha antes do relatório.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">➕</div>
+        <div class="tip-content">
+          <strong>Sobrou tempo?</strong> O desafio da pasta:
+          <a href="../../oficina/04-pasta-bagunca/#desafio" style="color:var(--accent3)">o índice da pasta</a>,
+          com cada arquivo e seu tamanho, do maior para o menor.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎮</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Duas perguntas para cravar o essencial.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🗺️</span>
+          Você vai pedir ao Claude Code para reorganizar uma pasta importante. Qual é o primeiro pedido?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Organize tudo do jeito que achar melhor"</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">"Analise a pasta e me mostre o plano antes de mexer"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Apague o que não presta"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Seja rápido, não precisa explicar"</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="Diagnóstico e plano primeiro. Você aprova, ele executa, você confere — e faz uma cópia antes se a pasta for importante.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🔎</span>
+          O total de uma categoria parece estranho. O que é conferir de verdade?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Perguntar "tem certeza?"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir o total de novo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Pedir a lista dos lançamentos e achar algumas linhas no arquivo original</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Confiar, porque quem calculou foi o computador</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Fechado!"
+          data-wrong="😬 Cuidado…"
+          data-explain="A conta é exata, mas a regra pode estar errada (grafias, duplicatas). A lista abre a caixa-preta; o arquivo original confirma.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">📦</div>
+        <div>
+          <div class="step-title">O que ficou desta noite</div>
+          <div class="step-sub">Leve isto para a próxima: o mesmo ritmo, agora com documentos.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>O ritmo profissional: <strong>diagnóstico, plano, execução, conferência</strong> — nessa ordem.</li>
+        <li>"<strong>Me mostre o plano antes</strong>" transforma tarefa arriscada em tarefa tranquila.</li>
+        <li>O <strong>relatório do que mudou</strong> é seu recibo — e o caminho do desfazer.</li>
+        <li>Em planilha, <strong>você define a regra</strong> (grafias, duplicatas) e ele faz a conta exata.</li>
+        <li>Número só vira decisão depois de <strong>conferir uma amostra na fonte</strong>.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../02-do-chat-ao-agente/">« Noite 2: Do chat ao agente</a>
+        <a class="nav-proximo" href="../04-agente-nos-documentos/">Noite 4: Seus documentos »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 03 · Noite 3 · O agente nos seus arquivos</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>

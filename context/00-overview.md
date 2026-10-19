@@ -1,17 +1,20 @@
 # IA na Prática — Programa AI (branch feat/ia-na-pratica)
 
 Material didático em HTML: curso prático de **Inteligência Artificial na Prática**
-para não-programadores, com a **oficina Claude Code** embutida como aprofundamento
-do Módulo 6.
+para não-programadores, em **6 noites** alinhadas ao cronograma do curso presencial,
+com a **oficina Claude Code** embutida como roteiro detalhado das práticas.
 
 ## O que este material É
 
 - Um **site estático** no padrão da família `super-html` (hub + capítulos autocontidos,
   tema dark, animações Motion com fallback CSS, quizzes, fluxos animados).
-- Um **curso de 6 módulos** (`modulos/`): fundação de IA/LLM, criação (texto/imagem/vídeo),
-  agentes (Manus), NotebookLM, Universo Claude, teaser Claude Code.
+- Um **curso de 6 noites** (`modulos/`), cada uma com objetivo, teoria curta, demonstração,
+  prática passo a passo e desafio: panorama da IA, Claude Code instalado, arquivos,
+  documentos, conteúdo/ensino (+ Skills e Conectores), página e dia a dia.
+- **Material de apoio** (`apoio/`): os antigos módulos fora do cronograma —
+  criação (texto/imagem/vídeo), agentes (Manus), NotebookLM a fundo e Universo Claude.
 - Uma **oficina mão-na-massa** (`oficina/`): os 11 capítulos originais de Claude Code
-  (base + 7 práticas + fechamento), acessível pelo Módulo 6 e pelo cartão do hub.
+  (base + 7 práticas + fechamento), linkada por cada noite como "roteiro completo".
 - **Zero pré-requisito de programação.** O participante escreve PORTUGUÊS.
 
 ## O que este material NÃO é
@@ -28,16 +31,17 @@ Sabem usar navegador, WhatsApp, Word.
 
 ## Formato
 
-- **Presencial / imersão**: módulos 1–5 do curso + teaser 6; oficina Claude Code em
-  bloco separado ou segundo dia.
-- **Autoestudo**: hub autossuficiente; oficina independente após o Módulo 6.
+- **Presencial**: 6 encontros de ~2h, uma noite por encontro (Noite 1 no navegador;
+  Noites 2–6 com o Claude Code e o kit).
+- **Autoestudo**: hub autossuficiente; oficina independente a partir da Noite 2.
 
 ## Estrutura de pastas (neste branch)
 
 | Pasta / arquivo | Papel |
 |---|---|
-| `index.html` | Hub do curso (6 módulos + link da oficina) |
-| `modulos/01`…`06` | Capítulos do curso IA na Prática |
+| `index.html` | Hub do curso (6 noites + oficina + material de apoio) |
+| `modulos/01`…`06` | As 6 noites do curso IA na Prática |
+| `apoio/01`…`04` | Material de apoio fora do cronograma (Criando, Manus, NotebookLM, Universo Claude) |
 | `oficina/` | Oficina Claude Code (hub próprio + caps 01–11) |
 | `shared/` | CSS/JS compartilhados |
 | `assets/kit/` | Kit de treino da oficina |
@@ -50,6 +54,6 @@ Sabem usar navegador, WhatsApp, Word.
 |---|---|
 | `01-decisoes.md` | Log cronológico de decisões (append-only) |
 | `02-plano-capitulos.md` | Arco da oficina Claude Code (sob `oficina/`) |
-| `02b-plano-modulos.md` | Arco dos 6 módulos do curso |
+| `02b-plano-modulos.md` | Arco das 6 noites do curso (+ apoio) |
 | `03-fatos-instalacao.md` | Fatos verificados (atualizar quando mudar) |
 | `04-design-system.md` | Identidade visual "terminal amigável" |

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Módulo 01 · IA na Prática — Programa AI</title>
+<title>Módulo 01 · Panorama da IA — Programa AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
@@ -123,11 +123,12 @@
 <nav class="sidebar-nav">
   <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
   <div class="sidebar-header">
-    <h3>🧠 Módulo 01 · IA na Prática</h3>
+    <h3>🧠 Noite 1 · Panorama da IA</h3>
     <a class="sidebar-back" href="../../">« voltar ao curso</a>
   </div>
   <div class="sidebar-group">
-    <div class="sidebar-group-title">Neste módulo</div>
+    <div class="sidebar-group-title">Nesta noite</div>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--accent5)"></span>Objetivo e roteiro</a>
     <a class="sidebar-link" onclick="goTo('aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Aquecimento</a>
     <a class="sidebar-link" onclick="goTo('o-que-e-ia')"><span class="dot" style="background:var(--accent6)"></span>O que é IA</a>
     <a class="sidebar-link" onclick="goTo('llm')"><span class="dot" style="background:var(--accent4)"></span>O que é uma LLM</a>
@@ -136,8 +137,13 @@
     <a class="sidebar-link" onclick="goTo('contexto')"><span class="dot" style="background:var(--term)"></span>Contexto e memória</a>
     <a class="sidebar-link" onclick="goTo('alucinacao')"><span class="dot" style="background:var(--accent2)"></span>Alucinação</a>
     <a class="sidebar-link" onclick="goTo('prompt')"><span class="dot" style="background:var(--accent3)"></span>O que é um prompt</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--claude)"></span>Demonstração</a>
     <a class="sidebar-link" onclick="goTo('ferramentas')"><span class="dot" style="background:var(--accent7)"></span>ChatGPT, Gemini, Claude</a>
-    <a class="sidebar-link" onclick="goTo('exercicio')"><span class="dot" style="background:var(--accent4)"></span>Exercício prático</a>
+    <a class="sidebar-link" onclick="goTo('qual-ferramenta')"><span class="dot" style="background:var(--accent6)"></span>Qual ferramenta usar</a>
+    <a class="sidebar-link" onclick="goTo('pratica-a')"><span class="dot" style="background:var(--accent4)"></span>Prática A: ruim × bom</a>
+    <a class="sidebar-link" onclick="goTo('pratica-b')"><span class="dot" style="background:var(--accent7)"></span>Prática B: três ferramentas</a>
+    <a class="sidebar-link" onclick="goTo('pratica-c')"><span class="dot" style="background:var(--term)"></span>Prática C: NotebookLM</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio da noite</a>
     <a class="sidebar-link" onclick="goTo('alavancas')"><span class="dot" style="background:var(--accent5)"></span>Três alavancas</a>
     <a class="sidebar-link" onclick="goTo('gratis-pago')"><span class="dot" style="background:var(--term)"></span>Gratuito e pago</a>
     <a class="sidebar-link" onclick="goTo('etica')"><span class="dot" style="background:var(--mito)"></span>Ética e guardrails</a>
@@ -154,22 +160,84 @@
     <span data-motion="float">💬</span>
     <span data-motion="float">✨</span>
   </div>
-  <div class="hero-badge">Módulo 01 · Fundação</div>
-  <h1>IA na Prática</h1>
+  <div class="hero-badge">Módulo 01 · Noite 1</div>
+  <h1>Panorama da IA</h1>
   <p class="subtitle">
-    Entenda o que é inteligência artificial generativa, como ela responde em português
-    e por que um bom pedido muda o resultado — sem precisar programar.
+    O que uma LLM faz de verdade (e onde erra), como pedir bem e qual ferramenta usar
+    em cada situação — ChatGPT, Gemini, Claude e NotebookLM, com as mãos no teclado
+    desde a primeira hora.
   </p>
   <div class="hero-stack">
-    <span class="stack-chip voce">💬 zero jargão pesado</span>
-    <span class="stack-chip term">🎯 prompt de qualidade</span>
-    <span class="stack-chip pratica">🧪 exercício curto</span>
-    <span class="stack-chip conceito">🔷 Claude em destaque</span>
+    <span class="stack-chip voce">🧠 o que uma LLM faz</span>
+    <span class="stack-chip term">🎯 como pedir bem</span>
+    <span class="stack-chip pratica">🧪 3 práticas guiadas</span>
+    <span class="stack-chip conceito">🗺️ qual ferramenta usar</span>
   </div>
 </header>
 
 <main>
   <div class="container">
+
+    <!-- ═══════════ OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎯</div>
+        <div>
+          <div class="step-title">O objetivo da noite</div>
+          <div class="step-sub">Teoria curta, muita prática — já na primeira aula.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ao final desta noite, você…</h3>
+        <ul class="checklist">
+          <li>explica o que uma LLM faz — e por que ela <strong>erra com cara de certeza</strong>;</li>
+          <li>escreve pedidos com <strong>contexto, objetivo, formato e restrições</strong>;</li>
+          <li>sabe <strong>qual ferramenta usar</strong>: ChatGPT, Gemini, Claude, NotebookLM ou geração de imagens;</li>
+          <li>interrogou um contrato de 41 páginas e <strong>conferiu a citação na fonte</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar hoje</div>
+        <ul>
+          <li>Notebook com navegador atualizado</li>
+          <li>Conta gratuita em <strong>claude.ai</strong>, <strong>chatgpt.com</strong> e <strong>gemini.google.com</strong></li>
+          <li>Uma <strong>conta Google</strong> para o NotebookLM (Prática C)</li>
+          <li class="opcional">Opcional: crie as contas antes da aula — sobra mais tempo para praticar</li>
+        </ul>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 1 · ~35 MIN</span>
+          <div class="tl-titulo">Teoria curta</div>
+          <p>O que é uma LLM, mitos, contexto, alucinação e a fórmula do bom pedido.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 2 · ~25 MIN</span>
+          <div class="tl-titulo">Demonstração + Prática A</div>
+          <p>O mesmo assunto com um pedido fraco e um forte — primeiro no telão, depois com você.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 3 · ~25 MIN</span>
+          <div class="tl-titulo">Qual ferramenta usar + Prática B</div>
+          <p>O mesmo pedido no ChatGPT, no Gemini e no Claude, lado a lado.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 4 · ~25 MIN</span>
+          <div class="tl-titulo">Prática C · NotebookLM</div>
+          <p>Perguntas a um contrato do kit, com a resposta apontando a cláusula de origem.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 5 · ~10 MIN</span>
+          <div class="tl-titulo">Desafio da noite + quiz</div>
+          <p>Escolher a ferramenta certa e escrever o pedido sozinho.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
 
     <!-- ═══════════ AQUECIMENTO ═══════════ -->
     <section class="step-section" id="aquecimento">
@@ -561,8 +629,8 @@
       <ul class="checklist">
         <li><strong>Detectar:</strong> confira fatos críticos em fontes primárias. Pergunte
           “como você sabe disso?” — às vezes ele admite incerteza.</li>
-        <li><strong>Minimizar:</strong> forneça documentos reais no contexto. Em módulos
-          seguintes, ferramentas como NotebookLM ajudam a citar fontes verificáveis.</li>
+        <li><strong>Minimizar:</strong> forneça documentos reais no contexto. Na Prática C
+          desta noite, o NotebookLM responde citando o trecho da fonte.</li>
         <li><strong>Regra de ouro:</strong> nunca publique, assine ou envie ao cliente sem
           revisão humana do que importa.</li>
       </ul>
@@ -622,6 +690,56 @@ anunciando croissant de chocolate. Tom descontraído, máx. 150 palavras
 cada. Inclua uma chamada para ação no final de cada post.</pre>
         <div class="pc-por-que"><strong>Por que funciona:</strong> quem você é, o que precisa,
           formato, tom e limite de tamanho. A IA tem pouco espaço para “inventar o briefing”.</div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DEMONSTRAÇÃO ═══════════ -->
+    <section class="step-section" id="demo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎬</div>
+        <div>
+          <div class="step-title">Demonstração: o mesmo assunto, dois pedidos</div>
+          <div class="step-sub">Olhe a diferença. Na Prática A, quem digita é você.</div>
+        </div>
+      </div>
+
+      <div class="chat-claude" data-seq="2600" data-seq-cumulative>
+        <div class="chat-head">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="chat-title">claude.ai — chat</span>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg voce" data-seq-frame="0">
+            <span class="quem">você</span>
+            me ajuda com marketing
+          </div>
+          <div class="chat-msg claude" data-seq-frame="1">
+            <span class="quem">claude</span>
+            Claro! Marketing envolve conhecer seu público, criar conteúdo relevante e estar
+            presente nas redes sociais. Qual é o seu negócio?
+          </div>
+          <div class="chat-msg voce" data-seq-frame="2">
+            <span class="quem">você</span>
+            Sou dono de uma padaria em João Pessoa. Crie 3 posts para Instagram anunciando
+            croissant de chocolate. Tom descontraído, máx. 150 palavras cada, com chamada
+            para ação no final.
+          </div>
+          <div class="chat-msg claude" data-seq-frame="3">
+            <span class="quem">claude</span>
+            Post 1 — Chegou o croissant de chocolate que você não sabia que precisava. 🥐
+            Folhado por fora, chocolate derretendo por dentro… Passa aqui e pede o seu!
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">👩‍🏫</div>
+        <div class="tip-content">
+          <strong>Para o instrutor:</strong> faça ao vivo em uma das ferramentas, no telão.
+          Mostre que o primeiro pedido não está "errado" — só obriga a IA a adivinhar o briefing.
+        </div>
       </div>
     </section>
 
@@ -688,13 +806,69 @@ cada. Inclua uma chamada para ação no final de cada post.</pre>
 
     <div class="section-connector"><div class="line"></div></div>
 
+    <!-- ═══════════ QUAL FERRAMENTA ═══════════ -->
+    <section class="step-section" id="qual-ferramenta">
+      <div class="step-header">
+        <div class="step-number sn-blue">🧭</div>
+        <div>
+          <div class="step-title">Qual ferramenta usar em cada situação</div>
+          <div class="step-sub">Não é torcida de futebol. É caixa de ferramentas.</div>
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">💡</span>
+          <span class="kw-name">Rascunho e brainstorm</span>
+          <span class="kw-desc">Qualquer chat: ChatGPT, Gemini ou Claude. Use o que você abre com mais facilidade.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📄</span>
+          <span class="kw-name">Documento longo, análise</span>
+          <span class="kw-desc">Claude: forte em ler, comparar e analisar textos grandes.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🟦</span>
+          <span class="kw-name">Vida no Google</span>
+          <span class="kw-desc">Gemini, quando o trabalho já mora no Drive, no Gmail e no Docs.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📚</span>
+          <span class="kw-name">Resposta só das SUAS fontes</span>
+          <span class="kw-desc">NotebookLM: responde com base nos seus documentos e cita o trecho.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🎨</span>
+          <span class="kw-name">Imagem</span>
+          <span class="kw-desc">Geração de imagem no Gemini (e nos outros chats): capa, ilustração, mockup.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗂️</span>
+          <span class="kw-name">Trabalho braçal nos seus arquivos</span>
+          <span class="kw-desc">Claude Code — o agente que você instala na Noite 2.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🎨</div>
+        <div class="tip-content">
+          <strong>Quer praticar imagem?</strong> Prompts prontos de imagem e o exercício estão no
+          <a href="../../apoio/01-criando-com-ia/#imagens" style="color:var(--accent3)">material de apoio · Criando com IA</a>.
+          Para ir além no NotebookLM (Audio Overview, guia de estudo):
+          <a href="../../apoio/03-notebooklm/" style="color:var(--accent3)">material de apoio · NotebookLM</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
     <!-- ═══════════ EXERCÍCIO ═══════════ -->
-    <section class="step-section" id="exercicio">
+    <section class="step-section" id="pratica-a">
       <div class="step-header">
         <div class="step-number sn-mint">🧪</div>
         <div>
-          <div class="step-title">Mão na massa: exercício curto</div>
-          <div class="step-sub">Cinco minutos. Uma conta. Dois prompts. Uma comparação.</div>
+          <div class="step-title">Prática A · Ruim × bom no mesmo assunto</div>
+          <div class="step-sub">~15 min · navegador · uma conta, dois prompts, uma comparação.</div>
         </div>
       </div>
 
@@ -728,6 +902,231 @@ Máximo [N] palavras. Não invente dados que eu não informei.</pre>
           O último pedido (“não invente dados”) reduz alucinação no que for factual.</div>
       </div>
     </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA B ═══════════ -->
+    <section class="step-section" id="pratica-b">
+      <div class="step-header">
+        <div class="step-number sn-green">🔀</div>
+        <div>
+          <div class="step-title">Prática B · O mesmo pedido em três ferramentas</div>
+          <div class="step-sub">~20 min · três abas, um prompt, um veredito seu.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — três abas.</strong> Abra <strong>claude.ai</strong>,
+        <strong>chatgpt.com</strong> e <strong>gemini.google.com</strong>, cada um logado na sua conta gratuita.
+      </p>
+
+      <p class="mb-md"><strong>Passo 2 — o mesmo pedido nas três.</strong> Copie e cole, sem mudar nada:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · o pedido de teste</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Sou assistente administrativo de um escritório de contabilidade.
+Escreva um e-mail curto para um cliente MEI lembrando que faltam
+documentos para a declaração anual. Tom cordial e direto, no máximo
+120 palavras, com uma lista de três itens: extrato bancário, notas
+fiscais emitidas e comprovante de pagamento do DAS.
+Não invente prazos nem valores.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o pedido tem regras
+          verificáveis (limite de palavras, três itens, nada de prazo inventado). Fica fácil
+          comparar quem obedeceu.</div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 3 — o veredito.</strong> Compare as três respostas com este checklist:</p>
+
+      <ul class="checklist">
+        <li>Ficou <strong>dentro de 120 palavras</strong>?</li>
+        <li>Trouxe <strong>os três documentos</strong> pedidos, em lista?</li>
+        <li>Alguma <strong>inventou prazo ou valor</strong>, mesmo com a proibição? (Isso é alucinação de briefing.)</li>
+        <li>Qual tom você <strong>mandaria para um cliente seu</strong> sem mexer?</li>
+      </ul>
+
+      <p class="mb-md"><strong>Passo 4 — itere na vencedora.</strong> A primeira resposta raramente é a final:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 4 · o ajuste</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Ficou bom. Agora deixe 30% mais curto, sugira um assunto para o
+e-mail e termine com uma frase oferecendo ajuda por telefone.</pre>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🏁</div>
+        <div class="tip-content">
+          <strong>Não existe vencedor universal.</strong> Cada turma escolhe uma ferramenta
+          diferente — e tudo bem. A melhor é a que você usa com consistência e confere sempre.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA C ═══════════ -->
+    <section class="step-section" id="pratica-c">
+      <div class="step-header">
+        <div class="step-number sn-term">📚</div>
+        <div>
+          <div class="step-title">Prática C · NotebookLM: perguntas com citação</div>
+          <div class="step-sub">~25 min · um contrato de 41 páginas, respostas com endereço.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O kit do curso traz um contrato <strong>fictício</strong> de manutenção de refrigeração entre a
+        Supermercados Bom Preço do Vale e a RefriTec — 41 páginas que ninguém quer ler até amanhã.
+        O NotebookLM responde <strong>só com base nas fontes que você carregar</strong>, e cita o trecho.
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Uma <strong>conta Google</strong> logada no navegador</li>
+          <li>O contrato do kit: <strong>contrato-prestacao-servicos.pdf</strong> (botão abaixo)</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit/contrato/contrato-prestacao-servicos.pdf" download>⬇️ Baixar o contrato do kit (PDF)</a>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — o notebook.</strong> Abra <strong>notebooklm.google.com</strong>, crie um
+        notebook novo e adicione o PDF do contrato como fonte. Espere o processamento terminar.
+      </p>
+
+      <p class="mb-md"><strong>Passo 2 — a primeira pergunta, exigindo o endereço:</strong></p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · o valor e a cláusula</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Qual é o valor mensal deste contrato, quando vence e por quanto
+tempo ele vale? Diga a cláusula de cada resposta.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Valor mensal: R$ 7.350,00, vencimento todo dia 5 (cláusula 4ª)</span>
+          <span class="tela-linha tela-claude">Prazo: 24 meses, prorrogável (cláusula 3ª)</span>
+          <span class="tela-linha tela-dim">(com números de citação clicáveis ao lado de cada trecho)</span>
+        </div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 3 — as perguntas que o seu chefe faria:</strong></p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · multa e atendimento</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>Qual a multa se a contratante cancelar sem motivo? E em quanto
+tempo eles atendem um chamado urgente? Diga a cláusula de cada resposta.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Multa por rescisão sem motivo: R$ 14.700,00, duas mensalidades (cláusula 5ª)</span>
+          <span class="tela-linha tela-claude">Chamado urgente: em até 6 horas úteis (cláusula 7ª)</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 4 — a conferência.</strong> Clique no número de citação de uma resposta: o
+        NotebookLM mostra o trecho do PDF de onde ela saiu. Leia com os próprios olhos.
+        Bateu? Agora você confia.
+      </p>
+
+      <p class="mb-md"><strong>Passo 5 — a pergunta-armadilha.</strong> Pergunte algo que o contrato não diz:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🪤</span>
+          <span class="pc-titulo">Passo 5 · o teste da invenção</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>O contrato prevê o uso de drones nas visitas técnicas? Se não
+constar nas fontes, responda apenas "não consta".</pre>
+        <div class="pc-por-que"><strong>O que observar:</strong> a resposta certa é "não consta".
+          Uma ferramenta presa às fontes admite que não encontrou — em vez de inventar com
+          cara de certeza.</div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>Treino é com dado fictício.</strong> Não suba contrato real de cliente, CPF ou
+          dado bancário para treinar. Na Noite 4, você interroga este mesmo contrato com o
+          Claude Code — e compara as duas experiências.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio da noite</div>
+          <div class="step-sub">Agora sem prompt pronto — ferramenta e pedido são escolha sua.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">Ferramenta certa, pedido certo</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">Para cada situação, qual ferramenta você usaria?</p>
+        <ol>
+          <li>A equipe pergunta o prazo de reembolso de despesas, e a resposta está espalhada em
+            <strong>cinco PDFs de normas internas</strong> — com a página de origem.</li>
+          <li>Você precisa de <strong>dez ideias de nome</strong> para o evento de fim de ano da empresa, rápido.</li>
+          <li>Você quer uma <strong>imagem de capa</strong> para o post de divulgação do evento.</li>
+        </ol>
+        <p>
+          Depois, escreva o pedido completo da situação 1 ou 2 com as quatro peças:
+          contexto, objetivo, formato e restrições. Teste na ferramenta que escolheu.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Escolher errado e
+            perceber o porquê também é o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Uma resposta possível (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <p class="mb-md">
+              <strong>1 · NotebookLM</strong> — a resposta tem que vir das suas fontes, com citação.
+              <strong>2 · Qualquer chat</strong> (ChatGPT, Gemini ou Claude) — brainstorm é o forte deles.
+              <strong>3 · Gemini</strong> (ou outro chat com geração de imagem).
+            </p>
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Um pedido para a situação 1</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>Com base apenas nestas fontes, qual é o prazo para pedir reembolso
+de despesas? Responda em até 3 linhas, cite o documento e o trecho
+de origem. Se as fontes não disserem, responda "não consta".</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
     <div class="section-connector"><div class="line"></div></div>
 
@@ -796,9 +1195,10 @@ Máximo [N] palavras. Não invente dados que eu não informei.</pre>
       <div class="warning">
         <div class="warning-icon">💬</div>
         <div class="warning-content">
-          <strong>Recomendação do curso:</strong> comece no gratuito. Assine só quando
-          sentir o limite no seu fluxo real. Em etapas posteriores (como Claude Code),
-          um plano pago pode ser necessário — veremos isso com calma no momento certo.
+          <strong>Recomendação do curso:</strong> para os chats, comece no gratuito e assine só
+          quando sentir o limite no seu fluxo real. Atenção: a partir da Noite 2, o
+          <strong>Claude Code exige plano pago</strong> do Claude — preço atual em
+          <a href="https://claude.com/pricing" target="_blank" rel="noopener" style="color:var(--accent5)">claude.com/pricing</a>.
         </div>
       </div>
     </section>
@@ -970,20 +1370,22 @@ Máximo [N] palavras. Não invente dados que eu não informei.</pre>
         <li><strong>Alucinação existe</strong> — revise o que for crítico.</li>
         <li><strong>Contexto</strong> é a conversa atual; <strong>memória</strong> persistente é recurso extra.</li>
         <li>Claude é o <strong>fio condutor</strong> do curso; ChatGPT e Gemini continuam úteis.</li>
+        <li><strong>NotebookLM</strong> quando a resposta tem que vir das SUAS fontes — com citação para conferir.</li>
         <li>Comece no <strong>gratuito</strong>; pague quando o limite atrapalhar de verdade.</li>
       </ul>
 
       <div class="analogy">
         <div class="analogy-title">Próximo passo</div>
         <p>
-          No módulo 2 você cria de verdade: textos, imagens e roteiros de vídeo —
-          com fórmulas prontas e prompts para copiar.
+          Na Noite 2, o Claude sai do navegador e vai morar no seu computador: você instala
+          o <strong>Claude Code</strong> e tem a primeira conversa com um agente que mexe
+          nos seus arquivos — sempre pedindo permissão.
         </p>
       </div>
 
       <div class="cap-nav">
         <a class="nav-voltar" href="../../">« Voltar ao curso</a>
-        <a class="nav-proximo" href="../02-criando-com-ia/">Módulo 02: Criando com IA »</a>
+        <a class="nav-proximo" href="../02-do-chat-ao-agente/">Noite 2: Do chat ao agente »</a>
       </div>
     </section>
 
@@ -991,7 +1393,7 @@ Máximo [N] palavras. Não invente dados que eu não informei.</pre>
 </main>
 
 <footer class="footer">
-  <p>Programa AI — Módulo 01 · IA na Prática</p>
+  <p>Programa AI — Módulo 01 · Noite 1 · Panorama da IA</p>
   <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
 </footer>
 
