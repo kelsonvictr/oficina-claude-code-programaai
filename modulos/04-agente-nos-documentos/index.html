@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 04 · O agente nos seus documentos — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📄 Noite 4 · Seus documentos</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta noite</div>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--accent5)"></span>Objetivo e roteiro</a>
+    <a class="sidebar-link" onclick="goTo('teoria')"><span class="dot" style="background:var(--accent6)"></span>Teoria curta</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--claude)"></span>Demonstração</a>
+    <a class="sidebar-link" onclick="goTo('pratica-a')"><span class="dot" style="background:var(--accent4)"></span>Prática A: declarações em lote</a>
+    <a class="sidebar-link" onclick="goTo('pratica-b')"><span class="dot" style="background:var(--accent7)"></span>Prática B: o contrato</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio da noite</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--term)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">📄</span>
+    <span data-motion="float">📕</span>
+    <span data-motion="float">🔎</span>
+  </div>
+  <div class="hero-badge">Módulo 04 · Noite 4</div>
+  <h1>O agente nos<br>seus documentos</h1>
+  <p class="subtitle">
+    Trinta declarações em lote e um contrato de 40 páginas. Hoje você aprende a
+    <strong>descrever o resultado</strong>, a testar com um <strong>piloto antes do lote</strong>
+    e a exigir a <strong>cláusula de cada resposta</strong> — para conferir na fonte.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">📄 declarações em lote</span>
+    <span class="stack-chip term">📕 contrato de 40 páginas</span>
+    <span class="stack-chip pratica">🧪 2 práticas guiadas</span>
+    <span class="stack-chip conceito">🎯 1 desafio</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎯</div>
+        <div>
+          <div class="step-title">O objetivo da noite</div>
+          <div class="step-sub">Duas horas, duas pastas do kit, dois freios que valem para a vida.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ao final desta noite, você…</h3>
+        <ul class="checklist">
+          <li>gera <strong>30 declarações personalizadas</strong> a partir de um modelo e uma lista, sem abrir o Word;</li>
+          <li>sabe por que se faz <strong>uma amostra antes do lote</strong> — e confere o lote por amostragem;</li>
+          <li>transforma um contrato de 41 páginas em <strong>resumo, tabela e respostas com cláusula</strong>;</li>
+          <li>junta PDFs com uma frase e sabe <strong>conferir na fonte</strong> antes de repassar qualquer número.</li>
+        </ul>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 1 · ~15 MIN</span>
+          <div class="tl-titulo">Teoria curta + demonstração</div>
+          <p>Descrever o resultado, piloto antes do lote e alucinação dita com todas as letras.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 2 · ~45 MIN</span>
+          <div class="tl-titulo">Prática A · declarações em lote</div>
+          <p>Modelo + lista = lote: o piloto, as outras 29, a conferência e o upgrade para PDF.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 3 · ~45 MIN</span>
+          <div class="tl-titulo">Prática B · o contrato de 40 páginas</div>
+          <p>Resumo com endereço, tabela de valores, interrogatório e os anexos num PDF só.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 4 · ~15 MIN</span>
+          <div class="tl-titulo">Desafio da noite + quiz</div>
+          <p>Sem prompt pronto: você monta o pedido sozinho.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ TEORIA CURTA ═══════════ -->
+    <section class="step-section" id="teoria">
+      <div class="step-header">
+        <div class="step-number sn-purple">📚</div>
+        <div>
+          <div class="step-title">Teoria curta: resultado, piloto e endereço</div>
+          <div class="step-sub">Três ideias. O resto da noite é mão na massa.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Descreva o resultado, não o passo a passo</div>
+        <p>
+          Você não precisa saber como se faz uma mala direta. Diga <strong>o que quer no
+          fim</strong> — "um arquivo por pessoa, com este padrão de nome" ou "um CSV com estas
+          três colunas" — e o "como fazer" é problema dele.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Modelo + lista = lote</div>
+        <p>
+          Um <strong>modelo com lacunas</strong> (as partes entre chaves, como {{NOME}}) mais uma
+          <strong>lista com os dados</strong> geram um documento por linha da lista. Declaração,
+          certificado, carta, convite, etiqueta: muda o modelo, muda a lista, a fórmula é a mesma.
+          E antes do lote vem o <strong>piloto</strong>: um erro na amostra custa 1 correção; o mesmo
+          erro descoberto depois do lote custa 30.
+        </p>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Alucinação — dita com todas as letras.</strong> Uma IA pode inventar uma resposta:
+          número plausível, tom seguro, até uma cláusula com cara de verdade que não existe no
+          documento. A defesa não é torcer: é exigir a <strong>referência (cláusula, página)</strong>
+          em toda resposta e conferir na fonte o que for importante.
+        </div>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Se a IA leu o contrato, posso assinar sem ler."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            Resumo <strong>não é parecer jurídico</strong>. O Claude te ajuda a entender o documento
+            depressa — não substitui o advogado, o contador, nem a sua leitura das cláusulas
+            críticas. Use o resumo para chegar preparado à decisão, nunca no lugar dela.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DEMONSTRAÇÃO ═══════════ -->
+    <section class="step-section" id="demo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎬</div>
+        <div>
+          <div class="step-title">Demonstração: o piloto antes do lote</div>
+          <div class="step-sub">Olhe o ritmo. Na Prática A, quem digita é você.</div>
+        </div>
+      </div>
+
+      <div class="chat-claude" data-seq="2300" data-seq-cumulative>
+        <div class="chat-head">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="chat-title">oficina-claude — claude code</span>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg voce" data-seq-frame="0">
+            <span class="quem">você</span>
+            gere a declaração APENAS da primeira pessoa da lista (Ana Clara Beltrão).
+            quero aprovar o formato antes de gerar as outras.
+          </div>
+          <div class="chat-perm" data-seq-frame="1">
+            <div class="perm-title">🔐 Permissão</div>
+            Posso criar a pasta declaracoes-geradas e 1 arquivo dentro dela?
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-seq-step="1,2">Sim</button>
+              <button class="perm-btn nao">Não</button>
+            </div>
+          </div>
+          <div class="chat-msg claude" data-seq-frame="2">
+            <span class="quem">claude</span>
+            Pronto! Matrícula AUR-0001, curso "Oficina de Comunicação Escrita", 20 horas.
+            Quer ajustar algo no texto antes de eu gerar as demais?
+          </div>
+          <div class="chat-msg voce" data-seq-frame="3">
+            <span class="quem">você</span>
+            formato aprovado! gere as outras 29, no mesmo padrão de nome de arquivo.
+          </div>
+          <div class="chat-perm" data-seq-frame="4">
+            <div class="perm-title">🔐 Permissão</div>
+            Posso criar 29 arquivos na pasta declaracoes-geradas?
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-seq-step="4,5">Sim</button>
+              <button class="perm-btn nao">Não</button>
+            </div>
+          </div>
+          <div class="chat-msg claude" data-seq-frame="5">
+            <span class="quem">claude</span>
+            Pronto! 30 declarações na pasta declaracoes-geradas (o piloto + 29),
+            de AUR-0001 a AUR-0030.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">👩‍🏫</div>
+        <div class="tip-content">
+          <strong>Para o instrutor:</strong> projete a pasta declaracoes-geradas aberta no
+          Explorador/Finder ao lado do Claude Code. Os 29 arquivos aparecendo em segundos são o
+          momento UAU — e lembre a turma: para 100 pessoas, o pedido seria exatamente o mesmo.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA A ═══════════ -->
+    <section class="step-section" id="pratica-a">
+      <div class="step-header">
+        <div class="step-number sn-blue">📄</div>
+        <div>
+          <div class="step-title">Prática A · Cem declarações em cinco minutos</div>
+          <div class="step-sub">~45 min · secretaria, RH e qualquer um que já fez mala direta na mão.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O fictício <strong>Instituto Aurora de Capacitação</strong> encerrou suas turmas:
+        <strong>30 participantes</strong> esperam a declaração de participação, cada uma com o nome,
+        a matrícula, o curso e a carga horária daquela pessoa. O kit traz a lista e o modelo.
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como na Noite 2)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (a pasta kit/declaracoes deve existir, com participantes.csv e modelo-declaracao.txt)</li>
+          <li>O <strong>Python instalado</strong> — a <a href="../../oficina/02-preparando/#vacina" style="color:var(--term)">"vacina" da Noite 2</a>; a etapa dos PDFs depende dele</li>
+          <li class="opcional">Opcional: a pasta aberta no Explorador/Finder do lado, para ver os arquivos brotando</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — entender as peças.</strong> Antes de pedir o bolo, confira os ingredientes:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · reconhecendo o material</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia os arquivos kit/declaracoes/participantes.csv e
+kit/declaracoes/modelo-declaracao.txt e me explique: o que tem
+na lista, o que é o modelo e o que significam as partes entre
+chaves duplas. só explique, não crie nada ainda.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você confere se ele enxergou
+          os arquivos certos ANTES de qualquer geração — e ganha uma explicação do material em
+          português claro.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">O participantes.csv é uma lista com 30 pessoas, uma por linha:</span>
+          <span class="tela-linha tela-claude">matrícula (AUR-0001 a AUR-0030), nome, curso e carga horária.</span>
+          <span class="tela-linha tela-claude">As partes como {{NOME}} e {{MATRICULA}} são marcadores de posição:</span>
+          <span class="tela-linha tela-claude">no documento de cada pessoa, eu troco cada marcador pelo dado dela.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — o piloto.</strong> A tentação é pedir logo as 30. Resista: primeiro uma só.
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · a declaração-piloto</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>usando o modelo, gere a declaração APENAS da primeira pessoa da
+lista (Ana Clara Beltrão) e salve como
+declaracoes-geradas/declaracao-ana-clara-beltrao.txt.
+quero aprovar o formato antes de gerar as outras.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "APENAS" e o "quero aprovar
+          antes" deixam claro que é um teste — e o exemplo já mostra o padrão de nome de arquivo
+          que você quer para todo o lote.</div>
+      </div>
+
+      <p class="mb-md">
+        Abra o arquivo e leia como se fosse a Ana Clara recebendo: nome certo? Matrícula AUR-0001?
+        Curso e carga horária corretos? Nenhuma chave dupla sobrando? Algo incomodou? Negocie agora:
+        "deixe uma linha em branco antes da assinatura".
+      </p>
+
+      <p class="mb-md">
+        <strong>Passo 3 — o lote.</strong> Piloto aprovado? Solte as outras 29:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · as outras 29</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>formato aprovado! gere as declarações das outras 29 pessoas da
+lista, na mesma pasta declaracoes-geradas, seguindo o mesmo
+padrão de nome de arquivo: declaracao-nome-sobrenome.txt, tudo
+em minúsculas e sem acentos.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar 29 arquivos na pasta declaracoes-geradas? [confirmar]</span>
+          <span class="tela-linha tela-dim">(29 de uma vez — a permissão vale para o lote inteiro)</span>
+          <span class="tela-linha tela-claude">Pronto! 30 declarações na pasta declaracoes-geradas (o piloto + 29),</span>
+          <span class="tela-linha tela-claude">uma para cada pessoa de participantes.csv, de AUR-0001 a AUR-0030.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 4 — a conferência por amostragem.</strong> Ninguém lê 30 declarações. Abra 2 ou 3
+        ao acaso (uma do começo, uma do meio, uma do fim) e compare com o participantes.csv:
+      </p>
+
+      <ul class="checklist">
+        <li>O <strong>nome</strong> no texto é o mesmo da linha correspondente do csv?</li>
+        <li>A <strong>matrícula</strong> bate? (é fácil um AUR-0017 virar AUR-0016 sem ninguém notar)</li>
+        <li>O <strong>curso e a carga horária</strong> são os daquela pessoa — e não os da vizinha de lista?</li>
+        <li>Nenhum <strong>marcador entre chaves</strong> sobrou sem trocar?</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>O erro típico do lote é silencioso.</strong> Ele quase nunca aparece em UM documento
+          errado — aparece como um campo trocado em TODOS (todo mundo com 20 horas, ou o curso da
+          linha de cima). Por isso a amostra compara contra o csv, a fonte.
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 5 — o upgrade para PDF.</strong> Ninguém entrega declaração oficial em .txt:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 5 · o lote em PDF</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>converta todas as declarações da pasta declaracoes-geradas para
+PDF, numa nova pasta declaracoes-pdf, mantendo os mesmos nomes
+de arquivo (só mudando a extensão para .pdf).</pre>
+        <div class="pc-por-que"><strong>Cena nova:</strong> para gerar PDF ele pode precisar de uma
+          ferramenta de conversão que ainda não está no seu computador. Você não instala na mão —
+          ele explica, pede permissão e instala. Nome parecendo grego? Pergunte "para que serve
+          isso?" antes de confirmar.</div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com as telas de cada passo:</strong>
+          <a href="../../oficina/06-documentos-lote/" style="color:var(--accent3)">Prática 06 · Cem declarações em cinco minutos</a>.
+          A tela da instalação da ferramenta de PDF está na
+          <a href="../../oficina/06-documentos-lote/#etapa5" style="color:var(--accent3)">Etapa 5</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA B ═══════════ -->
+    <section class="step-section" id="pratica-b">
+      <div class="step-header">
+        <div class="step-number sn-mint">📕</div>
+        <div>
+          <div class="step-title">Prática B · O contrato de 40 páginas</div>
+          <div class="step-sub">~45 min · jurídico, contábil e todo mundo que já "deu uma olhada" até amanhã.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O kit traz um contrato fictício de manutenção de refrigeração entre a
+        <strong>Supermercados Bom Preço do Vale Ltda.</strong> (contratante) e a
+        <strong>RefriTec Manutenção e Serviços ME</strong> (contratada):
+        <strong>contrato-prestacao-servicos.pdf</strong>, com 41 páginas, mais três anexos de
+        1 página cada (anexo-a-equipamentos, anexo-b-unidades e anexo-c-precos-avulsos).
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong></li>
+          <li>A pasta <strong>kit/contrato</strong> no lugar</li>
+          <li>O <strong>Python instalado</strong> — a <a href="../../oficina/02-preparando/#vacina" style="color:var(--term)">"vacina" da Noite 2</a>; para ler o PDF não precisa, mas para juntar e dividir sim</li>
+          <li class="opcional">Opcional (mas recomendado): o PDF do contrato aberto do lado, para as conferências</li>
+        </ul>
+      </div>
+
+      <p class="mb-md"><strong>Passo 1 — o resumo com endereço.</strong> Repare nas palavras que fecham o pedido:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · o resumo com endereço</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o arquivo kit/contrato/contrato-prestacao-servicos.pdf e faça
+um resumo executivo em no máximo 10 linhas: quem contrata quem, para
+fazer o quê, por quanto, por quanto tempo e o que acontece se alguém
+quiser sair. e para CADA informação, diga o número da cláusula onde
+ela está.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "diga o número da cláusula" é o
+          seu cinto de segurança contra invenção. Resposta sem endereço você aceita na fé; com
+          endereço, você confere na fonte em 20 segundos.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">- Valor mensal: R$ 7.350,00, vencimento todo dia 5 (cl. 4ª)</span>
+          <span class="tela-linha tela-claude">- Prazo: 24 meses, prorrogável (cl. 3ª)</span>
+          <span class="tela-linha tela-claude">- Rescisão sem motivo: multa de R$ 14.700,00, o equivalente</span>
+          <span class="tela-linha tela-claude">  a duas mensalidades (cl. 5ª)</span>
+          <span class="tela-linha tela-claude">- Foro: Comarca de João Pessoa/PB (cl. 12ª)</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        Já faça a primeira conferência: abra o PDF, vá até uma dessas cláusulas (a do valor, por
+        exemplo) e compare. Bateu? Agora você sabe como se confere.
+      </p>
+
+      <p class="mb-md"><strong>Passo 2 — a tabela de valores e prazos.</strong> Descreva o arquivo que você quer:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · a extração para planilha</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>agora extraia do contrato TODOS os valores em reais e TODOS os
+prazos, e salve num arquivo contrato-resumo.csv com três colunas:
+item;valor_ou_prazo;clausula</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você descreveu o resultado (um CSV,
+          três colunas com esses nomes) — e a coluna "clausula" mantém o cinto de segurança
+          afivelado até dentro da planilha.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar o arquivo contrato-resumo.csv? [confirmar]</span>
+          <span class="tela-linha tela-claude">Criado! Encontrei 9 itens. Uma amostra:</span>
+          <span class="tela-linha tela-claude">mensalidade;R$ 7.350,00;4ª</span>
+          <span class="tela-linha tela-claude">chamado urgente;até 6 horas úteis;7ª</span>
+          <span class="tela-linha tela-claude">confidencialidade;5 anos após o término;10ª</span>
+        </div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 3 — o interrogatório.</strong> As perguntas que o seu chefe faria, sempre com a cláusula:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · as perguntas diretas</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>duas perguntas sobre o contrato, e me diga a cláusula de cada
+resposta: 1) qual a multa se a contratante cancelar sem motivo?
+2) em quanto tempo eles atendem um chamado urgente?</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">1) Multa por rescisão imotivada pela contratante:</span>
+          <span class="tela-linha tela-claude">   R$ 14.700,00 — o equivalente a duas mensalidades (cláusula 5ª)</span>
+          <span class="tela-linha tela-claude">2) Chamados urgentes: atendimento em até 6 horas úteis;</span>
+          <span class="tela-linha tela-claude">   chamados comuns, em até 2 dias úteis (cláusula 7ª)</span>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Abra o PDF e encontre a <strong>cláusula 5ª</strong>: a multa é mesmo R$ 14.700,00?</li>
+        <li>Encontre a <strong>cláusula 7ª</strong>: o chamado urgente é mesmo em até 6 horas úteis?</li>
+      </ul>
+
+      <p class="mb-md"><strong>Passo 4 — juntar os anexos.</strong> Aquela tarefa que costuma exigir site cheio de propaganda:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 4 · juntando os anexos</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>junte os três anexos da pasta kit/contrato (anexo-a, anexo-b e
+anexo-c, nessa ordem) num único arquivo anexos-completos.pdf</pre>
+        <div class="pc-por-que"><strong>Ler é livre, mexer tem cerimônia:</strong> ler PDF ele já sabe
+          de fábrica; juntar, dividir ou girar exige uma ferramenta especializada. Ele pede para
+          instalar, você aprova uma vez, e a ferramenta fica.</div>
+      </div>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>PDF escaneado é foto, não texto.</strong> Se o Claude disser que não consegue ler um
+          arquivo, peça: "esse PDF parece escaneado; consegue extrair o texto mesmo assim?". Ele vai
+          tentar OCR (leitura de imagem) ou avisar honestamente do limite.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com as telas de cada passo:</strong>
+          <a href="../../oficina/07-contrato-pdf/" style="color:var(--accent3)">Prática 07 · O contrato de 40 páginas</a>.
+          Juntar e dividir PDFs está na
+          <a href="../../oficina/07-contrato-pdf/#etapa4" style="color:var(--accent3)">Etapa 4</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio da noite</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">A linha do tempo das obrigações</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Peça ao Claude Code uma linha do tempo das obrigações do contrato: o que acontece e
+          quando — vencimentos mensais, reajuste anual, renovação, fim da garantia, fim da
+          confidencialidade — em <strong>ordem cronológica</strong>, salva num
+          <strong>arquivo txt</strong>.
+        </p>
+        <p>
+          Monte o pedido você mesmo: a tarefa, o formato do resultado e — a esta altura você já
+          sabe — a exigência da cláusula em cada linha.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>monte uma linha do tempo das obrigações do contrato, em ordem
+cronológica: o que acontece e quando (vencimentos, reajuste,
+renovação, fim da garantia, fim da confidencialidade). salve num
+arquivo linha-do-tempo.txt, citando a cláusula de cada item.</pre>
+            </div>
+            <p>
+              O seu ficou diferente e funcionou? <strong>Perfeito</strong> — não existe pedido
+              único. E a conferência de sempre: abra o txt e cheque <strong>2 itens na fonte</strong>
+              antes de dar a missão por cumprida.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">➕</div>
+        <div class="tip-content">
+          <strong>Sobrou tempo?</strong> O desafio das declarações:
+          <a href="../../oficina/06-documentos-lote/#desafio" style="color:var(--accent3)">o controle de entrega</a>,
+          uma planilha entregas.csv para a secretaria marcar quem já retirou a sua.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎮</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Duas perguntas para cravar o essencial.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧪</span>
+          Você vai gerar 30 declarações a partir de um modelo e uma lista. Qual é o primeiro pedido de geração?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Gere as 30 de uma vez, depois eu olho"</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">"Gere APENAS a primeira, quero aprovar o formato antes"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Gere as 30 e apague as que ficarem erradas"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">"Explique como fazer mala direta no Word"</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="O piloto é o plano antes de mexer das tarefas em lote: um erro na amostra custa 1 correção; depois do lote, custa 30.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧠</span>
+          O Claude respondeu: "multa de R$ 14.700,00, prevista na cláusula quinta". Qual é o próximo passo antes de repassar isso ao chefe?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Repassar — ele citou a cláusula, está confirmado</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Abrir o PDF na cláusula quinta e conferir</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Perguntar "você tem certeza?"</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Pedir o mesmo resumo de novo, para comparar</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Fechado!"
+          data-wrong="😬 Cuidado…"
+          data-explain="A cláusula é o endereço, não a prova. Até uma cláusula com cara de verdade pode ser inventada — conferir na fonte leva 20 segundos.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">📦</div>
+        <div>
+          <div class="step-title">O que ficou desta noite</div>
+          <div class="step-sub">Leve isto para a próxima: agora o agente cria conteúdo e material de ensino.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Descreva o resultado</strong> (arquivo, colunas, padrão de nome), não o passo a passo.</li>
+        <li><strong>Modelo + lista = lote</strong> — e antes do lote vem <strong>o piloto</strong>.</li>
+        <li>Lote se confere <strong>por amostragem</strong>, sempre contra a fonte (o csv).</li>
+        <li>Em documento importante, exija <strong>a cláusula de cada resposta</strong> e confira na fonte.</li>
+        <li>Resumo <strong>não é parecer</strong>: quem assina embaixo é humano.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../03-agente-nos-arquivos/">« Noite 3: Seus arquivos</a>
+        <a class="nav-proximo" href="../05-conteudo-e-ensino/">Noite 5: Conteúdo e ensino »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 04 · Noite 4 · O agente nos seus documentos</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>
