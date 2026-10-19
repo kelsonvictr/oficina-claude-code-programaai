@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 05 · Conteúdo e ensino no automático — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📣 Noite 5 · Conteúdo e ensino</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta noite</div>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--accent5)"></span>Objetivo e roteiro</a>
+    <a class="sidebar-link" onclick="goTo('teoria')"><span class="dot" style="background:var(--accent6)"></span>Teoria curta</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--claude)"></span>Demonstração</a>
+    <a class="sidebar-link" onclick="goTo('pratica-a')"><span class="dot" style="background:var(--accent4)"></span>Prática A: um texto vira dez</a>
+    <a class="sidebar-link" onclick="goTo('pratica-b')"><span class="dot" style="background:var(--accent7)"></span>Prática B: a prova com gabarito</a>
+    <a class="sidebar-link" onclick="goTo('pratica-c')"><span class="dot" style="background:var(--accent3)"></span>Prática C: Skills e Conectores</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio da noite</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--term)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">📣</span>
+    <span data-motion="float">🧑‍🏫</span>
+    <span data-motion="float">🧩</span>
+  </div>
+  <div class="hero-badge">Módulo 05 · Noite 5</div>
+  <h1>Conteúdo e ensino<br>no automático</h1>
+  <p class="subtitle">
+    Um texto vira dez, a prova sai com gabarito — e o Claude aprende o seu jeito de
+    trabalhar com <strong>Skills</strong> e chega aos seus apps com <strong>Conectores</strong>.
+    A produção é dele; a <strong>curadoria</strong> continua sendo sua.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">📣 um texto vira dez</span>
+    <span class="stack-chip term">📝 prova com gabarito</span>
+    <span class="stack-chip pratica">🧩 Skills e Conectores</span>
+    <span class="stack-chip conceito">🧪 3 práticas guiadas</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎯</div>
+        <div>
+          <div class="step-title">O objetivo da noite</div>
+          <div class="step-sub">Duas horas, dois textos-fonte do kit, um caderninho de regras que vira Skill.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ao final desta noite, você…</h3>
+        <ul class="checklist">
+          <li>transforma <strong>um release em posts para cada canal</strong>, todos no mesmo tom de voz;</li>
+          <li>monta uma <strong>prova com gabarito comentado</strong> e versões A e B — com a sua curadoria;</li>
+          <li>edita por conversa: <strong>"mais curto", "troque a questão 3"</strong>;</li>
+          <li>transforma o caderninho de regras em uma <strong>Skill</strong> reutilizável;</li>
+          <li>entende o que um <strong>Conector</strong> faz e como ligar o Google Drive com segurança.</li>
+        </ul>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 1 · ~15 MIN</span>
+          <div class="tl-titulo">Teoria curta + demonstração</div>
+          <p>Caderninho de regras, iteração, curadoria e a diferença entre Skill e Conector.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 2 · ~35 MIN</span>
+          <div class="tl-titulo">Prática A · um texto vira dez</div>
+          <p>O release da Termo 500 vira Instagram, LinkedIn e e-mail, no tom da marca.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 3 · ~35 MIN</span>
+          <div class="tl-titulo">Prática B · a prova com gabarito</div>
+          <p>8 questões da apostila, curadoria por conversa, versões A e B e conferência.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 4 · ~20 MIN</span>
+          <div class="tl-titulo">Prática C · Skills e Conectores</div>
+          <p>O tom de voz vira Skill; o instrutor liga o Google Drive em conta de treino.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 5 · ~15 MIN</span>
+          <div class="tl-titulo">Desafio da noite + quiz</div>
+          <p>Sem prompt pronto: você monta o pedido sozinho.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ TEORIA CURTA ═══════════ -->
+    <section class="step-section" id="teoria">
+      <div class="step-header">
+        <div class="step-number sn-purple">📚</div>
+        <div>
+          <div class="step-title">Teoria curta: regras, rascunho e curadoria</div>
+          <div class="step-sub">Cinco minutos de ideia. O resto da noite é mão na massa.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">O caderninho de regras</div>
+        <p>
+          Peça dez textos soltos e você recebe dez personalidades. O movimento profissional é
+          criar <strong>primeiro</strong> um arquivo com as regras de tom de voz — e mandar o
+          Claude segui-lo em tudo. Como é um arquivo, ele não some quando a conversa acaba.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">A massa e os fornos</div>
+        <p>
+          Adaptar é trabalho de padeiro: a <strong>massa</strong> é a mesma (o texto-fonte,
+          com os fatos), o que muda é o <strong>forno</strong> (Instagram curto, LinkedIn sóbrio,
+          e-mail com assunto que faz abrir). E forno é exatamente o tipo de coisa que dá para delegar.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🔁</div>
+        <div class="tip-content">
+          <strong>A primeira versão é rascunho — sempre.</strong> Editar por conversa
+          ("mais curto", "tira o emoji", "troque a questão 3") multiplica a qualidade em duas
+          ou três rodadas. O custo de cada rodada? Uma frase sua.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Skill e Conector: método × acesso</div>
+        <p>
+          <strong>Skill</strong> é um pacote de instruções que ensina o Claude <em>como</em>
+          fazer um tipo de trabalho — tom, passos, formato. Não liga o Claude a app nenhum.
+          <strong>Conector</strong> é a integração que dá <em>acesso</em> a um serviço externo
+          (Google Drive, Gmail, Calendar…) para ler dados e agir nele. O caderninho de hoje é
+          o embrião de uma Skill.
+        </p>
+      </div>
+
+      <div class="mito-real">
+        <div class="mr-mito">
+          <span class="mr-carimbo">MITO</span>
+          <p>"Com IA, a prova sai pronta — é só imprimir."</p>
+        </div>
+        <div class="mr-real">
+          <span class="mr-tag">NA REAL</span>
+          <p>
+            A IA monta o rascunho em segundos, mas questão gerada pode vir com duas alternativas
+            defensáveis ou com o gabarito errado. A <strong>curadoria</strong> — ler, reagir,
+            resolver algumas contra a fonte — é o que autoriza a prova a sair da sua tela.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DEMONSTRAÇÃO ═══════════ -->
+    <section class="step-section" id="demo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎬</div>
+        <div>
+          <div class="step-title">Demonstração: regras primeiro, textos depois</div>
+          <div class="step-sub">Olhe o ritmo. Na Prática A, quem digita é você.</div>
+        </div>
+      </div>
+
+      <div class="chat-claude" data-seq="2300" data-seq-cumulative>
+        <div class="chat-head">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="chat-title">oficina-claude — claude code</span>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg voce" data-seq-frame="0">
+            <span class="quem">você</span>
+            leia o release-produto.txt e crie o tom-de-voz.txt com as regras da marca Aurora.
+          </div>
+          <div class="chat-msg claude" data-seq-frame="1">
+            <span class="quem">claude</span>
+            Li o release: Aurora Termo 500, garrafa térmica de 500 ml com visor de temperatura
+            na tampa. Preço: R$ 249,00 (pré-venda a R$ 219,00).
+          </div>
+          <div class="chat-perm" data-seq-frame="2">
+            <div class="perm-title">🔐 Permissão</div>
+            Posso criar o arquivo <span class="mono-mini">kit/marketing/tom-de-voz.txt</span>?
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-seq-step="2,3">Sim</button>
+              <button class="perm-btn nao">Não</button>
+            </div>
+          </div>
+          <div class="chat-msg voce" data-seq-frame="3">
+            <span class="quem">você</span>
+            seguindo o tom-de-voz.txt, 3 posts de Instagram com ganchos diferentes.
+          </div>
+          <div class="chat-msg claude" data-seq-frame="4">
+            <span class="quem">claude</span>
+            Salvei as 3 variações em <span class="mono-mini">posts/instagram.txt</span>.
+            A primeira: "☕ Aquele gole de café frio traiçoeiro das 15h? A Termo 500 acabou com ele…"
+          </div>
+          <div class="chat-msg voce" data-seq-frame="5">
+            <span class="quem">você</span>
+            a variação 2 ficou melhor, mas tira o emoji do meio e encurta para caber num story
+          </div>
+          <div class="chat-msg claude" data-seq-frame="6">
+            <span class="quem">claude</span>
+            Encurtei de 58 para 31 palavras e deixei só o emoji do fim. Substituo no instagram.txt?
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">👩‍🏫</div>
+        <div class="tip-content">
+          <strong>Para o instrutor:</strong> projete o release aberto ao lado do Claude Code.
+          Quando a variação 1 aparecer, aponte de onde veio o "gole traiçoeiro das 15h" — da
+          citação da diretora, no próprio release. Boa fonte, bom texto.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA A ═══════════ -->
+    <section class="step-section" id="pratica-a">
+      <div class="step-header">
+        <div class="step-number sn-blue">📣</div>
+        <div>
+          <div class="step-title">Prática A · Um texto vira dez</div>
+          <div class="step-sub">~35 min · marketing, comunicação e qualquer um que adapta texto.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        A <strong>Aurora Casa &amp; Escritório</strong> (empresa fictícia) vai lançar a
+        <strong>Termo 500</strong>, garrafa térmica com visor de temperatura na tampa. O release
+        está pronto em <strong>kit/marketing/release-produto.txt</strong>. Agora pedem Instagram,
+        LinkedIn e e-mail. Abra o release e leia antes de começar: conhecer a fonte vai importar.
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong> (como na Noite 2)</li>
+          <li>O <strong>Kit da Oficina</strong> extraído lá dentro (o arquivo kit/marketing/release-produto.txt deve existir)</li>
+          <li class="opcional">Opcional: o release aberto do lado, para conferir os fatos com os próprios olhos</li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Ainda não tem o kit? Baixe aqui</a>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — o caderninho de regras.</strong> Antes de pedir dez textos, defina como a marca fala. Uma vez só:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · o tom de voz</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o arquivo kit/marketing/release-produto.txt para conhecer o
+produto. depois crie um arquivo kit/marketing/tom-de-voz.txt com
+estas regras para TODOS os textos da marca Aurora:
+- informal, mas nunca boba
+- frases curtas
+- sem exclamação dupla
+- sempre citar o preço
+- nunca prometer o que o produto não faz (só o que está no release)</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> as regras são SUAS — você
+          dita, ele registra. E como viram um arquivo, qualquer pedido futuro pode começar com
+          "seguindo o tom-de-voz.txt…". Guarde esse arquivo: na Prática C ele vira Skill.</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — Instagram, em três sabores.</strong> Nunca peça UM texto. Peça três e escolha:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · três posts de Instagram</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>seguindo as regras do kit/marketing/tom-de-voz.txt, escreva 3
+variações de post de Instagram para o lançamento da Termo 500,
+usando só fatos do release-produto.txt. cada uma com um gancho
+diferente: 1) a dor do café frio, 2) ideia de presente,
+3) a pré-venda com desconto. curtas, com emoji. salve as três
+em kit/marketing/posts/instagram.txt.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> "usando só fatos do release"
+          amarra a criatividade na fonte. Três ganchos custam os mesmos segundos que um — quem
+          escolhe o melhor é você.</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 3 — LinkedIn e e-mail.</strong> Mesma massa, fornos bem diferentes:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · o post sóbrio e o e-mail que abre</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>ainda seguindo o tom-de-voz.txt e usando só fatos do release:
+1) escreva um post de LinkedIn sobre o lançamento da Termo 500,
+tom mais sóbrio, destacando a inovação e o produto nacional.
+salve em kit/marketing/posts/linkedin.txt.
+2) escreva um e-mail de lançamento para a base de clientes, com
+3 opções de assunto para eu escolher. salve em
+kit/marketing/posts/email.txt.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Salvei os dois arquivos. E os 3 assuntos do e-mail:</span>
+          <span class="tela-linha tela-claude">1. Seu café ainda vai estar quente às 15h</span>
+          <span class="tela-linha tela-claude">2. Termo 500: pré-venda com R$ 30 de desconto e frete grátis</span>
+          <span class="tela-linha tela-claude">3. A garrafa que mostra a temperatura antes do gole</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 4 — a iteração.</strong> Abra o posts/instagram.txt e leia com olho de
+        editor. Gostou de uma, mas não está perfeita? Edite conversando:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🔁</span>
+          <span class="pc-titulo">Passo 4 · editar por conversa</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>a variação 2 ficou melhor, mas tira o emoji do meio e encurta
+para caber num story</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você reage ao que leu, como
+          faria com um redator. Troque pelo ajuste que a SUA leitura pediu — "menos formal",
+          "troca o gancho".</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 5 — a conferência.</strong> O texto bonito é dele; a responsabilidade é sua.
+        Release de um lado, textos do outro:
+      </p>
+
+      <ul class="checklist">
+        <li><strong>Capacidade:</strong> 500 ml — nenhum texto inventou outro tamanho?</li>
+        <li><strong>Temperatura:</strong> quente 12h, gelado 24h — ninguém arredondou para cima?</li>
+        <li><strong>Preço:</strong> R$ 249,00 (pré-venda R$ 219,00 + frete grátis só na primeira semana) — o desconto não virou permanente?</li>
+        <li><strong>Visor na tampa:</strong> bateria de 2 anos — não virou "para sempre"?</li>
+        <li><strong>Promessas extras</strong> ("inquebrável", "a melhor do mercado") não estão no release, então saem do texto.</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>A IA inventa fato de produto com facilidade assustadora.</strong> Num texto
+          empolgado, "gelado por 24 horas" vira "gelado por 48 horas!" sem aviso. Em marketing,
+          promessa errada não é typo: é problema com cliente.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com o calendário de publicação em CSV:</strong>
+          <a href="../../oficina/08-texto-vira-dez/" style="color:var(--accent3)">Prática 08 · Um texto vira dez</a>.
+          Terminou antes da turma? Faça a
+          <a href="../../oficina/08-texto-vira-dez/#etapa4" style="color:var(--accent3)">Etapa 4: o calendário</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA B ═══════════ -->
+    <section class="step-section" id="pratica-b">
+      <div class="step-header">
+        <div class="step-number sn-mint">📝</div>
+        <div>
+          <div class="step-title">Prática B · A prova com gabarito</div>
+          <div class="step-sub">~35 min · educação, treinamento de equipe, onboarding.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O kit traz <strong>kit/professor/apostila-capitulo.txt</strong>: um capítulo de educação
+        financeira sobre juros compostos no dia a dia — o "juros sobre juros", a fórmula
+        M = C x (1 + i)^t, o rotativo do cartão e a "regra dos 72". Sua missão: sair com a
+        avaliação completa sem digitar uma questão, <strong>mas validando todas</strong>.
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Claude Code aberto <strong>na pasta oficina-claude</strong></li>
+          <li>O arquivo <strong>kit/professor/apostila-capitulo.txt</strong> no lugar</li>
+          <li class="opcional">Opcional: a apostila aberta num editor de texto do lado — você vai conferir contra ela</li>
+        </ul>
+      </div>
+
+      <p class="mb-md"><strong>Passo 1 — as 8 questões.</strong> Duas cercas: só a apostila, e gabarito comentado:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 1 · as 8 questões</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>leia o kit/professor/apostila-capitulo.txt e crie 8 questões de
+múltipla escolha usando SÓ o conteúdo dele — não invente matéria
+além da apostila. cada questão com 4 alternativas (a, b, c, d) e
+uma única correta. depois das questões, um gabarito comentado:
+por que a certa está certa e por que cada errada é tentadora.
+salve tudo em prova/quiz-gabarito.txt.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o "SÓ o conteúdo dele" amarra
+          as questões ao que a turma estudou. E pedir o porquê de cada errada obriga as
+          alternativas a serem plausíveis.</div>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela (resumido)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-perm">Posso criar a pasta prova/ e salvar quiz-gabarito.txt? [confirmar]</span>
+          <span class="tela-linha tela-claude">Pronto! 8 questões salvas. Um exemplo do que ficou:</span>
+          <span class="tela-linha tela-claude">Questão 5. Pela regra dos 72, um valor aplicado a 8% ao ano</span>
+          <span class="tela-linha tela-claude">leva aproximadamente quanto tempo para dobrar?</span>
+          <span class="tela-linha tela-claude">a) 72 anos  b) 9 anos  c) 8 anos  d) 6 anos</span>
+          <span class="tela-linha tela-claude">Gabarito: b — 72 dividido pela taxa anual: 72 / 8 = 9.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — a curadoria.</strong> Abra o prova/quiz-gabarito.txt e leia as 8 com
+        olho de professor. Ambígua? Fácil demais? Reaja por conversa:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🧑‍🏫</span>
+          <span class="pc-titulo">Passo 2 · iterar como professor</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>li as 8. a questão 3 ficou ambígua — "o tempo é importante" não dá
+para corrigir sem briga. refaça com uma situação concreta. e a 7
+está fácil demais: sobe a dificuldade.</pre>
+        <div class="pc-por-que"><strong>Adapte ao que VOCÊ leu:</strong> os números das questões
+          vão variar na sua prova. A IA monta o rascunho; a pedagogia é sua.</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 3 — versões A e B.</strong> As carteiras grudadas agradecem. Repare no
+        gabarito fora do corpo da prova:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 3 · o embaralhado</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>a partir do prova/quiz-gabarito.txt aprovado, gere duas versões
+da prova: as mesmas 8 questões, mas com a ordem das questões E a
+ordem das alternativas embaralhadas de um jeito diferente em cada
+versão. SEM gabarito no corpo das provas. salve as provas em
+prova/prova-a.txt e prova/prova-b.txt, e os dois gabaritos juntos
+num arquivo separado, prova/gabaritos.txt.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> o gabarito num arquivo
+          separado é a diferença entre "prova pronta" e "vexame na copiadora".</div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 4 — a conferência.</strong> Nenhuma prova sai para a turma sem passar por aqui:</p>
+
+      <ul class="checklist">
+        <li>Resolva <strong>2 questões você mesmo</strong>, com a apostila aberta: o gabarito bate com o texto?</li>
+        <li>No <strong>prova/gabaritos.txt</strong>, a questão da regra dos 72 aponta para o mesmo conteúdo nas versões A e B, mesmo com letras diferentes?</li>
+        <li>Passe o olho nas duas provas: <strong>nenhum gabarito vazou</strong> para o corpo delas?</li>
+      </ul>
+
+      <div class="armadilha">
+        <div class="armadilha-icon">🪤</div>
+        <div class="armadilha-content">
+          <strong>A questão "quase certa".</strong> Questão gerada por IA pode vir com duas
+          alternativas defensáveis — ou com o gabarito errado. E dados pessoais de alunos reais
+          (notas, laudos) não entram na conversa; conteúdo didático, sim.
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com o bônus da lista de presença:</strong>
+          <a href="../../oficina/09-prova-professor/" style="color:var(--accent3)">Prática 09 · A prova que se monta sozinha</a>.
+          Terminou antes? Faça a
+          <a href="../../oficina/09-prova-professor/#etapa4" style="color:var(--accent3)">lista de presença</a>
+          com o csv de outra prática.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA C ═══════════ -->
+    <section class="step-section" id="pratica-c">
+      <div class="step-header">
+        <div class="step-number sn-green">🧩</div>
+        <div>
+          <div class="step-title">Prática C · Skills e Conectores</div>
+          <div class="step-sub">~20 min · ensine o seu jeito ao Claude e ligue-o aos seus apps.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        O tom-de-voz.txt da Prática A já é um método. Falta empacotá-lo para usar em qualquer
+        tarefa, sem lembrar de citar o arquivo. É isso que uma <strong>Skill</strong> faz.
+      </p>
+
+      <p class="mb-md">
+        <strong>Passo 1 — o caderninho vira Skill.</strong> Peça em português, com o freio de sempre:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🧩</span>
+          <span class="pc-titulo">Passo 1 · criar a Skill</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>transforme as regras do kit/marketing/tom-de-voz.txt numa Skill
+reutilizável chamada tom-da-aurora, para eu usar em outras tarefas
+sem precisar citar o arquivo. me mostre o conteúdo completo da Skill
+ANTES de criar qualquer arquivo.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> você já tem o método escrito;
+          só pede o empacotamento. O "me mostre antes" é o plano antes de mexer — e na hora de
+          gravar, ele pede permissão para criar o arquivo, como sempre.</div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 2 — o reuso.</strong> Um canal novo, sem repetir as regras:
+      </p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 2 · usando a Skill</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>usando a Skill tom-da-aurora e só fatos do release-produto.txt,
+escreva uma mensagem curta para o WhatsApp da loja anunciando
+a pré-venda da Termo 500.</pre>
+        <div class="pc-por-que"><strong>Confira:</strong> o preço apareceu? Sem exclamação dupla?
+          Frases curtas? Se as regras foram seguidas sem você repeti-las, a Skill funcionou.</div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧭</div>
+        <div class="tip-content">
+          <strong>Ele não reconheceu a Skill?</strong> Diga o que aconteceu, em português
+          ("você criou a Skill tom-da-aurora — por que não está usando?"), ou feche e abra o
+          Claude Code de novo na pasta oficina-claude e repita o Passo 2.
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 3 — o Conector (demonstração do instrutor; opcional para você).</strong>
+        Agora o outro lado: dar ao Claude acesso a um app seu.
+      </p>
+
+      <div class="exercise guided">
+        <div class="exercise-header">
+          <span class="exercise-icon">🔗</span>
+          <div>
+            <div class="exercise-title">O release no seu Google Drive</div>
+            <div class="exercise-sub">demonstração guiada · claude.ai ou app Desktop</div>
+          </div>
+        </div>
+        <ol>
+          <li>Com uma <strong>conta Google de treino</strong>, suba o arquivo
+            kit/marketing/release-produto.txt para o seu Google Drive.</li>
+          <li>No claude.ai ou no app Desktop, abra o menu <strong>"+"</strong> (ou o menu de
+            personalização), procure <strong>Conectores</strong>, ligue o Google Drive e autentique.</li>
+          <li>Com o conector ligado, envie o pedido abaixo e compare o resumo com o arquivo original.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">🔗</span>
+          <span class="pc-titulo">Passo 3 · com o Google Drive conectado</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>com acesso ao meu Google Drive (já conectado): encontre o arquivo
+release-produto.txt e resuma em 5 tópicos os fatos do produto
+(capacidade, temperatura, preço e pré-venda). use só o que estiver
+no arquivo. se não achar, diga exatamente o que buscou.</pre>
+        <div class="pc-por-que"><strong>Por que funciona:</strong> sem Conector, o Claude só vê
+          o que você cola; com ele, busca no serviço autorizado. O "diga o que buscou" evita
+          resposta inventada quando o arquivo não aparece.</div>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+          <strong>Permissão é poder.</strong> Só conecte contas que você pode autorizar; em aula,
+          prefira uma conta de treino e <strong>revogue o acesso</strong> quando terminar. O
+          Gmail funciona pelo mesmo caminho ("liste e-mails não lidos de fornecedores hoje").
+          Conectores podem exigir plano pago — confira em
+          <a href="https://claude.com/pricing" style="color:var(--accent5)">claude.com/pricing</a>.
+        </div>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🧩</span>
+          <span class="kw-name">Skill = método</span>
+          <span class="kw-desc">Ensina COMO fazer: tom, passos, formato. Não conecta app nenhum.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔗</span>
+          <span class="kw-name">Conector = acesso</span>
+          <span class="kw-desc">Dá acesso a um serviço externo (Drive, Gmail…) para ler e agir nele.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🤝</span>
+          <span class="kw-name">Os dois juntos</span>
+          <span class="kw-desc">O Conector traz o dado; a Skill define o método. Combinam, não competem.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Para aprofundar:</strong>
+          <a href="../../apoio/04-universo-claude/#skills" style="color:var(--accent3)">três Skills prontas do dia a dia</a>
+          e
+          <a href="../../apoio/04-universo-claude/#conectores" style="color:var(--accent3)">Conectores com Drive e Gmail</a>,
+          no material de apoio Universo Claude.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio da noite</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">A resposta-padrão para comentários</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          O post foi ao ar e dois comentários se repetem sem parar: <strong>"quando chega?"</strong>
+          e <strong>"faz frio de verdade?"</strong>. Peça duas respostas-padrão no tom de voz da
+          Aurora e fiéis aos fatos do release, salvas em
+          <strong>kit/marketing/posts/respostas-comentarios.txt</strong>.
+        </p>
+        <p>
+          Monte o pedido você mesmo: a tarefa, o formato do resultado e — se achar que precisa —
+          o freio. Dica: quais arquivos ele precisa ler antes de escrever?
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>seguindo o tom-de-voz.txt e usando só fatos do release-produto.txt,
+escreva 2 respostas-padrão para comentários no Instagram:
+1) para quem pergunta "quando chega?" (cite a pré-venda no site e a
+chegada às lojas no mês seguinte)
+2) para quem pergunta "faz frio de verdade?" (cite as 24 horas de
+bebida gelada, sem exagerar)
+curtas e simpáticas. salve em kit/marketing/posts/respostas-comentarios.txt.</pre>
+            </div>
+            <p>
+              O seu ficou diferente e funcionou? <strong>Perfeito</strong> — não existe pedido
+              único. Repare na malícia do item 2: o "sem exagerar" existe porque você já sabe
+              onde a IA costuma escorregar. Criou a Skill na Prática C? Tente de novo usando
+              <strong>tom-da-aurora</strong> no lugar do arquivo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">➕</div>
+        <div class="tip-content">
+          <strong>Sobrou tempo?</strong> O desafio da prova:
+          <a href="../../oficina/09-prova-professor/#desafio" style="color:var(--accent3)">a versão "estudo em casa"</a>,
+          com as 8 questões como perguntas abertas e uma dica para quem travar.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎮</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Duas perguntas para cravar o essencial.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧠</span>
+          O post ficou ótimo, mas diz que a Termo 500 "mantém gelado por 48 horas" — e o release diz 24h. O que fazer?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Nada: ele leu o release, então o número está certo</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Conferir contra o release e corrigir antes de publicar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Publicar assim mesmo — 48 horas vende mais</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Apagar tudo e recomeçar do zero</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Cuidado…"
+          data-explain="A IA exagera fatos com a maior naturalidade. Nenhuma peça sai do rascunho sem conferir cada número e cada promessa contra a fonte.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">🧩</span>
+          Você quer que o Claude escreva SEMPRE no tom da sua marca, em qualquer tarefa. O que você cria?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um Conector do Gmail</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Uma Skill com as regras do tom de voz</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um Conector do Google Drive</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Nada — ele adivinha o tom</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Fechado!"
+          data-wrong="😬 Quase…"
+          data-explain="Precisa de método? Skill. Precisa de dado num app? Conector. Tom de voz é método — e os dois se combinam quando a tarefa pede.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">📦</div>
+        <div>
+          <div class="step-title">O que ficou desta noite</div>
+          <div class="step-sub">Leve isto para a última: sua página e o agente no dia a dia.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li><strong>Regras primeiro, textos depois:</strong> o caderninho de tom de voz faz dez textos falarem como UMA marca.</li>
+        <li>A primeira versão é <strong>rascunho</strong>: editar por conversa é o superpoder.</li>
+        <li>Prova de IA só sai depois da <strong>curadoria</strong> — e com o gabarito fora do corpo da prova.</li>
+        <li><strong>Skill</strong> guarda o método; <strong>Conector</strong> dá acesso aos seus apps — com conta que você pode autorizar.</li>
+        <li>Conferir cada número e promessa <strong>contra a fonte</strong> antes de publicar ou aplicar.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../04-agente-nos-documentos/">« Noite 4: Seus documentos</a>
+        <a class="nav-proximo" href="../06-pagina-e-dia-a-dia/">Noite 6: Sua página e o dia a dia »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 05 · Noite 5 · Conteúdo e ensino no automático</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>
