@@ -1,8 +1,11 @@
 # Plano de capítulos — Oficina Claude Code
 
 > **Localização neste branch:** os capítulos abaixo vivem em `oficina/` (não mais em
-> `capitulos/`). O hub da oficina é `oficina/index.html`. O arco do **curso** de 6
-> módulos está em `02b-plano-modulos.md`.
+> `capitulos/`). O hub da oficina é `oficina/index.html`. O arco do **curso** em 6
+> noites está em `02b-plano-modulos.md`. Mapa noite -&gt; capítulos: Noite 2 = caps 01–03 ·
+> Noite 3 = 04+05 · Noite 4 = 06+07 · Noite 5 = 08+09 · Noite 6 = 10+11. Cada noite tem a
+> versão condensada da prática e linka o capítulo como "roteiro completo" — prompts e
+> números do kit devem ficar IGUAIS nos dois lugares.
 
 Arco em 3 atos: **entender → preparar → praticar** (+ fechamento). As práticas são
 independentes entre si — o participante escolhe pelas suas dores/área. Numeração fixa;
