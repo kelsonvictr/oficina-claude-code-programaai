@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 02 · Do chat ao agente — Programa AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ===== CSS local da Noite 2 (prefixo .m2-) — comparação chat × agente ===== */
+.m2-vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:640px){.m2-vs{grid-template-columns:1fr}}
+.m2-vs-card{background:var(--surface2);border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.06)}
+.m2-vs-card.chat{border-top:3px solid var(--accent4)}
+.m2-vs-card.agente{border-top:3px solid var(--claude)}
+.m2-vs-card .vs-ic{font-size:2rem;display:block;margin-bottom:8px}
+.m2-vs-card h4{font-size:1.05rem;font-weight:900;margin-bottom:10px}
+.m2-vs-card ul{list-style:none;margin:0;padding:0}
+.m2-vs-card li{display:flex;gap:8px;align-items:flex-start;font-size:0.86rem;color:var(--text-dim);padding:5px 0;line-height:1.45}
+.m2-vs-card li strong{color:var(--text)}
+.m2-regra{text-align:center;margin:18px 0 8px;font-family:'Caveat',cursive;font-size:1.55rem;color:var(--claude-soft);line-height:1.25}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar-nav">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>💻 Noite 2 · Do chat ao agente</h3>
+    <a class="sidebar-back" href="../../">« voltar ao curso</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Nesta noite</div>
+    <a class="sidebar-link" onclick="goTo('objetivo')"><span class="dot" style="background:var(--accent5)"></span>Objetivo e roteiro</a>
+    <a class="sidebar-link" onclick="goTo('teoria')"><span class="dot" style="background:var(--accent6)"></span>Teoria curta</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--claude)"></span>Demonstração</a>
+    <a class="sidebar-link" onclick="goTo('pratica-a')"><span class="dot" style="background:var(--accent4)"></span>Prática A: preparando o computador</a>
+    <a class="sidebar-link" onclick="goTo('pratica-b')"><span class="dot" style="background:var(--accent7)"></span>Prática B: a primeira conversa</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio da noite</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--term)"></span>O que ficou</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-icons">
+    <span data-motion="float">💬</span>
+    <span data-motion="float">💻</span>
+    <span data-motion="float">🚀</span>
+  </div>
+  <div class="hero-badge">Módulo 02 · Noite 2</div>
+  <h1>Do chat<br>ao agente</h1>
+  <p class="subtitle">
+    Hoje o Claude sai do navegador e vai morar no seu computador. Você instala o
+    <strong>Claude Code</strong>, faz o login e tem a primeira conversa com um agente
+    que lê, propõe, pede permissão e executa.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip voce">💬 português, não código</span>
+    <span class="stack-chip term">🖥️ nos seus arquivos</span>
+    <span class="stack-chip pratica">🧪 2 práticas guiadas</span>
+    <span class="stack-chip conceito">🎯 1 desafio</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════ OBJETIVO ═══════════ -->
+    <section class="step-section" id="objetivo">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎯</div>
+        <div>
+          <div class="step-title">O objetivo da noite</div>
+          <div class="step-sub">Sair daqui com o agente instalado, logado e já trabalhando.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ao final desta noite, você…</h3>
+        <ul class="checklist">
+          <li>explica a diferença entre <strong>conversar com uma IA</strong> e <strong>trabalhar com um agente</strong>;</li>
+          <li>tem o <strong>Claude Code instalado e logado</strong> no seu notebook;</li>
+          <li>montou a <strong>pasta da oficina com o kit de treino</strong>, que vamos usar até a última noite;</li>
+          <li>rodou o ciclo completo pela primeira vez: <strong>pedir, aprovar, conferir</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="warning">
+        <div class="warning-icon">💳</div>
+        <div class="warning-content">
+          <strong>Antes da aula, de preferência em casa:</strong> o Claude Code exige plano pago
+          (o Pro, de ~US$ 20/mês, resolve; conta gratuita não serve). Preço atual em
+          <a href="https://claude.com/pricing" target="_blank" rel="noopener" style="color:var(--accent5)">claude.com/pricing</a>.
+          Quem chega com a conta pronta ganha meia hora de prática.
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 1 · ~15 MIN</span>
+          <div class="tl-titulo">Teoria curta + demonstração</div>
+          <p>Do chat ao agente: o que muda quando a IA trabalha nos seus arquivos.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 2 · ~50 MIN</span>
+          <div class="tl-titulo">Prática A · preparando o computador</div>
+          <p>Escolher a porta, instalar, fazer o login e o teste do "oi".</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 3 · ~40 MIN</span>
+          <div class="tl-titulo">Prática B · a primeira conversa</div>
+          <p>Pasta da oficina, kit de treino, abrir no lugar certo e as duas primeiras tarefas.</p>
+        </div>
+        <div class="tl-item">
+          <span class="tl-ano">BLOCO 4 · ~15 MIN</span>
+          <div class="tl-titulo">Desafio da noite + quiz</div>
+          <p>O inventário do kit, montado por você, sem prompt pronto.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ TEORIA CURTA ═══════════ -->
+    <section class="step-section" id="teoria">
+      <div class="step-header">
+        <div class="step-number sn-purple">📚</div>
+        <div>
+          <div class="step-title">Teoria curta: do chat ao agente</div>
+          <div class="step-sub">Uma frase-âncora e uma comparação. O resto é prática.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Claude Code em uma linha</div>
+        <p>
+          É um assistente de IA que <strong>mora no seu computador</strong> e
+          <strong>mexe nos seus arquivos</strong> — você descreve o que quer em português;
+          ele planeja, cria, executa e mostra o resultado na pasta.
+        </p>
+      </div>
+
+      <div class="m2-vs">
+        <div class="m2-vs-card chat">
+          <span class="vs-ic">💬</span>
+          <h4>O chat no navegador (Noite 1)</h4>
+          <ul>
+            <li><strong>Vê:</strong> só o que você cola na conversa</li>
+            <li><strong>Entrega:</strong> texto para você copiar e usar</li>
+            <li><strong>Quem faz o trabalho braçal:</strong> você, depois</li>
+            <li><strong>Ideal:</strong> pensar, escrever, resumir, explicar</li>
+          </ul>
+        </div>
+        <div class="m2-vs-card agente">
+          <span class="vs-ic">💻</span>
+          <h4>O agente no computador (a partir de hoje)</h4>
+          <ul>
+            <li><strong>Vê:</strong> a pasta em que você o abriu</li>
+            <li><strong>Entrega:</strong> o arquivo pronto — pasta arrumada, relatório, página</li>
+            <li><strong>Quem faz o trabalho braçal:</strong> ele, com a sua permissão</li>
+            <li><strong>Ideal:</strong> tarefas com arquivos, em lote, que se repetem</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="m2-regra">O chat responde. O agente faz — e pede licença antes.</p>
+
+      <div class="analogy">
+        <div class="analogy-title">O estagiário genial, sentado na sua mesa</div>
+        <p>
+          Ele lê rápido, não reclama e faz em segundos o que levaria uma tarde. Mas é novo na
+          casa: <strong>pergunta antes de mexer</strong> e trabalha só na pasta que você mostrou.
+          O ciclo é sempre o mesmo: você pede, ele lê, propõe, você aprova, ele faz, você confere.
+        </p>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🤝</div>
+        <div class="tip-content">
+          <strong>E o Cowork?</strong> Também age no computador, mas operando a tela (clicar,
+          preencher). A comparação completa está no
+          <a href="../../apoio/04-universo-claude/#cowork" style="color:var(--accent3)">material de apoio · Universo Claude</a>.
+          Neste curso, o agente é o Claude Code.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DEMONSTRAÇÃO ═══════════ -->
+    <section class="step-section" id="demo">
+      <div class="step-header">
+        <div class="step-number sn-claude">🎬</div>
+        <div>
+          <div class="step-title">Demonstração: o ciclo, em câmera lenta</div>
+          <div class="step-sub">É exatamente isto que você vai fazer na Prática B.</div>
+        </div>
+      </div>
+
+      <div class="chat-claude" data-seq="2300" data-seq-cumulative>
+        <div class="chat-head">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="chat-title">oficina-claude — claude code</span>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg voce" data-seq-frame="0">
+            <span class="quem">você</span>
+            dá uma olhada na pasta kit/bagunca e me conta quantos arquivos tem.
+          </div>
+          <div class="chat-msg claude" data-seq-frame="1">
+            <span class="quem">claude</span>
+            A pasta tem 34 arquivos: 15 imagens, 12 textos e planilhas, 7 PDFs.
+            Ler não exige permissão — só olhei.
+          </div>
+          <div class="chat-msg voce" data-seq-frame="2">
+            <span class="quem">você</span>
+            crie um arquivo diario-da-oficina.txt com uma linha sobre a nossa primeira conversa.
+          </div>
+          <div class="chat-perm" data-seq-frame="3">
+            <div class="perm-title">🔐 Permissão</div>
+            Posso criar o arquivo diario-da-oficina.txt?
+            <div class="perm-botoes">
+              <button class="perm-btn aprovar" data-seq-step="3,4">Sim</button>
+              <button class="perm-btn nao">Não</button>
+            </div>
+          </div>
+          <div class="chat-msg claude" data-seq-frame="4">
+            <span class="quem">claude</span>
+            Criado! Abra a pasta e confira — ele está lá.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">👩‍🏫</div>
+        <div class="tip-content">
+          <strong>Para o instrutor:</strong> repare (e mostre) a diferença entre as duas
+          mensagens: <strong>olhar não pede permissão; mexer pede</strong>. É essa caixinha
+          que dá segurança para a turma nas próximas noites.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA A ═══════════ -->
+    <section class="step-section" id="pratica-a">
+      <div class="step-header">
+        <div class="step-number sn-blue">🧰</div>
+        <div>
+          <div class="step-title">Prática A · Preparando o computador</div>
+          <div class="step-sub">~50 min · cada um no seu notebook, com o instrutor circulando.</div>
+        </div>
+      </div>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 O que você vai precisar</div>
+        <ul>
+          <li>Seu <strong>notebook com Windows ou Mac</strong> (tablet e Chromebook não servem)</li>
+          <li>Conta no <strong>claude.ai com plano pago ativo</strong> — mesma conta do navegador</li>
+          <li>Internet e permissão para instalar programas no computador</li>
+        </ul>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — escolha a porta.</strong> O motor é o mesmo; muda a maçaneta.
+        A <strong>Porta A, o aplicativo</strong>, é a recomendada para começar: janela, botões,
+        nada de tela preta. A <strong>Porta B, o terminal</strong>, instala com um comando
+        copiado e colado. Dá para trocar depois — configurações e conversas são as mesmas.
+      </p>
+
+      <ul class="checklist">
+        <li><strong>Windows + aplicativo:</strong> instale o <strong>Git primeiro</strong> — o app exige
+          esse "ajudante de bastidores" no Windows. Depois de instalar, feche e reabra o app.</li>
+        <li><strong>Mac:</strong> o Git costuma já vir no sistema; se faltar, o próprio Mac oferece instalar.</li>
+        <li>Os links de download e os comandos exatos, sempre atualizados, ficam num lugar só:
+          <a href="../../oficina/02-preparando/#portas" style="color:var(--term)">Cap 02 · Duas portas</a>
+          (com o seletor Windows/Mac).</li>
+      </ul>
+
+      <p class="mb-md">
+        <strong>Passo 2 — a vacina (recomendada).</strong> Nas Noites 3 e 4 o Claude faz contas e
+        mexe em PDF escrevendo programinhas em Python. Se faltar na máquina, ele para e pede
+        para instalar no meio da prática. Instale hoje, com calma:
+        <a href="../../oficina/02-preparando/#vacina" style="color:var(--accent3)">A vacina, no Cap 02</a>.
+        No Windows, marque a caixinha <strong>Add python.exe to PATH</strong> — ela vem desmarcada.
+      </p>
+
+      <p class="mb-md">
+        <strong>Passo 3 — o primeiro login.</strong> Abra o app (aba <strong>Code</strong>) ou digite
+        <strong>claude</strong> no terminal: o navegador abre, você entra com a conta do claude.ai e
+        volta para o Claude Code logado. Se o navegador não voltar sozinho, aparece um código de
+        6 caracteres para colar. Passo a passo com telas:
+        <a href="../../oficina/02-preparando/#login" style="color:var(--accent3)">O primeiro login</a>.
+      </p>
+
+      <p class="mb-md"><strong>Passo 4 — o teste do "oi".</strong> Trinta segundos para confirmar que está tudo vivo:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 4 · seu primeiro prompt</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>oi! você está funcionando? me responde em uma frase, em português.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (a sua será parecida, não idêntica)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Estou funcionando perfeitamente — pronto para trabalhar com você!</span>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Conta no claude.ai com <strong>plano pago ativo</strong></li>
+        <li>Windows + aplicativo? <strong>Git instalado</strong> antes</li>
+        <li><strong>Claude Code instalado</strong> (pelo aplicativo ou pelo terminal)</li>
+        <li><strong>Python instalado</strong> (a vacina) — para as Noites 3 e 4</li>
+        <li><strong>Login feito</strong> e o teste do "oi" respondeu em português</li>
+      </ul>
+
+      <div class="tip">
+        <div class="tip-icon">🆘</div>
+        <div class="tip-content">
+          <strong>Deu errado?</strong> "Comando não encontrado", navegador que não abre, Git
+          faltando: está tudo previsto em
+          <a href="../../oficina/02-preparando/#socorro" style="color:var(--accent3)">Deu errado? Respira</a>.
+          Roteiro completo da instalação:
+          <a href="../../oficina/02-preparando/" style="color:var(--accent3)">Cap 02 · Preparando o computador</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ PRÁTICA B ═══════════ -->
+    <section class="step-section" id="pratica-b">
+      <div class="step-header">
+        <div class="step-number sn-mint">💬</div>
+        <div>
+          <div class="step-title">Prática B · A primeira conversa</div>
+          <div class="step-sub">~40 min · uma casa para treinar, o kit, e as duas primeiras tarefas.</div>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 1 — uma casa para o treino.</strong> Dentro de <strong>Documentos</strong>,
+        crie uma pasta nova chamada <strong>oficina-claude</strong> — sem espaços e sem acentos,
+        de propósito. Território delimitado: aqui, errar não tem consequência nenhuma.
+      </p>
+
+      <p class="mb-md">
+        <strong>Passo 2 — o Kit da Oficina.</strong> Arquivos 100% fictícios para todas as próximas
+        noites: uma pasta caótica, uma planilha suja, um contrato de 40 páginas e mais.
+      </p>
+
+      <div class="precisa">
+        <div class="precisa-head">🧾 Instalando o kit</div>
+        <ul>
+          <li>Baixe o zip no botão abaixo</li>
+          <li><strong>Extraia</strong> (botão direito, "Extrair tudo…" no Windows; dois cliques no Mac)</li>
+          <li>Mova a pasta <strong>kit</strong> extraída para dentro de <strong>Documentos / oficina-claude</strong></li>
+        </ul>
+        <a class="kit-download" href="../../assets/kit/kit-oficina.zip" download>⬇️ Baixar o Kit da Oficina</a>
+      </div>
+
+      <p class="mb-md">
+        <strong>Passo 3 — abrir NA pasta certa.</strong> O Claude Code trabalha na pasta em que foi
+        aberto. No aplicativo: aba <strong>Code</strong>, escolha a pasta
+        <strong>Documentos / oficina-claude</strong> e confira o nome dela na janela. No terminal,
+        o truque de abrir já dentro da pasta está em
+        <a href="../../oficina/03-primeira-conversa/#abrir" style="color:var(--accent3)">Cap 03 · abrir NA pasta certa</a>.
+        Na dúvida, pergunte: "em qual pasta você está trabalhando?"
+      </p>
+
+      <p class="mb-md"><strong>Passo 4 — a tarefa que só olha.</strong> Ler é seguro e não pede permissão:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 4 · só olhar</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>dá uma olhada na pasta kit/bagunca e me conta: quantos arquivos tem,
+de quais tipos, e qual é a maior bagunça que você enxerga ali.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> resposta esperada (resumida)</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">A pasta kit/bagunca tem 34 arquivos: 15 imagens, 12 textos e</span>
+          <span class="tela-linha tela-claude">planilhas, 7 PDFs. A maior bagunça: nomes sem padrão (IMG_8274,</span>
+          <span class="tela-linha tela-claude">"relatorio final FINAL (2)"…) e pelo menos 4 arquivos duplicados.</span>
+        </div>
+      </div>
+
+      <p class="mb-md"><strong>Passo 5 — a tarefa que mexe.</strong> Agora repare na caixinha de permissão:</p>
+
+      <div class="prompt-card">
+        <div class="pc-head"><span class="pc-ic">✨</span>
+          <span class="pc-titulo">Passo 5 · criar algo (aí sim, permissão)</span>
+          <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+        <pre>crie um arquivo chamado diario-da-oficina.txt aqui na pasta, com uma
+linha dizendo que hoje foi minha primeira conversa com o Claude Code.</pre>
+      </div>
+
+      <div class="tela">
+        <div class="tela-head"><span class="tela-ic">🖥️</span> o que vai aparecer na sua tela</div>
+        <div class="tela-body">
+          <span class="tela-linha tela-claude">Vou criar o arquivo diario-da-oficina.txt com essa linha.</span>
+          <span class="tela-linha tela-perm">Posso criar o arquivo? [confirmar / recusar]</span>
+          <span class="tela-linha tela-dim">(você confirma…)</span>
+          <span class="tela-linha tela-claude">Criado! Abra a pasta e confira — ele está lá.</span>
+        </div>
+      </div>
+
+      <p class="mb-md">
+        <strong>Feche o ciclo:</strong> abra a pasta no Explorador/Finder e veja o arquivo com
+        os próprios olhos. Pedir, aprovar, conferir — você acabou de rodar o ciclo na vida real.
+      </p>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">⛔</span>
+          <span class="kw-name">Esc</span>
+          <span class="kw-desc">Interrompe o que ele está fazendo, na hora.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧹</span>
+          <span class="kw-name">/clear</span>
+          <span class="kw-desc">Começa uma conversa nova, do zero.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔑</span>
+          <span class="kw-name">/login</span>
+          <span class="kw-desc">Troca de conta, se entrou com o e-mail errado.</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗣️</span>
+          <span class="kw-name">Perguntar</span>
+          <span class="kw-desc">"onde você está?", "o que você fez?" — sempre funciona.</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">📖</div>
+        <div class="tip-content">
+          <strong>Roteiro completo, com o que ele enxerga e o "apareceu código na tela!":</strong>
+          <a href="../../oficina/03-primeira-conversa/" style="color:var(--accent3)">Cap 03 · A primeira conversa</a>.
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ DESAFIO ═══════════ -->
+    <section class="step-section" id="desafio">
+      <div class="step-header">
+        <div class="step-number sn-purple">🎯</div>
+        <div>
+          <div class="step-title">Desafio da noite</div>
+          <div class="step-sub">Agora sem prompt pronto — é você e ele.</div>
+        </div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">🎯</span>
+          <div>
+            <div class="exercise-title">O inventário do kit</div>
+            <div class="exercise-sub">missão solo · sem prompt pronto</div>
+          </div>
+        </div>
+        <p class="mb-md">
+          Sem abrir as pastas você mesmo, peça ao Claude Code um arquivo
+          <strong>inventario-do-kit.txt</strong> com cada subpasta do kit e quantos arquivos
+          existem em cada uma — e o total no final.
+        </p>
+        <p>
+          Lembre do ciclo: ele vai pedir permissão para criar o arquivo. E no fim, confira.
+        </p>
+
+        <div class="try-first">
+          <span class="try-first-icon">🚨</span>
+          <div class="try-first-content">
+            <strong>PARE!</strong> Tente de verdade antes de espiar. Errar o pedido e
+            reformular É o exercício.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Um pedido que funciona (espie só depois de tentar)</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="prompt-card">
+              <div class="pc-head"><span class="pc-ic">✨</span>
+                <span class="pc-titulo">Uma solução possível</span>
+                <button class="pc-copiar" onclick="copiarPrompt(this)">📋 copiar</button></div>
+              <pre>crie um arquivo inventario-do-kit.txt aqui na pasta listando cada
+subpasta de kit e quantos arquivos ela tem, e o total no final.
+formato simples, uma linha por subpasta.</pre>
+            </div>
+            <p>
+              O esperado: <strong>bagunca 34</strong>, <strong>contrato 4</strong>,
+              <strong>declaracoes 2</strong>, <strong>marketing 1</strong>,
+              <strong>planilha 1</strong> e <strong>professor 1</strong> — total de
+              <strong>43 arquivos</strong>. Bateu? Confira abrindo uma ou duas subpastas.
+              Não bateu? Pergunte "como você contou?" e compare com o que você vê.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ QUIZ ═══════════ -->
+    <section class="step-section" id="quiz-final">
+      <div class="step-header">
+        <div class="step-number sn-yellow">🎮</div>
+        <div>
+          <div class="step-title">Quiz de saída</div>
+          <div class="step-sub">Duas perguntas para travar o conceito.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">💻</span>
+          Claude Code, em essência, é…
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Só um site de chat igual ao claude.ai</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Um assistente que mora no seu computador e mexe nos seus arquivos</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um programa que exige saber programar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Um curso de programação Python</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Exato!"
+          data-wrong="😬 Quase…"
+          data-explain="A frase-âncora: mora no SEU computador, mexe nos SEUS arquivos — e você conversa em português.">
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">📁</span>
+          Você pediu para ele analisar o kit e ele diz que não encontrou a pasta. O que é mais provável?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">A instalação falhou</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this,true)">Ele foi aberto em outra pasta, não na oficina-claude</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">Ele não tem permissão para ler arquivos</button>
+          <button class="quiz-opt" onclick="checkQuiz(this,false)">O plano pago venceu</button>
+        </div>
+        <div class="quiz-feedback"
+          data-correct="🎉 Isso!"
+          data-wrong="😬 Quase…"
+          data-explain="Onde você abre = o que ele enxerga. Pergunte 'em qual pasta você está trabalhando?' e reabra na oficina-claude.">
+        </div>
+      </div>
+    </section>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ═══════════ RESUMO ═══════════ -->
+    <section class="step-section" id="resumo">
+      <div class="step-header">
+        <div class="step-number sn-green">📦</div>
+        <div>
+          <div class="step-title">O que ficou desta noite</div>
+          <div class="step-sub">Agente instalado. Na próxima noite, ele trabalha de verdade.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>O <strong>chat responde</strong>; o <strong>agente faz</strong> — nos seus arquivos, com a sua permissão.</li>
+        <li>Duas portas, o mesmo motor: <strong>aplicativo</strong> (recomendado) ou <strong>terminal</strong>.</li>
+        <li><strong>Onde você abre = o que ele enxerga.</strong> Treino sempre na pasta oficina-claude.</li>
+        <li><strong>Olhar não pede permissão; mexer pede.</strong> E no fim, você confere.</li>
+        <li>Apuro? <strong>Esc</strong> interrompe, e perguntar "o que você fez?" sempre funciona.</li>
+      </ul>
+
+      <div class="cap-nav">
+        <a class="nav-voltar" href="../01-panorama-da-ia/">« Noite 1: Panorama da IA</a>
+        <a class="nav-proximo" href="../03-agente-nos-arquivos/">Noite 3: Seus arquivos »</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Programa AI — Módulo 02 · Noite 2 · Do chat ao agente</p>
+  <p>Feito com <span class="heart">❤</span> para quem está começando do zero.</p>
+</footer>
+
+<script src="../../shared/scripts.js"></script>
+<script type="module" src="../../shared/motion-fx.js"></script>
+
+</body>
+</html>
