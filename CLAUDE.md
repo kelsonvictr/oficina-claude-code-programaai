@@ -1,13 +1,15 @@
 # IA na Prática + Oficina Claude Code — Programa AI
 
 Material didático HTML no padrão `super-html`. Neste branch (`feat/ia-na-pratica`)
-o hub é o curso **IA na Prática** (6 módulos). A oficina Claude Code vive em
-`oficina/` como aprofundamento do Módulo 6.
+o hub é o curso **IA na Prática** em **6 noites** (`modulos/01`…`06`, alinhadas ao
+cronograma do curso presencial). Toda noite tem teoria + prática + desafio — molde em
+`modulos/03-agente-nos-arquivos`. A oficina Claude Code vive em `oficina/` como roteiro
+detalhado das práticas das Noites 2–6; os antigos módulos fora do cronograma estão em `apoio/`.
 
 O participante escreve português, nunca código. Tom adulto, caloroso, zero infantilização.
 
 **A memória viva mora em `context/`** — leia `context/00-overview.md` primeiro.
-- Plano dos **módulos** do curso: `02b-plano-modulos.md`
+- Plano das **6 noites** do curso (+ `apoio/`): `02b-plano-modulos.md`
 - Plano da **oficina** Claude Code: `02-plano-capitulos.md` (caps sob `oficina/`)
 - Decisões: `01-decisoes.md` (append-only)
 - Fatos verificados de instalação/planos: `03-fatos-instalacao.md` (NUNCA inventar
