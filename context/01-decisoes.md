@@ -90,3 +90,27 @@
   e quadro final Skill × Conector × Plugin.
 - Fonte de nomes/papéis: docs oficiais de Connectors (claude.com/docs/connectors/overview).
   Sem inventar preços; lista de conectores dita como exemplos oficiais que podem mudar.
+
+## 2026-10-19 — Curso repaginado para o cronograma de 6 noites (pedido do dige)
+- Fonte da verdade: página oficial da turma em programaai.dev (SPA lida no navegador). O
+  cronograma tem 6 encontros de ~2h: 1 Panorama da IA · 2 Do chat ao agente (instalar +
+  primeira conversa) · 3 Arquivos (pasta + planilha) · 4 Documentos (lote + contrato) ·
+  5 Conteúdo e ensino (texto vira dez, prova, Skills e Conectores) · 6 Página + dia a dia
+  (hábitos, segurança, próximos passos). Datas da turma NÃO entram no conteúdo (regra da casa).
+- **`modulos/` = as 6 noites.** `01-ia-na-pratica` -> `01-panorama-da-ia` (teoria mantida +
+  objetivo, demo e práticas B/C novas); `06-claude-code` (teaser) -> `02-do-chat-ao-agente`
+  (reescrito como aula de instalação); noites 03–06 criadas. `git mv` preservou histórico.
+- **Requisito duro: prática desde a aula 1.** Anatomia fixa de toda noite (molde
+  `03-agente-nos-arquivos`): objetivo + roteiro, teoria curta, demonstração, práticas passo a
+  passo, desafio solo, quiz, resumo. Zero CSS/JS novo no `shared/`.
+- **Noite condensa, oficina detalha.** As noites 2–6 trazem a versão de aula de cada prática
+  (prompts e números do kit COPIADOS dos capítulos) e linkam o capítulo como "roteiro completo".
+  Instalação: a noite não repete comandos — aponta para o cap 02 (fonte única dos fatos voláteis).
+- **Fora do cronograma -> `apoio/`** (Criando com IA, Manus, NotebookLM, Universo Claude),
+  rotulados "Apoio NN". Não apagados: viram consulta. Manus não aparece no cronograma.
+- Noite 1 usa o contrato do kit no NotebookLM (link direto ao PDF, sem zip) e uma
+  pergunta-armadilha ("drones", tema ausente do gerador do kit) para mostrar o "não consta".
+- Kit NÃO regenerado: os arquivos existentes cobrem todas as práticas.
+- Pendente de verificação (não está em 03-fatos): criação de Skill pelo Claude Code a partir
+  de pedido em português e o caminho exato do menu de Conectores — a Noite 5 trata como
+  demonstração do instrutor, sem prometer tela.
